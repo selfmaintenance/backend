@@ -1,6 +1,6 @@
-package br.com.selfmaintenance.demo.interfaces;
+package br.com.selfmaintenance.app.interfaces;
 
-import br.com.selfmaintenance.demo.entities.usuario.UsuarioRole;
+import br.com.selfmaintenance.domain.entities.usuario.UsuarioRole;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public interface IUsuarioEntity extends UserDetails {
@@ -16,8 +16,6 @@ public interface IUsuarioEntity extends UserDetails {
     public void setIdade(int idade);
     public String getSexo();
     public void setSexo(String sexo);
-    public String getEndereco();
-    public void setEndereco(String endereco);
     public String getSenha();
     public void setSenha(String senha);
     public UsuarioRole getRole();

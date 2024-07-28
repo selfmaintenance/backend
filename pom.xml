@@ -8,10 +8,10 @@
 		<version>3.3.2</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>br.com.self-maintenance</groupId>
-	<artifactId>demo</artifactId>
+	<groupId>br.com.selfmaintenance</groupId>
+	<artifactId>v1</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>demo</name>
+	<name>v1</name>
 	<description>Backend of the SelfMaintenace  project</description>
 	<url/>
 	<licenses>
@@ -42,7 +42,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>jakarta.validation</groupId>
 			<artifactId>jakarta.validation-api</artifactId>
@@ -78,7 +77,11 @@
 			<artifactId>mysql-connector-j</artifactId>
 			<scope>runtime</scope>
 		</dependency>
-
+		<dependency>
+			<groupId>com.auth0</groupId>
+			<artifactId>java-jwt</artifactId>
+			<version>4.4.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>
