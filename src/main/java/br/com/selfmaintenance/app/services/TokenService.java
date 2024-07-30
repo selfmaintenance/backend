@@ -6,7 +6,9 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -24,15 +26,13 @@ public class TokenService {
     public String gerarToken(IUsuarioEntity usuario) {
         try {
             Algorithm algoritmoAutenticacao = Algorithm.HMAC256(this.chaveAutenticacao);
-            String token = JWT.create()
+            return JWT.create()
                     .withIssuer(this.emissorDaChave)
                     .withSubject(usuario.getEmail())
                     .withExpiresAt(this.getExpiracao())
                     .sign(algoritmoAutenticacao);
-
-            return token;
         } catch (JWTCreationException ex) {
-            throw new RuntimeException("Erro ao criar token de autenticação", ex);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Erro ao gerar token", ex);
         }
     }
 
@@ -45,7 +45,7 @@ public class TokenService {
                     .verify(token)
                     .getSubject();
         } catch (JWTVerificationException ex) {
-            throw new RuntimeException("Token inválido", ex);
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Token inválido", ex);
         }
     }
 

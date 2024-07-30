@@ -1,7 +1,6 @@
 package br.com.selfmaintenance.app.services;
 
 import br.com.selfmaintenance.repositories.UsuarioRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Service;
 public class AutorizacaoService implements UserDetailsService {
     private final UsuarioRepository usuarioRepository;
 
-    @Autowired
     public AutorizacaoService(UsuarioRepository usuarioRepository) {
         this.usuarioRepository = usuarioRepository;
     }

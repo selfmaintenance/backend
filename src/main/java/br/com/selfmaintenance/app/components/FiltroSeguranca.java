@@ -7,7 +7,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.hibernate.annotations.Comment;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,12 +18,13 @@ import java.io.IOException;
 @Comment("Filtro de segurança para autenticação de usuários")
 @Component
 public class FiltroSeguranca extends OncePerRequestFilter {
+    private final TokenService tokenService;
+    private final UsuarioRepository usuarioRepository;
 
-    @Autowired
-    private TokenService tokenService;
-
-    @Autowired
-    private UsuarioRepository usuarioRepository;
+    public FiltroSeguranca(TokenService tokenService, UsuarioRepository usuarioRepository) {
+        this.tokenService = tokenService;
+        this.usuarioRepository = usuarioRepository;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -40,8 +40,7 @@ public class FiltroSeguranca extends OncePerRequestFilter {
 
     private String recuperarToken(HttpServletRequest request) {
         var token = request.getHeader("Authorization");
-
-        if (token == null || !token.startsWith("Bearer ")) {
+        if (token == null || !token.startsWith("Bearer ") || token.startsWith("Bearer null")) {
             return null;
         }
         return token.substring(7);

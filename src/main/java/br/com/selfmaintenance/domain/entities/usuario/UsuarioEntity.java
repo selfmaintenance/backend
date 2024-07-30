@@ -48,82 +48,22 @@ public class UsuarioEntity implements IUsuarioEntity, UserDetails {
     @Column(name = "role", nullable = false)
     private UsuarioRole role;
 
-    public UsuarioEntity(Long id, String nome, int idade, String email, String contato, String sexo, String senha) {
-        this.id = id;
-        this.nome = nome;
-        this.idade = idade;
-        this.email = email;
-        this.contato = contato;
-        this.sexo = sexo;
-        this.senha = senha;
-    }
-
     public UsuarioEntity() {
-
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public int getIdade() {
-        return idade;
-    }
-
-    public void setIdade(int idade) {
-        this.idade = idade;
-    }
-
+    @Override
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getContato() {
-        return contato;
-    }
-
-    public void setContato(String contato) {
-        this.contato = contato;
-    }
-
-    public String getSexo() {
-        return sexo;
-    }
-
-    public void setSexo(String sexo) {
-        this.sexo = sexo;
-    }
-
+    @Override
     public String getSenha() {
         return this.senha;
     }
 
+    @Override
     public void setSenha(String senha) {
         this.senha = senha;
-    }
-
-    public UsuarioRole getRole() {
-        return role;
-    }
-
-    public void setRole(UsuarioRole role) {
-        this.role = role;
     }
 
     @Override

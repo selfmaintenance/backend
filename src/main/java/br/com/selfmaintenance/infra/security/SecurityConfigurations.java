@@ -21,9 +21,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 public class SecurityConfigurations {
+    private final FiltroSeguranca filtroSeguranca;
 
-    @Autowired
-    FiltroSeguranca filtroSeguranca;
+    public SecurityConfigurations(FiltroSeguranca filtroSeguranca) {
+        this.filtroSeguranca = filtroSeguranca;
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -32,8 +34,8 @@ public class SecurityConfigurations {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/auth/registrar").hasAuthority(UsuarioRole.ADMIN.getRole())
-                        .requestMatchers(HttpMethod.GET, "/api").hasAuthority(UsuarioRole.FUNCIONARIO.getRole())
+                        .requestMatchers(HttpMethod.POST, "/cliente").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/").hasAuthority(UsuarioRole.FUNCIONARIO.getRole())
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(this.filtroSeguranca, UsernamePasswordAuthenticationFilter.class)
