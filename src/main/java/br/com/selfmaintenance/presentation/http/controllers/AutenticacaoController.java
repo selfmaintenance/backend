@@ -1,11 +1,5 @@
 package br.com.selfmaintenance.presentation.http.controllers;
 
-import br.com.selfmaintenance.app.records.AutenticacaoDTO;
-import br.com.selfmaintenance.app.services.AutorizacaoService;
-import br.com.selfmaintenance.app.services.TokenService;
-import br.com.selfmaintenance.domain.entities.usuario.UsuarioEntity;
-import br.com.selfmaintenance.utils.RespostaApi;
-import jakarta.validation.Valid;
 import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +10,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
+
+import br.com.selfmaintenance.app.records.AutenticacaoDTO;
+import br.com.selfmaintenance.app.services.AutorizacaoService;
+import br.com.selfmaintenance.app.services.TokenService;
+import br.com.selfmaintenance.domain.entities.usuario.UsuarioEntity;
+import br.com.selfmaintenance.utils.RespostaApi;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/auth")

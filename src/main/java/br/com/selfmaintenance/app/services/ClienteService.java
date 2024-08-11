@@ -1,10 +1,10 @@
 package br.com.selfmaintenance.app.services;
 
-import br.com.selfmaintenance.domain.entities.cliente.ClienteEntity;
-import br.com.selfmaintenance.domain.entities.usuario.UsuarioEntity;
-import br.com.selfmaintenance.repositories.ClienteRepository;
 import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Service;
+
+import br.com.selfmaintenance.domain.entities.cliente.ClienteEntity;
+import br.com.selfmaintenance.repositories.ClienteRepository;
 
 @Service
 public class ClienteService {
@@ -17,7 +17,6 @@ public class ClienteService {
     }
 
     public void criar(ClienteEntity clienteEntity) throws BadRequestException {
-        UsuarioEntity usuarioEntity = this.usuarioService.criar(clienteEntity.getUsuarioEntity());
         this.clienteRepository.save(clienteEntity);
     }
 }

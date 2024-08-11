@@ -1,18 +1,20 @@
 package br.com.selfmaintenance.app.services;
 
-import br.com.selfmaintenance.app.interfaces.IUsuarioEntity;
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.exceptions.JWTCreationException;
-import com.auth0.jwt.exceptions.JWTVerificationException;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTCreationException;
+import com.auth0.jwt.exceptions.JWTVerificationException;
+
+import br.com.selfmaintenance.domain.entities.usuario.UsuarioEntity;
 
 @Service
 public class TokenService {
@@ -23,7 +25,7 @@ public class TokenService {
     @Value("${spring.application.name}")
     private String emissorDaChave;
 
-    public String gerarToken(IUsuarioEntity usuario) {
+    public String gerarToken(UsuarioEntity usuario) {
         try {
             Algorithm algoritmoAutenticacao = Algorithm.HMAC256(this.chaveAutenticacao);
             return JWT.create()

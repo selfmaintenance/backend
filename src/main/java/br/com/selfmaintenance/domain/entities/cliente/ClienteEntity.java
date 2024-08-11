@@ -1,15 +1,20 @@
 package br.com.selfmaintenance.domain.entities.cliente;
 
-import br.com.selfmaintenance.app.interfaces.IClienteEntity;
-import br.com.selfmaintenance.app.interfaces.IUsuarioEntity;
-import br.com.selfmaintenance.domain.entities.usuario.UsuarioEntity;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import org.hibernate.validator.constraints.br.CPF;
+
+import br.com.selfmaintenance.domain.entities.usuario.UsuarioEntity;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.MapsId;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "cliente")
-public class ClienteEntity implements IClienteEntity {
+public class ClienteEntity {
     @Id
     @Column(name = "id")
     private Long id;
@@ -31,32 +36,26 @@ public class ClienteEntity implements IClienteEntity {
     public ClienteEntity() {
     }
 
-    @Override
     public String getEndereco() {
         return endereco;
     }
 
-    @Override
     public void setEndereco(String endereco) {
         this.endereco = endereco;
     }
 
-    @Override
     public @CPF String getCpf() {
         return cpf;
     }
 
-    @Override
     public void setCpf(@CPF String cpf) {
         this.cpf = cpf;
     }
 
-    @Override
-    public IUsuarioEntity getUsuarioEntity() {
+    public UsuarioEntity getUsuarioEntity() {
         return this.usuarioEntity;
     }
 
-    @Override
     public void setUsuarioEntity(UsuarioEntity usuarioEntity) {
         this.usuarioEntity = usuarioEntity;
     }

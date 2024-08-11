@@ -1,9 +1,5 @@
 package br.com.selfmaintenance.infra.security;
 
-import br.com.selfmaintenance.app.components.FiltroSeguranca;
-import br.com.selfmaintenance.domain.entities.usuario.UsuarioRole;
-import br.com.selfmaintenance.app.services.AutorizacaoService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -17,6 +13,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import br.com.selfmaintenance.app.components.FiltroSeguranca;
+import br.com.selfmaintenance.domain.entities.usuario.UsuarioRole;
 
 @Configuration
 @EnableWebSecurity
@@ -34,7 +33,6 @@ public class SecurityConfigurations {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/cliente").permitAll()
                         .requestMatchers(HttpMethod.GET, "/").hasAuthority(UsuarioRole.FUNCIONARIO.getRole())
                         .anyRequest().authenticated()
                 )

@@ -1,6 +1,5 @@
 package br.com.selfmaintenance.app.services;
 
-import br.com.selfmaintenance.app.interfaces.IUsuarioEntity;
 import br.com.selfmaintenance.domain.entities.usuario.UsuarioEntity;
 import br.com.selfmaintenance.repositories.UsuarioRepository;
 import org.apache.coyote.BadRequestException;
@@ -15,7 +14,7 @@ public class UsuarioService {
         this.usuarioRepository = usuarioRepository;
     }
 
-    public UsuarioEntity criar(IUsuarioEntity usuario) throws BadRequestException {
+    public UsuarioEntity criar(UsuarioEntity usuario) throws BadRequestException {
         if (this.usuarioRepository.findByEmail(usuario.getEmail()) != null) {
             throw new BadRequestException("Usuário já existe");
         }
