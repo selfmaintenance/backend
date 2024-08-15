@@ -47,3 +47,4 @@ public class AutenticacaoController {
         return ResponseEntity.ok(new RespostaApi(1, "Usuário autenticado com sucesso", token));
     }
 }
+

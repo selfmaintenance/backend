@@ -1,14 +1,16 @@
 package br.com.selfmaintenance.domain.entities.cliente;
 
+import java.util.List;
+
 import org.hibernate.validator.constraints.br.CPF;
 
 import br.com.selfmaintenance.domain.entities.usuario.UsuarioEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.MapsId;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 
@@ -17,12 +19,11 @@ import jakarta.validation.constraints.NotBlank;
 public class ClienteEntity {
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
-    @MapsId
-    @JoinColumn(name = "id")
-    private UsuarioEntity usuarioEntity;
+    @OneToMany(mappedBy = "cliente")
+    private List<UsuarioEntity> usuarios;
 
     @NotBlank(message = "Endereço é obrigatório")
     @Column(name = "endereco")
@@ -52,11 +53,11 @@ public class ClienteEntity {
         this.cpf = cpf;
     }
 
-    public UsuarioEntity getUsuarioEntity() {
-        return this.usuarioEntity;
+    public void setUsuario(List<UsuarioEntity> usuarios) {
+        this.usuarios = usuarios;
     }
 
-    public void setUsuarioEntity(UsuarioEntity usuarioEntity) {
-        this.usuarioEntity = usuarioEntity;
+    public List<UsuarioEntity> getUsuarios() {
+        return usuarios;
     }
 }
