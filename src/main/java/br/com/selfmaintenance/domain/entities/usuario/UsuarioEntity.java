@@ -2,11 +2,12 @@ package br.com.selfmaintenance.domain.entities.usuario;
 import java.util.Collection;
 import java.util.List;
 
+import org.hibernate.validator.constraints.br.CNPJ;
+import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import br.com.selfmaintenance.domain.entities.cliente.ClienteEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -14,12 +15,9 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 @Entity
@@ -30,11 +28,6 @@ public class UsuarioEntity implements UserDetails {
     @Column(name = "id")
     private Long id;
 
-    @NotNull
-    @ManyToOne
-    @JoinColumn(name = "cliente_id")
-    private ClienteEntity cliente;
-    
     @NotBlank(message = "Nome não pode ser vazio")
     @Size(min = 3, message = "Nome deve ter no mínimo 3 caracteres")
     @Size(max = 100, message = "Nome deve ter no máximo 100 caracteres")
@@ -44,6 +37,14 @@ public class UsuarioEntity implements UserDetails {
     @Column(name = "idade", nullable = false)
     private int idade;
 
+    @CPF(message = "CPF fornecido inválido")
+    @Column(name = "cpf", nullable = true)
+    private String cpf;
+
+    @CNPJ(message = "CNPJ fornecido inválido")
+    @Column(name = "cnpj", nullable = true)
+    private String cnpj;
+
     @Email(message = "Email fornecido inválido")
     @Column(name = "email", nullable = false)
     private String email;
@@ -52,8 +53,7 @@ public class UsuarioEntity implements UserDetails {
     @Column(name = "contato", nullable = false)
     private String contato;
 
-    @NotBlank(message = "Sexo não pode ser vazio")
-    @Column(name = "sexo", nullable = false)
+    @Column(name = "sexo", nullable = true)
     private String sexo;
 
     @Size(min = 6, message = "Senha deve ter no mínimo 6 caracteres")
@@ -91,22 +91,27 @@ public class UsuarioEntity implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority>getAuthorities() {
-        if (this.role == UsuarioRole.ADMIN) {
-            return List.of(
+        switch(this.role) {
+            case ADMIN -> {
+                return List.of(
                     new SimpleGrantedAuthority(UsuarioRole.ADMIN.getRole()),
                     new SimpleGrantedAuthority(UsuarioRole.FUNCIONARIO.getRole()),
                     new SimpleGrantedAuthority(UsuarioRole.CLIENTE.getRole())
-            );
-        } else if (this.role == UsuarioRole.FUNCIONARIO) {
-            return List.of(
+                );
+            }
+            case FUNCIONARIO -> {
+                return List.of(
                     new SimpleGrantedAuthority(UsuarioRole.FUNCIONARIO.getRole())
-            );
-        } else if (this.role == UsuarioRole.CLIENTE) {
-            return List.of(
+                );
+            }
+            case CLIENTE -> {
+                return List.of(
                     new SimpleGrantedAuthority(UsuarioRole.CLIENTE.getRole())
-            );
+                );
+            }
+            default -> {
+                return null;
+            }
         }
-
-        return null;
     }
 }
