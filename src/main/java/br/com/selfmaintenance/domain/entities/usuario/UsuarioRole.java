@@ -2,7 +2,7 @@ package br.com.selfmaintenance.domain.entities.usuario;
 
 public enum UsuarioRole {
     CLIENTE("cliente"),
-    FUNCIONARIO("funcionario"),
+    PRESTADOR("prestador"),
     ADMIN("admin");
 
     private final String role;

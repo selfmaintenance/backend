@@ -14,7 +14,7 @@ import org.springframework.web.server.ResponseStatusException;
 import br.com.selfmaintenance.app.records.AutenticacaoDTO;
 import br.com.selfmaintenance.app.services.AutorizacaoService;
 import br.com.selfmaintenance.app.services.TokenService;
-import br.com.selfmaintenance.domain.entities.usuario.UsuarioEntity;
+import br.com.selfmaintenance.domain.entities.usuario.UsuarioAutenticavel;
 import br.com.selfmaintenance.utils.RespostaApi;
 import jakarta.validation.Valid;
 
@@ -42,7 +42,7 @@ public class AutenticacaoController {
         }
 
         var auth = this.authenticationManager.authenticate(usuarioNomeSenha);
-        var token = this.tokenService.gerarToken((UsuarioEntity) auth.getPrincipal());
+        var token = this.tokenService.gerarToken((UsuarioAutenticavel) auth.getPrincipal());
 
         return ResponseEntity.ok(new RespostaApi(1, "Usuário autenticado com sucesso", token));
     }

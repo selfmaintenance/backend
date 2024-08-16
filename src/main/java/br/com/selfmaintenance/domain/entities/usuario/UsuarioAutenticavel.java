@@ -2,8 +2,6 @@ package br.com.selfmaintenance.domain.entities.usuario;
 import java.util.Collection;
 import java.util.List;
 
-import org.hibernate.validator.constraints.br.CNPJ;
-import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,8 +19,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 @Entity
-@Table(name = "usuario")
-public class UsuarioEntity implements UserDetails {
+@Table(name = "usuario_autenticavel")
+public class UsuarioAutenticavel implements UserDetails {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "id")
@@ -31,40 +29,26 @@ public class UsuarioEntity implements UserDetails {
     @NotBlank(message = "Nome não pode ser vazio")
     @Size(min = 3, message = "Nome deve ter no mínimo 3 caracteres")
     @Size(max = 100, message = "Nome deve ter no máximo 100 caracteres")
-    @Column(name = "nome", nullable = false)
+    @Column(name = "nome", nullable=false)
     private String nome;
 
-    @Column(name = "idade", nullable = false)
-    private int idade;
-
-    @CPF(message = "CPF fornecido inválido")
-    @Column(name = "cpf", nullable = true)
-    private String cpf;
-
-    @CNPJ(message = "CNPJ fornecido inválido")
-    @Column(name = "cnpj", nullable = true)
-    private String cnpj;
-
     @Email(message = "Email fornecido inválido")
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable=false)
     private String email;
 
     @NotBlank(message = "Contato não pode ser vazio")
-    @Column(name = "contato", nullable = false)
+    @Column(name = "contato", nullable=false)
     private String contato;
 
-    @Column(name = "sexo", nullable = true)
-    private String sexo;
-
     @Size(min = 6, message = "Senha deve ter no mínimo 6 caracteres")
-    @Column(name = "senha", nullable = false)
+    @Column(name = "senha", nullable=false)
     private String senha;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "role", nullable = false)
+    @Column(name = "role", nullable=false)
     private UsuarioRole role;
 
-    public UsuarioEntity() {
+    public UsuarioAutenticavel() {
     }
 
     public String getEmail() {
@@ -95,13 +79,13 @@ public class UsuarioEntity implements UserDetails {
             case ADMIN -> {
                 return List.of(
                     new SimpleGrantedAuthority(UsuarioRole.ADMIN.getRole()),
-                    new SimpleGrantedAuthority(UsuarioRole.FUNCIONARIO.getRole()),
+                    new SimpleGrantedAuthority(UsuarioRole.PRESTADOR.getRole()),
                     new SimpleGrantedAuthority(UsuarioRole.CLIENTE.getRole())
                 );
             }
-            case FUNCIONARIO -> {
+            case PRESTADOR -> {
                 return List.of(
-                    new SimpleGrantedAuthority(UsuarioRole.FUNCIONARIO.getRole())
+                    new SimpleGrantedAuthority(UsuarioRole.PRESTADOR.getRole())
                 );
             }
             case CLIENTE -> {

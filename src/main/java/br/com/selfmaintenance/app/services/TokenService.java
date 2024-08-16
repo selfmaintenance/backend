@@ -14,7 +14,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 
-import br.com.selfmaintenance.domain.entities.usuario.UsuarioEntity;
+import br.com.selfmaintenance.domain.entities.usuario.UsuarioAutenticavel;
 
 @Service
 public class TokenService {
@@ -25,7 +25,7 @@ public class TokenService {
     @Value("${spring.application.name}")
     private String emissorDaChave;
 
-    public String gerarToken(UsuarioEntity usuario) {
+    public String gerarToken(UsuarioAutenticavel usuario) {
         try {
             Algorithm algoritmoAutenticacao = Algorithm.HMAC256(this.chaveAutenticacao);
             return JWT.create()
