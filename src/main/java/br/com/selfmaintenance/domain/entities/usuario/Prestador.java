@@ -2,20 +2,22 @@ package br.com.selfmaintenance.domain.entities.usuario;
 
 import java.util.List;
 
+import br.com.selfmaintenance.domain.entities.procedimento.Procedimento;
 import br.com.selfmaintenance.domain.entities.recurso.Recurso;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "prestador")
+@Table(name="prestador")
 public class Prestador extends UsuarioBase {
-
   @OneToMany(mappedBy = "prestador")
   private List<Recurso> recursos;
   
+  @OneToMany(mappedBy = "prestador")
+  private List<Procedimento> procedimentos;
+
   public Prestador(
-    Long id,
     UsuarioAutenticavel usuarioAutenticavel,
     String nome,
     String cpf,
@@ -25,6 +27,6 @@ public class Prestador extends UsuarioBase {
     String sexo,
     String senha
   ) {
-    super(id, usuarioAutenticavel, nome, cpf, cnpj, email, contato, sexo, senha);
+    super(usuarioAutenticavel, nome, cpf, cnpj, email, contato, sexo, senha);
   }
 }

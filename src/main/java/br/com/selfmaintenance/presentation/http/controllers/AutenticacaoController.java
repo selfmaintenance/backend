@@ -15,36 +15,36 @@ import br.com.selfmaintenance.app.records.AutenticacaoDTO;
 import br.com.selfmaintenance.app.services.AutorizacaoService;
 import br.com.selfmaintenance.app.services.TokenService;
 import br.com.selfmaintenance.domain.entities.usuario.UsuarioAutenticavel;
-import br.com.selfmaintenance.utils.RespostaApi;
+import br.com.selfmaintenance.utils.responses.RespostaApi;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/auth")
 public class AutenticacaoController {
-    private final AuthenticationManager authenticationManager;
-    private final TokenService tokenService;
-    private final AutorizacaoService autorizacaoService;
+  private final AuthenticationManager authenticationManager;
+  private final TokenService tokenService;
+  private final AutorizacaoService autorizacaoService;
 
-    public AutenticacaoController(
-            AuthenticationManager authenticationManager,
-            TokenService tokenService,
-            AutorizacaoService autorizacaoService, AutorizacaoService autorizacaoService1) {
-        this.authenticationManager = authenticationManager;
-        this.tokenService = tokenService;
-        this.autorizacaoService = autorizacaoService1;
+  public AutenticacaoController(
+        AuthenticationManager authenticationManager,
+        TokenService tokenService,
+        AutorizacaoService autorizacaoService, AutorizacaoService autorizacaoService1) {
+    this.authenticationManager = authenticationManager;
+    this.tokenService = tokenService;
+    this.autorizacaoService = autorizacaoService1;
+  }
+
+  @PostMapping("/login")
+  public ResponseEntity<RespostaApi> login(@RequestBody @Valid AutenticacaoDTO dados) throws BadRequestException {
+    var usuarioNomeSenha = new UsernamePasswordAuthenticationToken(dados.email(), dados.senha());
+    if (this.autorizacaoService.loadUserByUsername(dados.email()) == null) {
+        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuário ou senha inválidos");
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<RespostaApi> login(@RequestBody @Valid AutenticacaoDTO data) throws BadRequestException {
-        var usuarioNomeSenha = new UsernamePasswordAuthenticationToken(data.email(), data.senha());
-        if (this.autorizacaoService.loadUserByUsername(data.email()) == null) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuário ou senha inválidos");
-        }
+    var auth = this.authenticationManager.authenticate(usuarioNomeSenha);
+    var token = this.tokenService.gerarToken((UsuarioAutenticavel) auth.getPrincipal());
 
-        var auth = this.authenticationManager.authenticate(usuarioNomeSenha);
-        var token = this.tokenService.gerarToken((UsuarioAutenticavel) auth.getPrincipal());
-
-        return ResponseEntity.ok(new RespostaApi(1, "Usuário autenticado com sucesso", token));
-    }
+    return ResponseEntity.ok(new RespostaApi(1, "Usuário autenticado com sucesso", token));
+  }
 }
 

@@ -18,41 +18,40 @@ import br.com.selfmaintenance.domain.entities.usuario.UsuarioAutenticavel;
 
 @Service
 public class TokenService {
+  @Value("${api.security.token.secret}")
+  private String chaveAutenticacao;
 
-    @Value("${api.security.token.secret}")
-    private String chaveAutenticacao;
+  @Value("${spring.application.name}")
+  private String emissorDaChave;
 
-    @Value("${spring.application.name}")
-    private String emissorDaChave;
-
-    public String gerarToken(UsuarioAutenticavel usuario) {
-        try {
-            Algorithm algoritmoAutenticacao = Algorithm.HMAC256(this.chaveAutenticacao);
-            return JWT.create()
-                    .withIssuer(this.emissorDaChave)
-                    .withSubject(usuario.getEmail())
-                    .withExpiresAt(this.getExpiracao())
-                    .sign(algoritmoAutenticacao);
-        } catch (JWTCreationException ex) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Erro ao gerar token", ex);
-        }
+  public String gerarToken(UsuarioAutenticavel usuario) {
+    try {
+        Algorithm algoritmoAutenticacao = Algorithm.HMAC256(this.chaveAutenticacao);
+        return JWT.create()
+                .withIssuer(this.emissorDaChave)
+                .withSubject(usuario.getEmail())
+                .withExpiresAt(this.getExpiracao())
+                .sign(algoritmoAutenticacao);
+    } catch (JWTCreationException ex) {
+        throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Erro ao gerar token", ex);
     }
+  }
 
-    public String validarToken(String token) {
-        try {
-            Algorithm algoritmoAutenticacao = Algorithm.HMAC256(this.chaveAutenticacao);
-            return JWT.require(algoritmoAutenticacao)
-                    .withIssuer(this.emissorDaChave)
-                    .build()
-                    .verify(token)
-                    .getSubject();
-        } catch (JWTVerificationException ex) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Token inválido", ex);
-        }
+  public String validarToken(String token) {
+    try {
+        Algorithm algoritmoAutenticacao = Algorithm.HMAC256(this.chaveAutenticacao);
+        return JWT.require(algoritmoAutenticacao)
+                .withIssuer(this.emissorDaChave)
+                .build()
+                .verify(token)
+                .getSubject();
+    } catch (JWTVerificationException ex) {
+        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Token inválido", ex);
     }
+  }
 
-    // Expira em 1 dia
-    private Instant getExpiracao() {
-        return LocalDateTime.now().plusDays(1).toInstant(ZoneOffset.of("-03:00"));
-    }
+  // Expira em 1 dia
+  private Instant getExpiracao() {
+    return LocalDateTime.now().plusDays(1).toInstant(ZoneOffset.of("-03:00"));
+  }
 }

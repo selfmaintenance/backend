@@ -20,33 +20,33 @@ import br.com.selfmaintenance.domain.entities.usuario.UsuarioRole;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfigurations {
-    private final FiltroSeguranca filtroSeguranca;
+  private final FiltroSeguranca filtroSeguranca;
 
-    public SecurityConfigurations(FiltroSeguranca filtroSeguranca) {
-        this.filtroSeguranca = filtroSeguranca;
-    }
+  public SecurityConfigurations(FiltroSeguranca filtroSeguranca) {
+      this.filtroSeguranca = filtroSeguranca;
+  }
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        return httpSecurity
-                .csrf(AbstractHttpConfigurer::disable)
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/").hasAuthority(UsuarioRole.PRESTADOR.getRole())
-                        .anyRequest().authenticated()
-                )
-                .addFilterBefore(this.filtroSeguranca, UsernamePasswordAuthenticationFilter.class)
-                .build();
-    }
+  @Bean
+  public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+    return httpSecurity
+            .csrf(AbstractHttpConfigurer::disable)
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .authorizeHttpRequests(authorize -> authorize
+                    .requestMatchers(HttpMethod.POST, "/auth/login", "/usuario/").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/").hasAuthority(UsuarioRole.PRESTADOR.getRole())
+                    .anyRequest().authenticated()
+            )
+            .addFilterBefore(this.filtroSeguranca, UsernamePasswordAuthenticationFilter.class)
+            .build();
+  }
 
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-        return authenticationConfiguration.getAuthenticationManager();
-    }
+  @Bean
+  public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+    return authenticationConfiguration.getAuthenticationManager();
+  }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+  @Bean
+  public PasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
+  }
 }
