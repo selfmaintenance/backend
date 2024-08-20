@@ -1,6 +1,5 @@
 package br.com.selfmaintenance.presentation.http.controllers;
 
-import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -12,10 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import br.com.selfmaintenance.app.records.AutenticacaoDTO;
-import br.com.selfmaintenance.app.services.AutorizacaoService;
-import br.com.selfmaintenance.app.services.TokenService;
+import br.com.selfmaintenance.app.services.autenticacao.AutorizacaoService;
+import br.com.selfmaintenance.app.services.autenticacao.TokenService;
 import br.com.selfmaintenance.domain.entities.usuario.UsuarioAutenticavel;
-import br.com.selfmaintenance.utils.responses.RespostaApi;
+import br.com.selfmaintenance.utils.responses.ApiResponse;
+import br.com.selfmaintenance.utils.responses.autenticacao.AutenticacaoResponse;
 import jakarta.validation.Valid;
 
 @RestController
@@ -35,16 +35,16 @@ public class AutenticacaoController {
   }
 
   @PostMapping("/login")
-  public ResponseEntity<RespostaApi> login(@RequestBody @Valid AutenticacaoDTO dados) throws BadRequestException {
+  public ResponseEntity<ApiResponse> login(@RequestBody @Valid AutenticacaoDTO dados) throws ResponseStatusException {
     var usuarioNomeSenha = new UsernamePasswordAuthenticationToken(dados.email(), dados.senha());
     if (this.autorizacaoService.loadUserByUsername(dados.email()) == null) {
-        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuário ou senha inválidos");
+      throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuário ou senha inválidos");
     }
 
     var auth = this.authenticationManager.authenticate(usuarioNomeSenha);
     var token = this.tokenService.gerarToken((UsuarioAutenticavel) auth.getPrincipal());
 
-    return ResponseEntity.ok(new RespostaApi(1, "Usuário autenticado com sucesso", token));
+    return ResponseEntity.ok(new ApiResponse(1, "Usuário autenticado com sucesso", new AutenticacaoResponse(token)));
   }
 }
 

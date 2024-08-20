@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.selfmaintenance.app.records.usuario.dtos.CriarUsuarioDTO;
-import br.com.selfmaintenance.app.services.UsuarioService;
+import br.com.selfmaintenance.app.services.usuario.UsuarioService;
 import br.com.selfmaintenance.utils.exceptions.ServiceException;
-import br.com.selfmaintenance.utils.responses.CriarUsuario;
-import br.com.selfmaintenance.utils.responses.RespostaApi;
+import br.com.selfmaintenance.utils.responses.ApiResponse;
+import br.com.selfmaintenance.utils.responses.usuario.CriarUsuarioResponse;
 import jakarta.validation.Valid;
 
 @RestController()
@@ -23,9 +23,9 @@ public class UsuarioController {
   }
 
   @PostMapping("/")
-  public ResponseEntity<RespostaApi> criar(@RequestBody @Valid CriarUsuarioDTO dados) throws ServiceException {
-    CriarUsuario respostaCriacao = this.usuarioService.criar(dados);
-    return ResponseEntity.ok(new RespostaApi(1, "Usuário criado com sucesso", respostaCriacao));
+  public ResponseEntity<ApiResponse> criar(@RequestBody @Valid CriarUsuarioDTO dados) throws ServiceException {
+    CriarUsuarioResponse respostaCriacao = this.usuarioService.criar(dados);
+    return ResponseEntity.ok(new ApiResponse(1, "Usuário criado com sucesso", respostaCriacao));
   }
 }
 

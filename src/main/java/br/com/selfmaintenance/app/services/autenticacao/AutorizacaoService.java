@@ -1,4 +1,4 @@
-package br.com.selfmaintenance.app.services;
+package br.com.selfmaintenance.app.services.autenticacao;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

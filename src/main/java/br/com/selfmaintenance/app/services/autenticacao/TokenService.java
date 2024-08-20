@@ -1,4 +1,4 @@
-package br.com.selfmaintenance.app.services;
+package br.com.selfmaintenance.app.services.autenticacao;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
