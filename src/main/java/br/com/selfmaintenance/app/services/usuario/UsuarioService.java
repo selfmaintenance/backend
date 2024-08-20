@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import br.com.selfmaintenance.app.records.usuario.dtos.CriarUsuarioDTO;
+import br.com.selfmaintenance.app.records.usuario.CriarUsuarioDTO;
 import br.com.selfmaintenance.domain.entities.usuario.Cliente;
 import br.com.selfmaintenance.domain.entities.usuario.Prestador;
 import br.com.selfmaintenance.domain.entities.usuario.UsuarioAutenticavel;

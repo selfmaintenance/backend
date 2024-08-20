@@ -1,4 +1,4 @@
-package br.com.selfmaintenance.app.validations;
+package br.com.selfmaintenance.app.validations.usuario;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

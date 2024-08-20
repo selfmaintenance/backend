@@ -1,4 +1,4 @@
-package br.com.selfmaintenance.app.validations;
+package br.com.selfmaintenance.app.validations.usuario;
 
 import br.com.selfmaintenance.domain.entities.usuario.UsuarioRole;
 import jakarta.validation.ConstraintValidator;

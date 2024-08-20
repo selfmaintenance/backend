@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.selfmaintenance.app.records.usuario.dtos.CriarUsuarioDTO;
+import br.com.selfmaintenance.app.records.usuario.CriarUsuarioDTO;
 import br.com.selfmaintenance.app.services.usuario.UsuarioService;
 import br.com.selfmaintenance.utils.exceptions.ServiceException;
 import br.com.selfmaintenance.utils.responses.ApiResponse;

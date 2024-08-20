@@ -1,4 +1,4 @@
-package br.com.selfmaintenance.app.records.usuario.dtos;
+package br.com.selfmaintenance.app.records.usuario;
 
 import org.hibernate.validator.constraints.br.CNPJ;
 import org.hibernate.validator.constraints.br.CPF;

@@ -18,7 +18,7 @@ import jakarta.validation.constraints.Size;
 @Table(name="veiculo", indexes={
   // @Index(name="placa_index", columnList="placa", unique=false)
 })
-public class Veiculo { // TODO: Adicionar coluna para tipo de veículo (carro, moto, caminhão, onibus, van, caminhonete, trator, barco, outro)
+public class Veiculo {
   @Id
   @Column(name="id")
   @GeneratedValue(strategy=GenerationType.IDENTITY)

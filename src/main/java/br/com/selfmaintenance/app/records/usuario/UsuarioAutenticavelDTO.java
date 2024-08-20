@@ -1,6 +1,6 @@
-package br.com.selfmaintenance.app.records.usuario.dtos;
+package br.com.selfmaintenance.app.records.usuario;
 
-import br.com.selfmaintenance.app.validations.ValidRole;
+import br.com.selfmaintenance.app.validations.usuario.ValidRole;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
