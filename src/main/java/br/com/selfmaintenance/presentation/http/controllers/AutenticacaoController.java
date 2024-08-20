@@ -1,5 +1,7 @@
 package br.com.selfmaintenance.presentation.http.controllers;
 
+import java.util.Map;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,7 +17,6 @@ import br.com.selfmaintenance.app.services.autenticacao.AutorizacaoService;
 import br.com.selfmaintenance.app.services.autenticacao.TokenService;
 import br.com.selfmaintenance.domain.entities.usuario.UsuarioAutenticavel;
 import br.com.selfmaintenance.utils.responses.ApiResponse;
-import br.com.selfmaintenance.utils.responses.autenticacao.AutenticacaoResponse;
 import jakarta.validation.Valid;
 
 @RestController
@@ -43,8 +44,8 @@ public class AutenticacaoController {
 
     var auth = this.authenticationManager.authenticate(usuarioNomeSenha);
     var token = this.tokenService.gerarToken((UsuarioAutenticavel) auth.getPrincipal());
-
-    return ResponseEntity.ok(new ApiResponse(1, "Usuário autenticado com sucesso", new AutenticacaoResponse(token)));
+    Map<String, String> resposta = Map.of("token", token);
+    return ResponseEntity.ok(new ApiResponse(1, "Usuário autenticado com sucesso", resposta));
   }
 }
 

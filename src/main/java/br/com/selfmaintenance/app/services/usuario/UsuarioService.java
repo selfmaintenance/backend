@@ -1,5 +1,8 @@
 package br.com.selfmaintenance.app.services.usuario;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -13,7 +16,6 @@ import br.com.selfmaintenance.repositories.usuario.ClienteRepository;
 import br.com.selfmaintenance.repositories.usuario.PrestadorRepository;
 import br.com.selfmaintenance.repositories.usuario.UsuarioAutenticavelRepository;
 import br.com.selfmaintenance.utils.exceptions.ServiceException;
-import br.com.selfmaintenance.utils.responses.usuario.CriarUsuarioResponse;
 @Service
 public class UsuarioService {
   private final UsuarioAutenticavelRepository usuarioAutenticavelRepository;
@@ -30,11 +32,13 @@ public class UsuarioService {
     this.prestadorRepository = prestadorRepository;
   }
 
-  public CriarUsuarioResponse criar(CriarUsuarioDTO dados) throws ServiceException {
+  public Map<String, Long> criar(CriarUsuarioDTO dados) throws ServiceException {
       this.validarDadosCriacaoUsuario(dados);
       UsuarioAutenticavel usuarioAutenticavelSalvo = this.criarUsuarioAutenticavel(dados);
       
       Long idUsuarioAutenticavel = usuarioAutenticavelSalvo.getId();
+      Map<String, Long> resposta = new HashMap<>();
+
       if (usuarioAutenticavelSalvo.getRole() == UsuarioRole.CLIENTE) {
         Cliente novoCliente = this.clienteRepository.save(new Cliente(
           usuarioAutenticavelSalvo,
@@ -47,7 +51,8 @@ public class UsuarioService {
           usuarioAutenticavelSalvo.getPassword()
         ));
 
-        return new CriarUsuarioResponse(novoCliente.getId(), null, idUsuarioAutenticavel);
+        resposta.put("idCliente", novoCliente.getId());
+        resposta.put("idUsuarioAutenticavel", idUsuarioAutenticavel);
       } else {
         System.out.println(usuarioAutenticavelSalvo.getPassword());
         Prestador novoPrestador = this.prestadorRepository.save(new Prestador(
@@ -60,8 +65,10 @@ public class UsuarioService {
           dados.sexo(),
           usuarioAutenticavelSalvo.getPassword()          
         ));
-        return new CriarUsuarioResponse(null, novoPrestador.getId(), idUsuarioAutenticavel);
+        resposta.put("idPrestador", novoPrestador.getId());
+        resposta.put("idUsuarioAutenticavel", idUsuarioAutenticavel);
       }
+      return resposta;
     }
 
     private void validarDadosCriacaoUsuario(CriarUsuarioDTO dados) throws ServiceException {
