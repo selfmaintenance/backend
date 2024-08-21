@@ -101,7 +101,7 @@ public class UsuarioService {
         dados.usuarioAutenticavel().email(),
         dados.usuarioAutenticavel().contato(),
         dados.usuarioAutenticavel().senha(),
-        dados.usuarioAutenticavel().role()
+        UsuarioRole.valueOf(dados.usuarioAutenticavel().role())
       );
 
       usuarioAutenticavel.criptografarSenha();

@@ -9,6 +9,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.auth0.jwt.exceptions.JWTVerificationException;
+
 import br.com.selfmaintenance.app.services.autenticacao.TokenService;
 import br.com.selfmaintenance.repositories.usuario.UsuarioAutenticavelRepository;
 import jakarta.servlet.FilterChain;
@@ -29,14 +31,20 @@ public class FiltroSeguranca extends OncePerRequestFilter {
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-		var token = this.recuperarToken(request);
-		if (token != null) {
-				String login = this.tokenService.validarToken(token);
-				UserDetails usuario = this.usuarioRepository.findByEmail(login);
-				var autenticacao = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
-				SecurityContextHolder.getContext().setAuthentication(autenticacao);
+		try {
+			var token = this.recuperarToken(request);
+			if (token != null) {
+					String login = this.tokenService.validarToken(token);
+					UserDetails usuario = this.usuarioRepository.findByEmail(login);
+					var autenticacao = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
+					SecurityContextHolder.getContext().setAuthentication(autenticacao);
+				}
+				filterChain.doFilter(request, response);
+		} catch (JWTVerificationException | ServletException | IOException ex ) {
+			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+			response.setContentType("application/json");
+			response.getWriter().write("{\"status\":-1,\"mensagem\":\"Token inválido\"}");
 		}
-		filterChain.doFilter(request, response);
 	}
 
 	private String recuperarToken(HttpServletRequest request) {

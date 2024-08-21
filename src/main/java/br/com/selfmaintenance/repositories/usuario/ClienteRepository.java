@@ -7,4 +7,5 @@ import br.com.selfmaintenance.domain.entities.usuario.Cliente;
 
 @Repository
 public interface ClienteRepository extends JpaRepository<Cliente, Long> {
+  Cliente findByEmail(String email);
 }

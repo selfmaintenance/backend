@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.auth0.jwt.exceptions.JWTDecodeException;
+
 import br.com.selfmaintenance.utils.responses.ApiResponse;
 import br.com.selfmaintenance.utils.responses.error.DadosErroResponse;
 
@@ -43,6 +45,13 @@ class TratarExcecoesGlobais {
     return ResponseEntity
             .status(ex.getStatusCode())
             .body(new ApiResponse(-1, ex.getReason()));
+  }
+
+  @ExceptionHandler(JWTDecodeException.class)
+  public ResponseEntity<ApiResponse> tratarJWTDecodeException(JWTDecodeException ex) {
+    return ResponseEntity
+            .status(HttpStatus.UNAUTHORIZED)
+            .body(new ApiResponse(-1, "Token inválido"));
   }
 
   @ExceptionHandler(ServiceException.class)

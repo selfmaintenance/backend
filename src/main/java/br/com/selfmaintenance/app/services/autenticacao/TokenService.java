@@ -12,7 +12,6 @@ import org.springframework.web.server.ResponseStatusException;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
-import com.auth0.jwt.exceptions.JWTVerificationException;
 
 import br.com.selfmaintenance.domain.entities.usuario.UsuarioAutenticavel;
 
@@ -38,19 +37,29 @@ public class TokenService {
   }
 
   public String validarToken(String token) {
-    try {
-        Algorithm algoritmoAutenticacao = Algorithm.HMAC256(this.chaveAutenticacao);
-        return JWT.require(algoritmoAutenticacao)
-                .withIssuer(this.emissorDaChave)
-                .build()
-                .verify(token)
-                .getSubject();
-    } catch (JWTVerificationException ex) {
-        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Token inválido", ex);
-    }
+      Algorithm algoritmoAutenticacao = Algorithm.HMAC256(this.chaveAutenticacao);
+      return JWT.require(algoritmoAutenticacao)
+              .withIssuer(this.emissorDaChave)
+              .build()
+              .verify(token)
+              .getSubject();
   }
 
-  // Expira em 1 dia
+  public String extrairEmailUsuarioToken(String token) {
+    if (token == null || !token.startsWith("Bearer ") || token.startsWith("Bearer null")) {
+      return null;
+    }
+
+    Algorithm algoritmoAutenticacao = Algorithm.HMAC256(this.chaveAutenticacao);
+    var dadosToken = JWT.require(algoritmoAutenticacao)
+            .withIssuer(this.emissorDaChave)
+            .build()
+            .verify(token.substring(7))
+            .getClaims();
+    
+    return dadosToken.get("sub").asString();
+  }
+
   private Instant getExpiracao() {
     return LocalDateTime.now().plusDays(1).toInstant(ZoneOffset.of("-03:00"));
   }
