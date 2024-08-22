@@ -11,6 +11,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.auth0.jwt.exceptions.JWTDecodeException;
@@ -72,6 +73,13 @@ class TratarExcecoesGlobais {
     return ResponseEntity
             .status(HttpStatus.UNAUTHORIZED)
             .body(new ApiResponse(-1, "Usuário ou senha inválidos"));
+  }
+
+  @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+  public ResponseEntity<ApiResponse> tratarArgumentoIncorreto(MethodArgumentTypeMismatchException ex) {
+    return ResponseEntity
+            .status(HttpStatus.BAD_REQUEST)
+            .body(new ApiResponse(-1, "O Argumento "+ex.getName()+" recebeu um valor inválido"));
   }
 
   @ExceptionHandler(Exception.class)

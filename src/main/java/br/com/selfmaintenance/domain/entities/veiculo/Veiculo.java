@@ -103,5 +103,24 @@ public class Veiculo {
   public String getCor() {
     return this.cor;
   }
-  
+
+  public void setMarca(String marca) {
+    this.marca = marca;
+  }
+
+  public void setModelo(String modelo) {
+    this.modelo = modelo;
+  }
+
+  public void setAno(int ano) {
+    this.ano = ano;
+  }
+
+  public void setCor(String cor) {
+    this.cor = cor;
+  }
+
+  public void setTipo(VeiculoTipo tipo) {
+    this.tipo = tipo;
+  }
 }

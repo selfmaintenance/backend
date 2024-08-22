@@ -11,4 +11,5 @@ import br.com.selfmaintenance.domain.entities.veiculo.Veiculo;
 @Repository
 public interface VeiculoRepository extends  JpaRepository<Veiculo, Long> {
   List<Veiculo> findByCliente(Cliente cliente);
+  Veiculo findByClienteAndId(Cliente cliente, Long id);
 }

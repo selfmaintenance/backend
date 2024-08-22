@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import br.com.selfmaintenance.app.records.veiculo.CriarVeiculoDTO;
+import br.com.selfmaintenance.app.records.veiculo.EditarVeiculoDTO;
 import br.com.selfmaintenance.app.records.veiculo.VeiculoResponseDTO;
 import br.com.selfmaintenance.domain.entities.usuario.Cliente;
 import br.com.selfmaintenance.domain.entities.veiculo.Veiculo;
@@ -61,5 +62,68 @@ public class VeiculoService {
     }
 
     return veiculosResponse;
+  }
+
+  public VeiculoResponseDTO buscar(Long id, String emailUsuario) {
+    Cliente cliente = this.clienteRepository.findByEmail(emailUsuario);
+    Veiculo veiculo = this.veiculoRepository.findByClienteAndId(cliente, id);
+
+    if (veiculo == null) {
+      return null;
+    }
+
+    return new VeiculoResponseDTO(
+      veiculo.getId(),
+      veiculo.getPlaca(),
+      veiculo.getTipo(),
+      veiculo.getMarca(),
+      veiculo.getModelo(),
+      veiculo.getAno(),
+      veiculo.getChassi(),
+      veiculo.getRenavam(),
+      veiculo.getCor()
+    );
+  }
+
+  public boolean deletar(Long id, String emailUsuario) {
+    Cliente cliente = this.clienteRepository.findByEmail(emailUsuario);
+    Veiculo veiculo = this.veiculoRepository.findByClienteAndId(cliente, id);
+
+    if (veiculo != null) {
+      this.veiculoRepository.delete(veiculo);
+    }
+    
+    return true;
+  }
+
+  public VeiculoResponseDTO editar(Long id, EditarVeiculoDTO dados, String emailUsuario) {
+    Cliente cliente = this.clienteRepository.findByEmail(emailUsuario);
+    Veiculo veiculo = this.veiculoRepository.findByClienteAndId(cliente, id);
+
+    if (veiculo == null) {
+      return null;
+    }
+
+    dados.marca().ifPresent(veiculo::setMarca);
+    dados.modelo().ifPresent(veiculo::setModelo);
+    dados.ano().ifPresent(veiculo::setAno);
+    dados.cor().ifPresent(veiculo::setCor);
+    if (dados.tipo() != null) {
+      veiculo.setTipo(VeiculoTipo.valueOf(dados.tipo()));
+    }
+    
+    this.veiculoRepository.save(veiculo);
+
+    return new VeiculoResponseDTO(
+      veiculo.getId(),
+      veiculo.getPlaca(),
+      veiculo.getTipo(),
+      veiculo.getMarca(),
+      veiculo.getModelo(),
+      veiculo.getAno(),
+      veiculo.getChassi(),
+      veiculo.getRenavam(),
+      veiculo.getCor()
+    );
   }
 }

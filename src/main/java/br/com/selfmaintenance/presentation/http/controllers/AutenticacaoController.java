@@ -27,9 +27,10 @@ public class AutenticacaoController {
   private final AutorizacaoService autorizacaoService;
 
   public AutenticacaoController(
-        AuthenticationManager authenticationManager,
-        TokenService tokenService,
-        AutorizacaoService autorizacaoService, AutorizacaoService autorizacaoService1) {
+    AuthenticationManager authenticationManager,
+    TokenService tokenService,
+    AutorizacaoService autorizacaoService, AutorizacaoService autorizacaoService1
+  ) {
     this.authenticationManager = authenticationManager;
     this.tokenService = tokenService;
     this.autorizacaoService = autorizacaoService1;

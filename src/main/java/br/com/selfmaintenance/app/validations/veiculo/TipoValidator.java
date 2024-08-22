@@ -11,6 +11,9 @@ public class TipoValidator implements ConstraintValidator<ValidTipo, String> {
 
   @Override
   public boolean isValid(String valor, ConstraintValidatorContext context) {
+    if (valor == null) {
+      return true;
+    }
     return VeiculoTipo.CARRO.toString().equals(valor) ||
       VeiculoTipo.MOTO.toString().equals(valor) ||
       VeiculoTipo.CAMINHAO.toString().equals(valor) ||
