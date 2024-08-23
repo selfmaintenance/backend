@@ -31,4 +31,15 @@ public class Recurso {
 
   public Recurso() {
   }
+
+  public Recurso(Prestador prestador, String nome, int quantidade, String descricao) {
+    this.prestador = prestador;
+    this.nome = nome;
+    this.quantidade = quantidade;
+    this.descricao = descricao;
+  }
+
+  public Long getId() {
+    return this.id;
+  }
 }

@@ -35,7 +35,6 @@ class TratarExcecoesGlobais {
 
   @ExceptionHandler(HttpMessageNotReadableException.class)
   public ResponseEntity<ApiResponse> tratarAusenciaDeCorpo(HttpMessageNotReadableException ex) {
-    System.out.println(ex.getHttpInputMessage());
     Map<String, String> errors = new HashMap<>();
     errors.put("mensagem", "Corpo da requisição não pode ser vazio");
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse(-1, "Envio inválido", errors));

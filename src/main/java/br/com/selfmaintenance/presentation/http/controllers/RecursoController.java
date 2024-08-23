@@ -1,5 +1,7 @@
 package br.com.selfmaintenance.presentation.http.controllers;
 
+import java.util.Map;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,7 +14,6 @@ import br.com.selfmaintenance.app.services.autenticacao.TokenService;
 import br.com.selfmaintenance.app.services.recurso.RecursoService;
 import br.com.selfmaintenance.utils.responses.ApiResponse;
 import jakarta.validation.Valid;
-import jakarta.websocket.server.PathParam;
 
 @RestController
 @RequestMapping("/recurso")
@@ -28,25 +29,7 @@ public class RecursoController {
   @PostMapping("/")
   public ResponseEntity<ApiResponse> criar(@RequestBody @Valid CriarRecursoDTO dados, @RequestHeader("Authorization") String token) {
     String email = this.tokenService.extrairEmailUsuarioToken(token);
-    
-    return ResponseEntity.ok(new ApiResponse(1, "Recurso criado com sucesso"));
+    Map<String, Long> resposta = this.recursoService.criar(dados, email);
+    return ResponseEntity.ok(new ApiResponse(1, "Recurso criado com sucesso", resposta));
   } 
 }
-
-// @Id
-// @GeneratedValue(strategy = GenerationType.IDENTITY)
-// @Column(name="id")
-// private Long id;
-
-// @ManyToOne
-// @JoinColumn(name="prestador_id", nullable=false)
-// private Prestador prestador;
-
-// @Column(name="nome", nullable=false)
-// private String nome;
-
-// @Column(name="quantidade", nullable=false, columnDefinition="int default 0")
-// private int quantidade;
-
-// @Column(name="descricao", nullable=true)
-// private String descricao; 

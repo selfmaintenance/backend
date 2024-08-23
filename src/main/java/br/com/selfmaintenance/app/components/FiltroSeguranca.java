@@ -32,16 +32,19 @@ public class FiltroSeguranca extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws JWTVerificationException, ServletException, IOException {
 		try {
+			var path = request.getRequestURI();
+			boolean rotaPublica = path.equals("/api/auth/login") || path.equals("/api/usuario/");
+
 			var token = this.recuperarToken(request);
 			if (token != null) {
 				String login = this.tokenService.validarToken(token);
 				UserDetails usuario = this.usuarioRepository.findByEmail(login);
 				var autenticacao = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
 				SecurityContextHolder.getContext().setAuthentication(autenticacao);
-			} else {
+			} else if (!rotaPublica) {
 				throw new JWTVerificationException("Token inválido");
 			}
-				filterChain.doFilter(request, response);
+			filterChain.doFilter(request, response);
 		} catch (JWTVerificationException | ServletException | IOException ex ) {
 			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 			response.setContentType("application/json");
