@@ -32,8 +32,8 @@ public class SecurityConfigurations {
             .csrf(AbstractHttpConfigurer::disable)
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(authorize -> authorize
-                    .requestMatchers(HttpMethod.POST, "/auth/login", "/usuario/").permitAll()
-                    .requestMatchers(HttpMethod.GET, "/").hasAuthority(UsuarioRole.PRESTADOR.getRole())
+                    .requestMatchers("/auth/login", "/usuario/").permitAll()
+                    .requestMatchers("/veiculo/").hasAuthority(UsuarioRole.CLIENTE.getRole())
                     .anyRequest().authenticated()
             )
             .addFilterBefore(this.filtroSeguranca, UsernamePasswordAuthenticationFilter.class)
