@@ -25,8 +25,8 @@ public class VeiculoService {
     this.clienteRepository = clienteRepository;
   }
 
-  public Map<String, Long> criar(CriarVeiculoDTO dados, String emailUsuario) {
-    Cliente cliente = this.clienteRepository.findByEmail(emailUsuario);
+  public Map<String, Long> criar(CriarVeiculoDTO dados, String emailCliente) {
+    Cliente cliente = this.clienteRepository.findByEmail(emailCliente);
     Veiculo veiculoSalvo = this.veiculoRepository.save(new Veiculo(
       cliente,
       dados.placa(),
@@ -42,62 +42,8 @@ public class VeiculoService {
     return Map.of("idVeiculo", veiculoSalvo.getId());
   }
 
-  public List<VeiculoResponseDTO> listar(String emailUsuario) {
-    Cliente cliente = this.clienteRepository.findByEmail(emailUsuario);
-    List<Veiculo> veiculos =  this.veiculoRepository.findByCliente(cliente);
-
-    List<VeiculoResponseDTO> veiculosResponse = new ArrayList<>();
-    for (Veiculo veiculo : veiculos) {
-      veiculosResponse.add(new VeiculoResponseDTO(
-        veiculo.getId(),
-        veiculo.getPlaca(),
-        veiculo.getTipo(),
-        veiculo.getMarca(),
-        veiculo.getModelo(),
-        veiculo.getAno(),
-        veiculo.getChassi(),
-        veiculo.getRenavam(),
-        veiculo.getCor()
-      ));
-    }
-
-    return veiculosResponse;
-  }
-
-  public VeiculoResponseDTO buscar(Long id, String emailUsuario) {
-    Cliente cliente = this.clienteRepository.findByEmail(emailUsuario);
-    Veiculo veiculo = this.veiculoRepository.findByClienteAndId(cliente, id);
-
-    if (veiculo == null) {
-      return null;
-    }
-
-    return new VeiculoResponseDTO(
-      veiculo.getId(),
-      veiculo.getPlaca(),
-      veiculo.getTipo(),
-      veiculo.getMarca(),
-      veiculo.getModelo(),
-      veiculo.getAno(),
-      veiculo.getChassi(),
-      veiculo.getRenavam(),
-      veiculo.getCor()
-    );
-  }
-
-  public boolean deletar(Long id, String emailUsuario) {
-    Cliente cliente = this.clienteRepository.findByEmail(emailUsuario);
-    Veiculo veiculo = this.veiculoRepository.findByClienteAndId(cliente, id);
-
-    if (veiculo != null) {
-      this.veiculoRepository.delete(veiculo);
-    }
-    
-    return true;
-  }
-
-  public VeiculoResponseDTO editar(Long id, EditarVeiculoDTO dados, String emailUsuario) {
-    Cliente cliente = this.clienteRepository.findByEmail(emailUsuario);
+  public VeiculoResponseDTO editar(Long id, EditarVeiculoDTO dados, String emailCliente) {
+    Cliente cliente = this.clienteRepository.findByEmail(emailCliente);
     Veiculo veiculo = this.veiculoRepository.findByClienteAndId(cliente, id);
 
     if (veiculo == null) {
@@ -125,5 +71,59 @@ public class VeiculoService {
       veiculo.getRenavam(),
       veiculo.getCor()
     );
+  }
+  
+  public List<VeiculoResponseDTO> listar(String emailCliente) {
+    Cliente cliente = this.clienteRepository.findByEmail(emailCliente);
+    List<Veiculo> veiculos =  this.veiculoRepository.findByCliente_email(emailCliente);
+
+    List<VeiculoResponseDTO> veiculosResponse = new ArrayList<>();
+    for (Veiculo veiculo : veiculos) {
+      veiculosResponse.add(new VeiculoResponseDTO(
+        veiculo.getId(),
+        veiculo.getPlaca(),
+        veiculo.getTipo(),
+        veiculo.getMarca(),
+        veiculo.getModelo(),
+        veiculo.getAno(),
+        veiculo.getChassi(),
+        veiculo.getRenavam(),
+        veiculo.getCor()
+      ));
+    }
+
+    return veiculosResponse;
+  }
+
+  public VeiculoResponseDTO buscar(Long id, String emailCliente) {
+    Cliente cliente = this.clienteRepository.findByEmail(emailCliente);
+    Veiculo veiculo = this.veiculoRepository.findByClienteAndId(cliente, id);
+
+    if (veiculo == null) {
+      return null;
+    }
+
+    return new VeiculoResponseDTO(
+      veiculo.getId(),
+      veiculo.getPlaca(),
+      veiculo.getTipo(),
+      veiculo.getMarca(),
+      veiculo.getModelo(),
+      veiculo.getAno(),
+      veiculo.getChassi(),
+      veiculo.getRenavam(),
+      veiculo.getCor()
+    );
+  }
+
+  public boolean deletar(Long id, String emailCliente) {
+    Cliente cliente = this.clienteRepository.findByEmail(emailCliente);
+    Veiculo veiculo = this.veiculoRepository.findByClienteAndId(cliente, id);
+
+    if (veiculo == null) {
+      return false;
+    }
+    this.veiculoRepository.delete(veiculo);
+    return true;
   }
 }

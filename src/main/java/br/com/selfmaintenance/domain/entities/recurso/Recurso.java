@@ -42,4 +42,28 @@ public class Recurso {
   public Long getId() {
     return this.id;
   }
+
+  public String getNome() {
+    return this.nome;
+  }
+
+  public int getQuantidade() {
+    return this.quantidade;
+  }
+
+  public String getDescricao() {
+    return this.descricao;
+  }
+
+  public void setNome(String nome) {
+    this.nome = nome;
+  }
+
+  public void setQuantidade(int quantidade) {
+    this.quantidade = quantidade;
+  }
+
+  public void setDescricao(String descricao) {
+    this.descricao = descricao;
+  }
 }

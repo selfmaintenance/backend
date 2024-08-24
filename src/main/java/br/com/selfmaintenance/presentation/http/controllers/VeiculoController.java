@@ -35,23 +35,38 @@ public class VeiculoController {
 
   @PostMapping("/")
   public ResponseEntity<ApiResponse> criar(@RequestBody @Valid CriarVeiculoDTO dados, @RequestHeader("Authorization") String token) {
-    String emailUsuario = this.tokenService.extrairEmailUsuarioToken(token);
-    Map<String,Long> resposta = this.veiculoService.criar(dados, emailUsuario);
+    String emailCliente = this.tokenService.extrairEmailUsuarioToken(token);
+    Map<String,Long> resposta = this.veiculoService.criar(dados, emailCliente);
 
     return ResponseEntity.ok(new ApiResponse(1, "Veículo criado com sucesso", resposta));
   }
 
+  @PatchMapping("/{id}")
+  public ResponseEntity<ApiResponse> editar(
+    @PathVariable Long id, 
+    @RequestBody @Valid EditarVeiculoDTO dados, 
+    @RequestHeader("Authorization") String token
+  ) {
+    String emailCliente = this.tokenService.extrairEmailUsuarioToken(token);
+    VeiculoResponseDTO resposta = this.veiculoService.editar(id, dados, emailCliente);
+    if (resposta == null) {
+      return ResponseEntity.ok(new ApiResponse(-1, "Veículo não encontrado"));
+    }
+
+    return ResponseEntity.ok(new ApiResponse(1, "Veículo editado com sucesso", resposta));
+  }
+
   @GetMapping("/")
   public ResponseEntity<ApiResponse> listar(@RequestHeader("Authorization") String token) {
-    String emailUsuario = this.tokenService.extrairEmailUsuarioToken(token);
-    List<VeiculoResponseDTO> resposta = this.veiculoService.listar(emailUsuario);
+    String emailCliente = this.tokenService.extrairEmailUsuarioToken(token);
+    List<VeiculoResponseDTO> resposta = this.veiculoService.listar(emailCliente);
     return ResponseEntity.ok(new ApiResponse(1, "Veículos listados com sucesso", resposta));
   }
 
   @GetMapping("/{id}")
   public ResponseEntity<ApiResponse> buscar(@PathVariable Long id, @RequestHeader("Authorization") String token) {
-    String emailUsuario = this.tokenService.extrairEmailUsuarioToken(token);
-    VeiculoResponseDTO resposta = this.veiculoService.buscar(id, emailUsuario);
+    String emailCliente = this.tokenService.extrairEmailUsuarioToken(token);
+    VeiculoResponseDTO resposta = this.veiculoService.buscar(id, emailCliente);
 
     if (resposta == null) {
       return ResponseEntity.ok(new ApiResponse(-1, "Veículo não encontrado"));
@@ -61,8 +76,8 @@ public class VeiculoController {
 
   @DeleteMapping("/{id}")
   public ResponseEntity<ApiResponse> deletar(@PathVariable Long id, @RequestHeader("Authorization") String token) {
-    String emailUsuario = this.tokenService.extrairEmailUsuarioToken(token);
-    boolean resposta = this.veiculoService.deletar(id, emailUsuario);
+    String emailCliente = this.tokenService.extrairEmailUsuarioToken(token);
+    boolean resposta = this.veiculoService.deletar(id, emailCliente);
     if (!resposta) {
       return ResponseEntity.ok(new ApiResponse(-1, "Veículo não encontrado"));
     }
@@ -70,18 +85,4 @@ public class VeiculoController {
     return ResponseEntity.ok(new ApiResponse(1, "Veículo deletado com sucesso"));
   }
 
-  @PatchMapping("/{id}")
-  public ResponseEntity<ApiResponse> editar(
-    @PathVariable Long id, 
-    @RequestBody @Valid EditarVeiculoDTO dados, 
-    @RequestHeader("Authorization") String token
-  ) {
-    String emailUsuario = this.tokenService.extrairEmailUsuarioToken(token);
-    VeiculoResponseDTO resposta = this.veiculoService.editar(id, dados, emailUsuario);
-    if (resposta == null) {
-      return ResponseEntity.ok(new ApiResponse(-1, "Veículo não encontrado"));
-    }
-
-    return ResponseEntity.ok(new ApiResponse(1, "Veículo editado com sucesso", resposta));
-  }
 }

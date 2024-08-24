@@ -32,8 +32,8 @@ public class SecurityConfigurations {
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(authorize -> authorize
                     .requestMatchers("/auth/login", "/usuario/").permitAll()
-                    .requestMatchers("/veiculo/").hasAuthority(UsuarioRole.CLIENTE.getRole())
-                    .requestMatchers("/recurso/").hasAuthority(UsuarioRole.PRESTADOR.getRole())
+                    .requestMatchers("/veiculo/", "/veiculo/{id}").hasAuthority(UsuarioRole.CLIENTE.getRole())
+                    .requestMatchers("/recurso/", "/recurso/{id}").hasAuthority(UsuarioRole.PRESTADOR.getRole())
                     .anyRequest().authenticated()
             )
             .addFilterBefore(this.filtroSeguranca, UsernamePasswordAuthenticationFilter.class)
