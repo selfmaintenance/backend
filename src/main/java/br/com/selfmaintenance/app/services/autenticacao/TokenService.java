@@ -23,7 +23,7 @@ public class TokenService {
   @Value("${spring.application.name}")
   private String emissorDaChave;
 
-  public String gerarToken(UsuarioAutenticavel usuario) {
+  public String criar(UsuarioAutenticavel usuario) {
     try {
         Algorithm algoritmoAutenticacao = Algorithm.HMAC256(this.chaveAutenticacao);
         return JWT.create()
@@ -36,7 +36,7 @@ public class TokenService {
     }
   }
 
-  public String validarToken(String token) {
+  public String validar(String token) {
       Algorithm algoritmoAutenticacao = Algorithm.HMAC256(this.chaveAutenticacao);
       return JWT.require(algoritmoAutenticacao)
               .withIssuer(this.emissorDaChave)

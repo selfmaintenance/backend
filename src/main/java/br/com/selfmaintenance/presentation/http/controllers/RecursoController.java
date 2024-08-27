@@ -14,36 +14,33 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.selfmaintenance.app.facades.SelfMaintenanceFacade;
 import br.com.selfmaintenance.app.records.recurso.CriarRecursoDTO;
 import br.com.selfmaintenance.app.records.recurso.EditarRecursoDTO;
 import br.com.selfmaintenance.app.records.recurso.RecursoResponseDTO;
-import br.com.selfmaintenance.app.services.autenticacao.TokenService;
-import br.com.selfmaintenance.app.services.recurso.RecursoService;
 import br.com.selfmaintenance.utils.responses.ApiResponse;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/recurso")
 public class RecursoController {
-  private final RecursoService recursoService;
-  private final TokenService tokenService;
+  private final SelfMaintenanceFacade selfMaintenance;
 
-  public RecursoController(RecursoService recursoService, TokenService tokenService) {
-    this.recursoService = recursoService;
-    this.tokenService = tokenService;
+  public RecursoController(SelfMaintenanceFacade selfMaintenance) {
+    this.selfMaintenance = selfMaintenance;
   }
 
   @PostMapping("/")
   public ResponseEntity<ApiResponse> criar(@RequestBody @Valid CriarRecursoDTO dados, @RequestHeader("Authorization") String token) {
-    String emailPrestador = this.tokenService.extrairEmailUsuarioToken(token);
-    Map<String, Long> resposta = this.recursoService.criar(dados, emailPrestador);
+    String emailPrestador = this.selfMaintenance.autenticacao.token.extrairEmailUsuarioToken(token);
+    Map<String, Long> resposta = this.selfMaintenance.prestador.recurso.criar(dados, emailPrestador);
     return ResponseEntity.ok(new ApiResponse(1, "Recurso criado com sucesso", resposta));
   }
 
   @PatchMapping("/{id}")
   public ResponseEntity<ApiResponse> editar(@PathVariable Long id, @RequestBody @Valid EditarRecursoDTO dados, @RequestHeader("Authorization") String token) {
-    String emailPrestador = this.tokenService.extrairEmailUsuarioToken(token);
-    RecursoResponseDTO resposta = this.recursoService.editar(id, dados, emailPrestador);
+    String emailPrestador = this.selfMaintenance.autenticacao.token.extrairEmailUsuarioToken(token);
+    RecursoResponseDTO resposta = this.selfMaintenance.prestador.recurso.editar(id, dados, emailPrestador);
     if (resposta == null) {
       return ResponseEntity.ok(new ApiResponse(-1, "Recurso não encontrado"));
     }
@@ -52,16 +49,15 @@ public class RecursoController {
 
   @GetMapping("/")
   public ResponseEntity<ApiResponse> listar(@RequestHeader("Authorization") String token) {
-    String emailPrestador = this.tokenService.extrairEmailUsuarioToken(token);
-    List<RecursoResponseDTO> resposta = this.recursoService.listar(emailPrestador);
+    String emailPrestador = this.selfMaintenance.autenticacao.token.extrairEmailUsuarioToken(token);
+    List<RecursoResponseDTO> resposta = this.selfMaintenance.prestador.recurso.listar(emailPrestador);
     return ResponseEntity.ok(new ApiResponse(1, "Recursos listados com sucesso", resposta));
   }
 
   @GetMapping("/{id}")
   public ResponseEntity<ApiResponse> buscar(@PathVariable Long id, @RequestHeader("Authorization") String token) {
-    String emailPrestador = this.tokenService.extrairEmailUsuarioToken(token);
-    System.out.println("emailPrestador: " + emailPrestador);
-    RecursoResponseDTO resposta = this.recursoService.buscar(id, emailPrestador);
+    String emailPrestador = this.selfMaintenance.autenticacao.token.extrairEmailUsuarioToken(token);
+    RecursoResponseDTO resposta = this.selfMaintenance.prestador.recurso.buscar(id, emailPrestador);
     if (resposta == null) {
       return ResponseEntity.ok(new ApiResponse(-1, "Recurso não encontrado"));
     }
@@ -70,8 +66,8 @@ public class RecursoController {
 
   @DeleteMapping("/{id}")
   public ResponseEntity<ApiResponse> deletar(@PathVariable Long id, @RequestHeader("Authorization") String token) {
-    String emailPrestador = this.tokenService.extrairEmailUsuarioToken(token);
-    boolean resposta = this.recursoService.deletar(id, emailPrestador);
+    String emailPrestador = this.selfMaintenance.autenticacao.token.extrairEmailUsuarioToken(token);
+    boolean resposta = this.selfMaintenance.prestador.recurso.deletar(id, emailPrestador);
     if (!resposta) {
       return ResponseEntity.ok(new ApiResponse(-1, "Recurso não encontrado"));
     }

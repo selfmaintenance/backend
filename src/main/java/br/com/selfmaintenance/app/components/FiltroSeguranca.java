@@ -35,9 +35,9 @@ public class FiltroSeguranca extends OncePerRequestFilter {
 			var path = request.getRequestURI();
 			boolean rotaPublica = path.equals("/api/auth/login") || path.equals("/api/usuario/");
 
-			var token = this.recuperarToken(request);
+			var token = this.recuperar(request);
 			if (token != null) {
-				String login = this.tokenService.validarToken(token);
+				String login = this.tokenService.validar(token);
 				UserDetails usuario = this.usuarioRepository.findByEmail(login);
 				var autenticacao = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
 				SecurityContextHolder.getContext().setAuthentication(autenticacao);
@@ -52,7 +52,7 @@ public class FiltroSeguranca extends OncePerRequestFilter {
 		}
 	}
 
-	private String recuperarToken(HttpServletRequest request) {
+	private String recuperar(HttpServletRequest request) {
 		var token = request.getHeader("Authorization");
 		if (token == null || !token.startsWith("Bearer ") || token.startsWith("Bearer null")) {
 				return null;

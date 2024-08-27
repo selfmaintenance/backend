@@ -12,6 +12,6 @@ public class RoleValidator implements ConstraintValidator<ValidRole, String> {
   @Override
   public boolean isValid(String valor, ConstraintValidatorContext context) {
     return UsuarioRole.CLIENTE.toString().equals(valor) ||
-        UsuarioRole.PRESTADOR.toString().equals(valor);
+      UsuarioRole.PRESTADOR.toString().equals(valor);
   }
 }
