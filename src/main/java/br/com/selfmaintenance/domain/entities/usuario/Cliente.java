@@ -17,6 +17,10 @@ public class Cliente extends UsuarioBase {
   @OneToMany(mappedBy = "cliente")
   private List<Procedimento> procedimentos;
 
+  public Cliente() {
+    super();
+  }
+
   public Cliente(
     UsuarioAutenticavel usuarioAutenticavel,
     String nome,

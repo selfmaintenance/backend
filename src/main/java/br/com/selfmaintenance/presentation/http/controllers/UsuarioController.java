@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.selfmaintenance.app.facades.SelfMaintenanceFacade;
 import br.com.selfmaintenance.app.records.usuario.CriarUsuarioDTO;
-import br.com.selfmaintenance.app.services.usuario.UsuarioService;
 import br.com.selfmaintenance.utils.exceptions.ServiceException;
 import br.com.selfmaintenance.utils.responses.ApiResponse;
 import jakarta.validation.Valid;
@@ -17,15 +17,15 @@ import jakarta.validation.Valid;
 @RestController()
 @RequestMapping("/usuario")
 public class UsuarioController {
-  private final UsuarioService usuarioService;
+  private final SelfMaintenanceFacade selfMaintenance;
 
-  public UsuarioController(UsuarioService usuarioService) {
-    this.usuarioService = usuarioService;
+  public UsuarioController(SelfMaintenanceFacade selfMaintenance) {
+    this.selfMaintenance = selfMaintenance;
   }
 
   @PostMapping("/")
   public ResponseEntity<ApiResponse> criar(@RequestBody @Valid CriarUsuarioDTO dados) throws ServiceException {
-    Map<String, Long> respostaCriacao = this.usuarioService.criar(dados);
+    Map<String, Long> respostaCriacao = this.selfMaintenance.usuarioBase.criar(dados);
     return ResponseEntity.ok(new ApiResponse(1, "Usuário criado com sucesso", respostaCriacao));
   }
 }

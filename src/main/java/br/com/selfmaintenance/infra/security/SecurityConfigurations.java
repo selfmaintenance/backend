@@ -2,7 +2,6 @@ package br.com.selfmaintenance.infra.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -32,8 +31,9 @@ public class SecurityConfigurations {
             .csrf(AbstractHttpConfigurer::disable)
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(authorize -> authorize
-                    .requestMatchers(HttpMethod.POST, "/auth/login", "/usuario/").permitAll()
-                    .requestMatchers(HttpMethod.GET, "/").hasAuthority(UsuarioRole.PRESTADOR.getRole())
+                    .requestMatchers("/auth/login", "/usuario/").permitAll()
+                    .requestMatchers("/veiculo/", "/veiculo/{id}").hasAuthority(UsuarioRole.CLIENTE.getRole())
+                    .requestMatchers("/recurso/", "/recurso/{id}").hasAuthority(UsuarioRole.PRESTADOR.getRole())
                     .anyRequest().authenticated()
             )
             .addFilterBefore(this.filtroSeguranca, UsernamePasswordAuthenticationFilter.class)

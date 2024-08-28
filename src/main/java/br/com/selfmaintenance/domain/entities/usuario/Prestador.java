@@ -17,6 +17,10 @@ public class Prestador extends UsuarioBase {
   @OneToMany(mappedBy = "prestador")
   private List<Procedimento> procedimentos;
 
+  public Prestador() {
+    super();
+  }
+
   public Prestador(
     UsuarioAutenticavel usuarioAutenticavel,
     String nome,

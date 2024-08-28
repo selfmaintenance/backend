@@ -44,20 +44,12 @@ public class UsuarioAutenticavel implements UserDetails {
   public UsuarioAutenticavel() {
   }
 
-  public UsuarioAutenticavel(String nome, String email, String contato, String senha, String role) {
+  public UsuarioAutenticavel(String nome, String email, String contato, String senha, UsuarioRole role) {
     this.nome = nome;
     this.email = email;
     this.contato = contato;
     this.senha = senha;
-    this.role = this.adaptarStringParaRole(role);
-  }
-
-  private UsuarioRole adaptarStringParaRole(String role) {
-    if (UsuarioRole.CLIENTE.toString().equals(role)) {
-      return UsuarioRole.CLIENTE;
-    } else {
-      return UsuarioRole.PRESTADOR;
-    }
+    this.role = role;
   }
 
   public void criptografarSenha() {

@@ -71,41 +71,41 @@ public class UsuarioService {
       return resposta;
     }
 
-    private void validarDadosCriacaoUsuario(CriarUsuarioDTO dados) throws ServiceException {
-      UserDetails usuarioExiste = this.usuarioAutenticavelRepository.findByEmail(dados.usuarioAutenticavel().email());
+  private void validarDadosCriacaoUsuario(CriarUsuarioDTO dados) throws ServiceException {
+    UserDetails usuarioExiste = this.usuarioAutenticavelRepository.findByEmail(dados.usuarioAutenticavel().email());
 
-      if (usuarioExiste != null) {
-        throw new ServiceException(
-          UsuarioService.class.getName(), 
-          "criar", 
-          "Já existe um usuário com esse email",
-          "Erro ao criar novo usuário",
-          HttpStatus.CONFLICT
-        );
-      }
-
-      if (dados.cpf() == null && dados.cnpj() == null) {
-        throw new ServiceException(
-          UsuarioService.class.getName(), 
-          "criar", 
-          "Informe ao menos o CPF OU(E) CNPJ",
-          "Erro ao criar novo usuário",
-          HttpStatus.BAD_REQUEST
-        );
-      }
-    }
-
-    private UsuarioAutenticavel criarUsuarioAutenticavel(CriarUsuarioDTO dados) {
-      UsuarioAutenticavel usuarioAutenticavel = new UsuarioAutenticavel(
-        dados.usuarioAutenticavel().nome(),
-        dados.usuarioAutenticavel().email(),
-        dados.usuarioAutenticavel().contato(),
-        dados.usuarioAutenticavel().senha(),
-        dados.usuarioAutenticavel().role()
+    if (usuarioExiste != null) {
+      throw new ServiceException(
+        UsuarioService.class.getName(), 
+        "criar", 
+        "Já existe um usuário com esse email",
+        "Erro ao criar novo usuário",
+        HttpStatus.CONFLICT
       );
-
-      usuarioAutenticavel.criptografarSenha();
-      return this.usuarioAutenticavelRepository.save(usuarioAutenticavel);
     }
+
+    if (dados.cpf() == null && dados.cnpj() == null) {
+      throw new ServiceException(
+        UsuarioService.class.getName(), 
+        "criar", 
+        "Informe ao menos o CPF OU(E) CNPJ",
+        "Erro ao criar novo usuário",
+        HttpStatus.BAD_REQUEST
+      );
+    }
+  }
+
+  private UsuarioAutenticavel criarUsuarioAutenticavel(CriarUsuarioDTO dados) {
+    UsuarioAutenticavel usuarioAutenticavel = new UsuarioAutenticavel(
+      dados.usuarioAutenticavel().nome(),
+      dados.usuarioAutenticavel().email(),
+      dados.usuarioAutenticavel().contato(),
+      dados.usuarioAutenticavel().senha(),
+      UsuarioRole.valueOf(dados.usuarioAutenticavel().role())
+    );
+
+    usuarioAutenticavel.criptografarSenha();
+    return this.usuarioAutenticavelRepository.save(usuarioAutenticavel);
+  }
 }
 

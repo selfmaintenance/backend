@@ -11,7 +11,10 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.server.ResponseStatusException;
+
+import com.auth0.jwt.exceptions.JWTDecodeException;
 
 import br.com.selfmaintenance.utils.responses.ApiResponse;
 import br.com.selfmaintenance.utils.responses.error.DadosErroResponse;
@@ -32,7 +35,6 @@ class TratarExcecoesGlobais {
 
   @ExceptionHandler(HttpMessageNotReadableException.class)
   public ResponseEntity<ApiResponse> tratarAusenciaDeCorpo(HttpMessageNotReadableException ex) {
-    System.out.println(ex.getHttpInputMessage());
     Map<String, String> errors = new HashMap<>();
     errors.put("mensagem", "Corpo da requisição não pode ser vazio");
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse(-1, "Envio inválido", errors));
@@ -43,6 +45,13 @@ class TratarExcecoesGlobais {
     return ResponseEntity
             .status(ex.getStatusCode())
             .body(new ApiResponse(-1, ex.getReason()));
+  }
+
+  @ExceptionHandler(JWTDecodeException.class)
+  public ResponseEntity<ApiResponse> tratarJWTDecodeException(JWTDecodeException ex) {
+    return ResponseEntity
+            .status(HttpStatus.UNAUTHORIZED)
+            .body(new ApiResponse(-1, "Token inválido"));
   }
 
   @ExceptionHandler(ServiceException.class)
@@ -63,6 +72,13 @@ class TratarExcecoesGlobais {
     return ResponseEntity
             .status(HttpStatus.UNAUTHORIZED)
             .body(new ApiResponse(-1, "Usuário ou senha inválidos"));
+  }
+
+  @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+  public ResponseEntity<ApiResponse> tratarArgumentoIncorreto(MethodArgumentTypeMismatchException ex) {
+    return ResponseEntity
+            .status(HttpStatus.BAD_REQUEST)
+            .body(new ApiResponse(-1, "O Argumento "+ex.getName()+" recebeu um valor inválido"));
   }
 
   @ExceptionHandler(Exception.class)
