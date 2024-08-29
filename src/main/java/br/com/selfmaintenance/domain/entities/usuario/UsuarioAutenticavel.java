@@ -21,30 +21,36 @@ import jakarta.persistence.Table;
 @Table(name="usuario_autenticavel")
 public class UsuarioAutenticavel implements UserDetails {
   @Id
-  @GeneratedValue(strategy=GenerationType.IDENTITY)
-  @Column(name="id")
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id")
   private Long id;
 
-  @Column(name="nome", nullable=false)
+  @Column(name = "nome", nullable = false)
   private String nome;
 
-  @Column(name="email", nullable=false, unique=true)
+  @Column(name = "email", nullable = false, unique = true)
   private String email;
 
-  @Column(name="contato", nullable=false)
+  @Column(name = "contato", nullable = false)
   private String contato;
 
-  @Column(name="senha", nullable=false)
+  @Column(name = "senha", nullable = false)
   private String senha;
 
   @Enumerated(EnumType.STRING)
-  @Column(name="role", nullable=false)
+  @Column(name = "role", nullable = false)
   private UsuarioRole role;
 
   public UsuarioAutenticavel() {
   }
 
-  public UsuarioAutenticavel(String nome, String email, String contato, String senha, UsuarioRole role) {
+  public UsuarioAutenticavel(
+    String nome, 
+    String email, 
+    String contato, 
+    String senha, 
+    UsuarioRole role
+  ) {
     this.nome = nome;
     this.email = email;
     this.contato = contato;
@@ -82,6 +88,12 @@ public class UsuarioAutenticavel implements UserDetails {
   @Override
   public Collection<? extends GrantedAuthority>getAuthorities() {
     switch(this.role) {
+      case OFICINA -> {
+        return List.of(
+          new SimpleGrantedAuthority(UsuarioRole.OFICINA.getRole()),
+          new SimpleGrantedAuthority(UsuarioRole.PRESTADOR.getRole())
+        );
+      }
       case PRESTADOR -> {
           return List.of(
             new SimpleGrantedAuthority(UsuarioRole.PRESTADOR.getRole())

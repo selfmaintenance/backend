@@ -1,6 +1,6 @@
 package br.com.selfmaintenance.domain.entities.recurso;
 
-import br.com.selfmaintenance.domain.entities.usuario.Prestador;
+import br.com.selfmaintenance.domain.entities.usuario.oficina.Oficina;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -8,8 +8,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "recurso")
 public class Recurso {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,8 +19,8 @@ public class Recurso {
   private Long id;
 
   @ManyToOne
-  @JoinColumn(name="prestador_id", nullable=false)
-  private Prestador prestador;
+  @JoinColumn(name="oficina_id", nullable=false)
+  private Oficina oficina;
 
   @Column(name="nome", nullable=false)
   private String nome;
@@ -32,8 +34,8 @@ public class Recurso {
   public Recurso() {
   }
 
-  public Recurso(Prestador prestador, String nome, int quantidade, String descricao) {
-    this.prestador = prestador;
+  public Recurso(Oficina oficina, String nome, int quantidade, String descricao) {
+    this.oficina = oficina;
     this.nome = nome;
     this.quantidade = quantidade;
     this.descricao = descricao;

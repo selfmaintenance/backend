@@ -1,5 +1,7 @@
 package br.com.selfmaintenance.domain.entities.usuario;
 
+import java.util.Date;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -7,39 +9,43 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 
 @MappedSuperclass
 public abstract class UsuarioBase {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name="id")
+  @Column(name = "id")
   private Long id;
 
   @OneToOne
-  @JoinColumn(name="usuario_autenticavel_id", nullable=false)
+  @JoinColumn(name = "usuario_autenticavel_id", nullable = false)
   private UsuarioAutenticavel usuarioAutenticavel;
 
-  @Column(name="nome", nullable=false)
+  @Column(name = "nome", nullable = false)
   private String nome;
 
-  @Column(name="cpf", nullable=true)
+  @Column(name = "cpf", nullable = true)
   private String cpf;
 
-  @Column(name="cnpj", nullable=true)
-  private String cnpj;
-
-  @Column(name="email", nullable=false, unique=true)
-
+  @Column(name = "email", nullable = false, unique = true)
   private String email;
 
-  @Column(name="contato", nullable=false)
+  @Column(name = "contato", nullable = false)
   private String contato;
 
-  @Column(name="sexo", nullable=true)
+  @Column(name = "sexo", nullable = true)
   private String sexo;
 
-  @Column(name="senha", nullable=false)
+  @Column(name = "senha", nullable = false)
   private String senha;
+
+  @Column(name = "data_criacao", columnDefinition = "TIMESTAMP", updatable = false)
+  private Date dataCriacao;
+  
+  @Column(name = "data_atualizacao", columnDefinition = "TIMESTAMP")
+  private Date dataAtualizacao;
 
   public UsuarioBase() {
   }
@@ -48,7 +54,6 @@ public abstract class UsuarioBase {
     UsuarioAutenticavel usuarioAutenticavel,
     String nome,
     String cpf,
-    String cnpj,
     String email,
     String contato,
     String sexo,
@@ -57,11 +62,20 @@ public abstract class UsuarioBase {
     this.usuarioAutenticavel = usuarioAutenticavel;
     this.nome = nome;
     this.cpf = cpf;
-    this.cnpj = cnpj;
     this.email = email;
     this.contato = contato;
     this.sexo = sexo;
     this.senha = senha;
+  }
+
+  @PrePersist
+  public void onCreate() {
+    this.dataCriacao = new Date();
+  }
+
+  @PreUpdate
+  public void onUpdate() {
+    this.dataAtualizacao = new Date();
   }
 
   public Long getId() {
@@ -86,14 +100,6 @@ public abstract class UsuarioBase {
 
   public void setCpf(String cpf) {
     this.cpf = cpf;
-  }
-
-  public String getCnpj() {
-    return cnpj;
-  }
-
-  public void setCnpj(String cnpj) {
-    this.cnpj = cnpj;
   }
 
   public String getEmail() {

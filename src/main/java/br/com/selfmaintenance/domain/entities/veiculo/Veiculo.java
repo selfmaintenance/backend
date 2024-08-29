@@ -1,6 +1,6 @@
 package br.com.selfmaintenance.domain.entities.veiculo;
 
-import br.com.selfmaintenance.domain.entities.usuario.Cliente;
+import br.com.selfmaintenance.domain.entities.usuario.cliente.Cliente;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

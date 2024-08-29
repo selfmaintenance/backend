@@ -2,8 +2,8 @@ package br.com.selfmaintenance.domain.entities.procedimento;
 
 import java.util.Date;
 
-import br.com.selfmaintenance.domain.entities.usuario.Cliente;
-import br.com.selfmaintenance.domain.entities.usuario.Prestador;
+import br.com.selfmaintenance.domain.entities.usuario.cliente.Cliente;
+import br.com.selfmaintenance.domain.entities.usuario.oficina.Prestador;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

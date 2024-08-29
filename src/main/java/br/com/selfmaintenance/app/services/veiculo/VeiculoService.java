@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import br.com.selfmaintenance.app.records.veiculo.CriarVeiculoDTO;
 import br.com.selfmaintenance.app.records.veiculo.EditarVeiculoDTO;
 import br.com.selfmaintenance.app.records.veiculo.VeiculoResponseDTO;
-import br.com.selfmaintenance.domain.entities.usuario.Cliente;
+import br.com.selfmaintenance.domain.entities.usuario.cliente.Cliente;
 import br.com.selfmaintenance.domain.entities.veiculo.Veiculo;
 import br.com.selfmaintenance.domain.entities.veiculo.VeiculoTipo;
 import br.com.selfmaintenance.repositories.usuario.ClienteRepository;

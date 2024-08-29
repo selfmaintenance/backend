@@ -1,8 +1,10 @@
-package br.com.selfmaintenance.domain.entities.usuario;
+package br.com.selfmaintenance.domain.entities.usuario.cliente;
 
 import java.util.List;
 
 import br.com.selfmaintenance.domain.entities.procedimento.Procedimento;
+import br.com.selfmaintenance.domain.entities.usuario.UsuarioAutenticavel;
+import br.com.selfmaintenance.domain.entities.usuario.UsuarioBase;
 import br.com.selfmaintenance.domain.entities.veiculo.Veiculo;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
@@ -25,12 +27,11 @@ public class Cliente extends UsuarioBase {
     UsuarioAutenticavel usuarioAutenticavel,
     String nome,
     String cpf,
-    String cnpj,
     String email,
     String contato,
     String sexo,
     String senha
   ) {
-    super(usuarioAutenticavel, nome, cpf, cnpj, email, contato, sexo, senha);
+    super(usuarioAutenticavel, nome, cpf, email, contato, sexo, senha);
   }
 }

@@ -34,6 +34,7 @@ public class SecurityConfigurations {
                     .requestMatchers("/auth/login", "/usuario/").permitAll()
                     .requestMatchers("/veiculo/", "/veiculo/{id}").hasAuthority(UsuarioRole.CLIENTE.getRole())
                     .requestMatchers("/recurso/", "/recurso/{id}").hasAuthority(UsuarioRole.PRESTADOR.getRole())
+                    .requestMatchers("/oficina/", "/oficina/prestador/").hasAnyAuthority(UsuarioRole.OFICINA.getRole())
                     .anyRequest().authenticated()
             )
             .addFilterBefore(this.filtroSeguranca, UsernamePasswordAuthenticationFilter.class)
