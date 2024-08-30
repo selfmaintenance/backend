@@ -1,6 +1,8 @@
 package br.com.selfmaintenance.domain.entities.procedimento;
 
-import java.util.Date;
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.ZoneId;
 
 import br.com.selfmaintenance.domain.entities.usuario.cliente.Cliente;
 import br.com.selfmaintenance.domain.entities.usuario.oficina.Prestador;
@@ -13,6 +15,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 
 @Entity
@@ -34,19 +38,37 @@ public class Procedimento {
   @Column(name="descricao", nullable=false)
   private String nome;
 
-  @Column(name="data_solicitacao", nullable=false, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-  private Date dataSolicitacao;
+  @Column(name="data_solicitacao", nullable=false, updatable = false, insertable = false, columnDefinition = "TIMESTAMP")
+  private Timestamp dataSolicitacao;
   
   @Column(name="data_aceite", nullable=true, columnDefinition = "TIMESTAMP")
-  private Date dataAceite;
+  private Timestamp dataAceite;
 
   @Column(name="data_agendamento", nullable=true, columnDefinition = "TIMESTAMP")
-  private Date dataAgendamento;
+  private Timestamp dataAgendamento;
 
   @Enumerated(EnumType.STRING)
   @Column(name="status", nullable=false, columnDefinition = "VARCHAR(255) DEFAULT 'ABERTO'")
   private ProcedimentoStatus status;
 
+  @Column(name = "data_criacao", columnDefinition = "TIMESTAMP", updatable = false)
+  private Timestamp dataCriacao;
+  
+  @Column(name = "data_atualizacao", columnDefinition = "TIMESTAMP")
+  private Timestamp dataAtualizacao;
+  
   public Procedimento() {
   }
+
+  @PrePersist
+  public void onCreate() {
+    this.dataCriacao = Timestamp.from(Instant.now().atZone(ZoneId.of("America/Sao_Paulo")).toInstant());
+    this.dataSolicitacao = Timestamp.from(Instant.now().atZone(ZoneId.of("America/Sao_Paulo")).toInstant());
+  }
+
+  @PreUpdate
+  public void onUpdate() {
+    this.dataAtualizacao = Timestamp.from(Instant.now().atZone(ZoneId.of("America/Sao_Paulo")).toInstant());
+  }
+
 }

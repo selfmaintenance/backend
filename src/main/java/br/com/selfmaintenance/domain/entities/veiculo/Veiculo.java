@@ -1,5 +1,9 @@
 package br.com.selfmaintenance.domain.entities.veiculo;
 
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.ZoneId;
+
 import br.com.selfmaintenance.domain.entities.usuario.cliente.Cliente;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,6 +14,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Size;
 
@@ -53,7 +59,23 @@ public class Veiculo {
   @Column(name="cor", nullable=true)
   private String cor;
 
+  @Column(name = "data_criacao", columnDefinition = "TIMESTAMP", updatable = false)
+  private Timestamp dataCriacao;
+  
+  @Column(name = "data_atualizacao", columnDefinition = "TIMESTAMP")
+  private Timestamp dataAtualizacao;
+  
   public Veiculo() {
+  }
+
+  @PrePersist
+  public void onCreate() {
+    this.dataCriacao = Timestamp.from(Instant.now().atZone(ZoneId.of("America/Sao_Paulo")).toInstant());
+  }
+
+  @PreUpdate
+  public void onUpdate() {
+    this.dataAtualizacao = Timestamp.from(Instant.now().atZone(ZoneId.of("America/Sao_Paulo")).toInstant());
   }
 
   public Veiculo(Cliente cliente, String placa, VeiculoTipo tipo, String marca, String modelo, int ano, String chassi, String renavam, String cor) {

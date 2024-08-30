@@ -1,5 +1,9 @@
 package br.com.selfmaintenance.domain.entities.recurso;
 
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.ZoneId;
+
 import br.com.selfmaintenance.domain.entities.usuario.oficina.Oficina;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -8,6 +12,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 
 @Entity
@@ -29,9 +35,25 @@ public class Recurso {
   private int quantidade;
   
   @Column(name="descricao", nullable=true)
-  private String descricao; 
+  private String descricao;
+
+  @Column(name = "data_criacao", columnDefinition = "Timestamp", nullable = false)
+  private Timestamp dataCriacao;
+  
+  @Column(name = "data_atualizacao", columnDefinition = "TIMESTAMP")
+  private Timestamp dataAtualizacao;
 
   public Recurso() {
+  }
+
+  @PrePersist
+  public void onCreate() {
+    this.dataCriacao = Timestamp.from(Instant.now().atZone(ZoneId.of("America/Sao_Paulo")).toInstant());
+  }
+
+  @PreUpdate
+  public void onUpdate() {
+    this.dataAtualizacao = Timestamp.from(Instant.now().atZone(ZoneId.of("America/Sao_Paulo")).toInstant());
   }
 
   public Recurso(Oficina oficina, String nome, int quantidade, String descricao) {

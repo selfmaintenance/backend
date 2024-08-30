@@ -1,6 +1,8 @@
 package br.com.selfmaintenance.domain.entities.usuario;
 
-import java.util.Date;
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.ZoneId;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
@@ -42,10 +44,10 @@ public abstract class UsuarioBase {
   private String senha;
 
   @Column(name = "data_criacao", columnDefinition = "TIMESTAMP", updatable = false)
-  private Date dataCriacao;
+  private Timestamp dataCriacao;
   
   @Column(name = "data_atualizacao", columnDefinition = "TIMESTAMP")
-  private Date dataAtualizacao;
+  private Timestamp dataAtualizacao;
 
   public UsuarioBase() {
   }
@@ -70,12 +72,12 @@ public abstract class UsuarioBase {
 
   @PrePersist
   public void onCreate() {
-    this.dataCriacao = new Date();
+    this.dataCriacao = Timestamp.from(Instant.now().atZone(ZoneId.of("America/Sao_Paulo")).toInstant());
   }
 
   @PreUpdate
   public void onUpdate() {
-    this.dataAtualizacao = new Date();
+    this.dataAtualizacao = Timestamp.from(Instant.now().atZone(ZoneId.of("America/Sao_Paulo")).toInstant());
   }
 
   public Long getId() {

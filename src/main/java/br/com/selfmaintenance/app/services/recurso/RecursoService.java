@@ -1,5 +1,6 @@
 package br.com.selfmaintenance.app.services.recurso;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +20,7 @@ import br.com.selfmaintenance.repositories.usuario.oficina.OficinaRepository;
 import br.com.selfmaintenance.repositories.usuario.oficina.PrestadorRepository;
 
 @Service
-public class RecursoService { // TODO: CONTINUAR IMPLEMENTAÇÃOA
+public class RecursoService {
   private final RecursoRepository recursoRepository;
   private final UsuarioAutenticavelRepository usuarioAutenticavelRepository;
   private final PrestadorRepository prestadorRepository;
@@ -38,15 +39,7 @@ public class RecursoService { // TODO: CONTINUAR IMPLEMENTAÇÃOA
   }
 
   public Map<String, Long> criar(CriarRecursoDTO dados, String email) {
-    UsuarioAutenticavel usuarioAutenticavel = this.usuarioAutenticavelRepository.findByEmailCustom(email);
-    Oficina oficina = null;
-    
-    if (usuarioAutenticavel.getRole().equals(UsuarioRole.OFICINA)) {
-      oficina = this.oficinaRepository.findByEmail(email);
-    } else {
-      Prestador prestador = this.prestadorRepository.findByEmail(email);
-      oficina = this.oficinaRepository.findById(prestador.getOficina().getId()).get();
-    }
+    Oficina oficina = this.obterOficina(email);
     
     Recurso recursoSalvo = this.recursoRepository.save(new Recurso(
       oficina,
@@ -59,71 +52,77 @@ public class RecursoService { // TODO: CONTINUAR IMPLEMENTAÇÃOA
   }
 
   public RecursoResponseDTO editar(Long id, EditarRecursoDTO dados, String email) {
-    return null;
-    // Prestador prestador = this.prestadorRepository.findByEmail(emailPrestador);
-    // Recurso recurso = this.recursoRepository.findByPrestadorAndId(prestador, id);
+    Oficina oficina = this.obterOficina(email);
+    Recurso recurso = this.recursoRepository.findByOficinaAndId(oficina, id);
+    if (recurso == null) {
+      return null;
+    }
+    dados.nome().ifPresent(recurso::setNome);
+    dados.quantidade().ifPresent(recurso::setQuantidade);
+    dados.descricao().ifPresent(recurso::setDescricao);
 
-    // if (recurso == null) {
-    //   return null;
-    // }
-    // dados.nome().ifPresent(recurso::setNome);
-    // dados.quantidade().ifPresent(recurso::setQuantidade);
-    // dados.descricao().ifPresent(recurso::setDescricao);
+    this.recursoRepository.save(recurso);
 
-    // this.recursoRepository.save(recurso);
-
-    // return new RecursoResponseDTO(
-    //   recurso.getId(),
-    //   recurso.getNome(),
-    //   recurso.getDescricao(),
-    //   recurso.getQuantidade()
-    // );
+    return new RecursoResponseDTO(
+      recurso.getId(),
+      recurso.getNome(),
+      recurso.getDescricao(),
+      recurso.getQuantidade()
+    );
   }
 
   public List<RecursoResponseDTO> listar(String email) {
-    return null;
-    // List<Recurso> recursos = this.recursoRepository.findByPrestador_email(emailPrestador);
-    // List<RecursoResponseDTO> recursosResponse = new ArrayList<>();
+    Oficina oficina = this.obterOficina(email);
+    List<Recurso> recursos = this.recursoRepository.findByOficina_email(oficina.getEmail());
+    List<RecursoResponseDTO> recursosResponse = new ArrayList<>();
 
-    // for (Recurso recurso : recursos) {
-    //   recursosResponse.add(new RecursoResponseDTO(
-    //     recurso.getId(),
-    //     recurso.getNome(),
-    //     recurso.getDescricao(),
-    //     recurso.getQuantidade()
-    //     )
-    //   );
-    // }
+    for (Recurso recurso : recursos) {
+      recursosResponse.add(new RecursoResponseDTO(
+        recurso.getId(),
+        recurso.getNome(),
+        recurso.getDescricao(),
+        recurso.getQuantidade()
+        )
+      );
+    }
 
-    // return recursosResponse;
+    return recursosResponse;
   }
 
   public RecursoResponseDTO buscar(Long id, String email) {
-    return null;
-    // Prestador prestador = this.prestadorRepository.findByEmail(emailPrestador);
-    // Recurso recurso = this.recursoRepository.findByPrestadorAndId(prestador, id);
-
-    // if (recurso == null) {
-    //   return null;
-    // }
+    Oficina oficina = this.obterOficina(email);
+    Recurso recurso = this.recursoRepository.findByOficinaAndId(oficina, id);
+    if (recurso == null) {
+      return null;
+    }
     
-    // return new RecursoResponseDTO(
-    //   recurso.getId(),
-    //   recurso.getNome(),
-    //   recurso.getDescricao(),
-    //   recurso.getQuantidade()
-    // );
+    return new RecursoResponseDTO(
+      recurso.getId(),
+      recurso.getNome(),
+      recurso.getDescricao(),
+      recurso.getQuantidade()
+    );
   }
 
   public boolean deletar(Long id, String email) {
-    return false;
-    // Prestador prestador = this.prestadorRepository.findByEmail(emailPrestador);
-    // Recurso recurso = this.recursoRepository.findByPrestadorAndId(prestador, id);
+    Oficina oficina = this.obterOficina(email);
+    Recurso recurso = this.recursoRepository.findByOficinaAndId(oficina, id);
 
-    // if (recurso == null) {
-    //   return false;
-    // }
-    // this.recursoRepository.delete(recurso);
-    // return true;
+    if (recurso == null) {
+      return false;
+    }
+    this.recursoRepository.delete(recurso);
+    return true;
+  }
+
+  private Oficina obterOficina(String email) {
+    UsuarioAutenticavel usuarioAutenticavel = this.usuarioAutenticavelRepository.findByEmailCustom(email);
+
+    if (usuarioAutenticavel.getRole().equals(UsuarioRole.OFICINA)) {
+      return this.oficinaRepository.findByEmail(email);
+    } else {
+      Prestador prestador = this.prestadorRepository.findByEmail(email);
+      return this.oficinaRepository.findById(prestador.getOficina().getId()).get();
+    }
   }
 }

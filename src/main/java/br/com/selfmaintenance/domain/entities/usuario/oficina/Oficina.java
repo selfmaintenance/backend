@@ -1,6 +1,8 @@
 package br.com.selfmaintenance.domain.entities.usuario.oficina;
 
-import java.util.Date;
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.ZoneId;
 import java.util.List;
 
 import br.com.selfmaintenance.domain.entities.recurso.Recurso;
@@ -36,11 +38,11 @@ public class Oficina {
   @Column(name="senha", nullable=false)
   private String senha;
 
-  @Column(name = "data_cricao", columnDefinition = "TIMESTAMP", updatable = false)
-  private Date dataCriacao;
+  @Column(name = "data_criacao", columnDefinition = "TIMESTAMP", updatable = false)
+  private Timestamp dataCriacao;
   
   @Column(name = "data_atualizacao", columnDefinition = "TIMESTAMP")
-  private Date dataAtualizacao;
+  private Timestamp dataAtualizacao;
 
   @OneToOne
   @JoinColumn(name = "usuario_autenticavel_id", nullable=false)
@@ -71,15 +73,19 @@ public class Oficina {
 
   @PrePersist
   public void onCreate() {
-    this.dataCriacao = new Date();
+    this.dataCriacao = Timestamp.from(Instant.now().atZone(ZoneId.of("America/Sao_Paulo")).toInstant());
   }
 
   @PreUpdate
   public void onUpdate() {
-    this.dataAtualizacao = new Date();
+    this.dataAtualizacao = Timestamp.from(Instant.now().atZone(ZoneId.of("America/Sao_Paulo")).toInstant());
   }
 
   public Long getId() {
     return this.id;
+  }
+
+  public String getEmail() {
+    return this.email;
   }
 }

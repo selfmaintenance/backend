@@ -3,6 +3,7 @@ package br.com.selfmaintenance.presentation.http.controllers;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,7 +35,9 @@ public class RecursoController {
   public ResponseEntity<ApiResponse> criar(@RequestBody @Valid CriarRecursoDTO dados, @RequestHeader("Authorization") String token) {
     String emailPrestador = this.selfMaintenance.autenticacao.token.extrairEmailUsuarioToken(token);
     Map<String, Long> resposta = this.selfMaintenance.prestador.recurso.criar(dados, emailPrestador);
-    return ResponseEntity.ok(new ApiResponse(1, "Recurso criado com sucesso", resposta));
+    return ResponseEntity
+            .status(HttpStatus.CREATED)
+            .body(new ApiResponse(1, "Recurso criado com sucesso", resposta));
   }
 
   @PatchMapping("/{id}")

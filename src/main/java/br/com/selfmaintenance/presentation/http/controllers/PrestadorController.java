@@ -2,6 +2,7 @@ package br.com.selfmaintenance.presentation.http.controllers;
 
 import java.util.Map;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,6 +29,8 @@ public class PrestadorController {
   public ResponseEntity<ApiResponse> criar(@RequestBody @Valid CriarPrestadorDTO dados, @RequestHeader("Authorization") String token) throws ServiceException {
     String emailOficina = selfMaintenance.autenticacao.token.extrairEmailUsuarioToken(token);
     Map<String, Long> resposta = this.selfMaintenance.oficina.prestador.criar(dados, emailOficina);
-    return ResponseEntity.ok(new ApiResponse(1, "Prestador criado com sucesso", resposta));
+    return ResponseEntity
+            .status(HttpStatus.CREATED)
+            .body(new ApiResponse(1, "Prestador criado com sucesso", resposta));
   }
 }

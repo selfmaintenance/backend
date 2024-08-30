@@ -2,6 +2,7 @@ package br.com.selfmaintenance.presentation.http.controllers;
 
 import java.util.Map;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,7 +27,9 @@ public class UsuarioController {
   @PostMapping("/")
   public ResponseEntity<ApiResponse> criar(@RequestBody @Valid CriarUsuarioDTO dados) throws ServiceException {
     Map<String, Long> respostaCriacao = this.selfMaintenance.usuarioBase.criar(dados);
-    return ResponseEntity.ok(new ApiResponse(1, "Usuário criado com sucesso", respostaCriacao));
+    return ResponseEntity
+          .status(HttpStatus.CREATED)
+          .body(new ApiResponse(1, "Usuário criado com sucesso", respostaCriacao));
   }
 }
 
