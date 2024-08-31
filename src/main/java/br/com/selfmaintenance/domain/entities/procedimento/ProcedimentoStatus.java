@@ -1,10 +1,29 @@
 package br.com.selfmaintenance.domain.entities.procedimento;
 
+/**
+ * [ProcedimentoStatus] é a enumeração que representa os status possíveis de um procedimento.
+ * 
+ * @see Procedimento
+ * 
+ * @version 1.0.0
+ */
 public enum ProcedimentoStatus {
-  ABERTO("aberto"), // Procedimento foi aberto mas ainda não teve uma resposta
-  AGENDADO("agendado"), // Procedimento foi agendado (foi aceito pelo funcionário)
-  REALIZADO("realizado"), // Procedimento foi realizado / -> status final não pode ser alterado
-  CANCELADO("cancelado"); // Procedimento foi cancelado / -> status final não pode ser alterado
+  /**
+   * Procedimento foi aberto mas ainda não teve uma resposta
+   */
+  ABERTO("aberto"),
+  /**
+   * Procedimento foi agendado
+   */
+  AGENDADO("agendado"),
+  /**
+   * Procedimento foi realizado
+   */ 
+  REALIZADO("realizado"),
+  /**
+   * Procedimento foi cancelado
+   */
+  CANCELADO("cancelado");
 
   private final String status;
 

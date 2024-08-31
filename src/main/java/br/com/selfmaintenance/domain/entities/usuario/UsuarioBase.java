@@ -14,6 +14,19 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 
+/**
+ * [UsuarioBase] é a entidade que representa um usuário do sistema,
+ * Ele é uma entidade abstrata que contém as informações básicas de um usuário.
+ * Todo usuário que for criado no sistema deve herdar as informações de usuário base. Exceto por oficina.
+ * 
+ * @see UsuarioAutenticavel
+ * @see Cliente
+ * @see Prestador
+ * @see Oficina
+ * 
+ * @version 1.0.0
+ * 
+ */
 @MappedSuperclass
 public abstract class UsuarioBase {
   @Id

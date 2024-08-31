@@ -12,9 +12,9 @@ import br.com.selfmaintenance.domain.entities.usuario.UsuarioAutenticavel;
 import br.com.selfmaintenance.domain.entities.usuario.UsuarioRole;
 import br.com.selfmaintenance.domain.entities.usuario.cliente.Cliente;
 import br.com.selfmaintenance.domain.entities.usuario.oficina.Oficina;
-import br.com.selfmaintenance.repositories.usuario.ClienteRepository;
-import br.com.selfmaintenance.repositories.usuario.UsuarioAutenticavelRepository;
-import br.com.selfmaintenance.repositories.usuario.oficina.OficinaRepository;
+import br.com.selfmaintenance.infra.repositories.usuario.ClienteRepository;
+import br.com.selfmaintenance.infra.repositories.usuario.UsuarioAutenticavelRepository;
+import br.com.selfmaintenance.infra.repositories.usuario.oficina.OficinaRepository;
 import br.com.selfmaintenance.utils.exceptions.ServiceException;
 @Service
 public class UsuarioService {

@@ -19,9 +19,20 @@ import com.auth0.jwt.exceptions.JWTDecodeException;
 import br.com.selfmaintenance.utils.responses.ApiResponse;
 import br.com.selfmaintenance.utils.responses.error.DadosErroResponse;
 
+/**
+ * [TratarExcecoesGlobais] é a classe que trata as exceções globais da API.
+ * 
+ * @version 1.0.0
+ */
 @RestControllerAdvice
 class TratarExcecoesGlobais {
 
+  /**
+   * [tratarErroDeValidacao] é o método que trata exceções lançadas devido a erros de  validação
+   * 
+   * @param ex
+   * @return a resposta da API
+   */
   @ExceptionHandler(MethodArgumentNotValidException.class)
   public ResponseEntity<ApiResponse> tratarErroDeValidacao(MethodArgumentNotValidException ex) {
     Map<String, String> errors = new HashMap<>();
@@ -33,6 +44,12 @@ class TratarExcecoesGlobais {
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse(-1, "Erro de validação", errors));
   }
 
+  /**
+   * [tratarAusenciaDeCorpo] é o método que trata exceções lançadas devido a ausência de corpo na requisição
+   * 
+   * @param ex
+   * @return a resposta da API
+   */
   @ExceptionHandler(HttpMessageNotReadableException.class)
   public ResponseEntity<ApiResponse> tratarAusenciaDeCorpo(HttpMessageNotReadableException ex) {
     Map<String, String> errors = new HashMap<>();
@@ -40,6 +57,12 @@ class TratarExcecoesGlobais {
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse(-1, "Envio inválido", errors));
   }
 
+  /**
+   * [tratarResponseException] é o método que trata exceções lançadas devido a erros de status
+   * 
+   * @param ex
+   * @return a resposta da API
+   */
   @ExceptionHandler(ResponseStatusException.class)
   public ResponseEntity<ApiResponse> tratarResponseException(ResponseStatusException ex) {
     return ResponseEntity
@@ -47,6 +70,12 @@ class TratarExcecoesGlobais {
             .body(new ApiResponse(-1, ex.getReason()));
   }
 
+  /**
+   * [tratarJWTDecodeException] é o método que trata exceções lançadas devido a erros de decodificação de token
+   * 
+   * @param ex
+   * @return a resposta da API
+   */
   @ExceptionHandler(JWTDecodeException.class)
   public ResponseEntity<ApiResponse> tratarJWTDecodeException(JWTDecodeException ex) {
     return ResponseEntity
@@ -54,6 +83,12 @@ class TratarExcecoesGlobais {
             .body(new ApiResponse(-1, "Token inválido"));
   }
 
+  /**
+   * [tratarServiceException] é o método que trata exceções lançadas devido a erros de serviço
+   * 
+   * @param ex
+   * @return a resposta da API
+   */
   @ExceptionHandler(ServiceException.class)
   public ResponseEntity<ApiResponse> tratarServiceException(ServiceException ex) {
     return ResponseEntity
@@ -67,6 +102,12 @@ class TratarExcecoesGlobais {
             );
   }
 
+  /**
+   * [tratarAutenticacaoException] é o método que trata exceções lançadas devido a erros de autenticação
+   * 
+   * @param ex
+   * @return a resposta da API
+   */
   @ExceptionHandler(AuthenticationException.class)
   public ResponseEntity<ApiResponse> tratarAutenticacaoException(AuthenticationException ex) {
     return ResponseEntity
@@ -74,6 +115,12 @@ class TratarExcecoesGlobais {
             .body(new ApiResponse(-1, "Usuário ou senha inválidos"));
   }
 
+  /**
+   * [tratarArgumentoIncorreto] é o método que trata exceções lançadas devido a argumentos incorretos
+   * 
+   * @param ex
+   * @return a resposta da API
+   */
   @ExceptionHandler(MethodArgumentTypeMismatchException.class)
   public ResponseEntity<ApiResponse> tratarArgumentoIncorreto(MethodArgumentTypeMismatchException ex) {
     return ResponseEntity
@@ -81,6 +128,12 @@ class TratarExcecoesGlobais {
             .body(new ApiResponse(-1, "O Argumento "+ex.getName()+" recebeu um valor inválido"));
   }
 
+  /**
+   * [tratarException] é o método que trata exceções lançadas devido a erros internos não mapeados no servidor
+   * 
+   * @param ex
+   * @return a resposta da API
+   */
   @ExceptionHandler(Exception.class)
   public ResponseEntity<ApiResponse> tratarException(Exception ex) {
     return ResponseEntity

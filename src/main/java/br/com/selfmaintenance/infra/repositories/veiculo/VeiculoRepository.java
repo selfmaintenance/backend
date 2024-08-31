@@ -1,4 +1,4 @@
-package br.com.selfmaintenance.repositories.veiculo;
+package br.com.selfmaintenance.infra.repositories.veiculo;
 
 import java.util.List;
 

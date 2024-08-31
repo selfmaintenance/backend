@@ -19,6 +19,16 @@ import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Size;
 
+/**
+ * [Veiculo] é a entidade que representa um veículo do sistema,
+ * para um veículo ser criado é necessário que ele tenha um cliente, placa, tipo, chassi e renavam.
+ * O veículo é vinculado a um cliente, eles podem ter vários veículos.
+ * 
+ * @see Cliente
+ * 
+ * @version 1.0.0
+ * 
+ */
 @Entity
 @Table(name="veiculo", indexes={
   // @Index(name="placa_index", columnList="placa", unique=false)

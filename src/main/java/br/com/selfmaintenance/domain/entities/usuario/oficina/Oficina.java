@@ -19,6 +19,18 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 
+/**
+ * [Oficina] é a entidade que representa uma oficina do sistema, 
+ * para uma oficina ser criada é necessário que ela tenha um nome, cnpj, email e senha.
+ * Uma oficina é uma entidade que pode ter vários prestadores e recursos. Ele também é um usuário autenticável.
+ * 
+ * @see Prestador
+ * @see Recurso
+ * @see UsuarioAutenticavel
+ * 
+ * @version 1.0.0
+ * 
+ */
 @Entity
 @Table(name = "oficina")
 public class Oficina {

@@ -19,6 +19,17 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 
+/**
+ * [Procedimento] é a entidade que representa um procedimento do sistema,
+ * para um procedimento ser criado é necessário que ele tenha um nome, prestador, cliente e status.
+ * O procedimento é vinculado a um prestador e um cliente, eles podem ter vários procedimentos.
+ * Inicialmente um cliente abre um procedimento, o prestador pode aceitar o procedimento.
+ * 
+ * @see Cliente
+ * @see Prestador
+ * 
+ * @version 1.0.0
+ */
 @Entity
 @Table(name="procedimento")
 public class Procedimento {

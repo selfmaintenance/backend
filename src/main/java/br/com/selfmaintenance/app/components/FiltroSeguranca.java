@@ -2,7 +2,6 @@ package br.com.selfmaintenance.app.components;
 
 import java.io.IOException;
 
-import org.hibernate.annotations.Comment;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,13 +11,18 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 
 import br.com.selfmaintenance.app.services.autenticacao.TokenService;
-import br.com.selfmaintenance.repositories.usuario.UsuarioAutenticavelRepository;
+import br.com.selfmaintenance.infra.repositories.usuario.UsuarioAutenticavelRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@Comment("Filtro de segurança para autenticação de usuários")
+/**
+ * [FiltroSeguranca] é o filtro de segurança que intercepta todas as requisições
+ * e verifica se o token é válido.
+ * 
+ * @version 1.0.0
+ */
 @Component
 public class FiltroSeguranca extends OncePerRequestFilter {
 	private final TokenService tokenService;

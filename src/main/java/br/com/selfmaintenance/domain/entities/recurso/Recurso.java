@@ -16,6 +16,16 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 
+/**
+ * [Recurso] é a entidade que representa um recurso do sistema, para um recurso ser criado é necessário que ele tenha um nome, quantidade e descrição
+ * as demais informações são preenchidas automaticamente pelo sistema. O recurso é vinculado a uma oficina, pode ser criado pela Oficina ou pelo Prestador.
+ * 
+ * @see Oficina
+ * @see Prestador
+ * 
+ * @version 1.0.0
+ * 
+ */
 @Entity
 @Table(name = "recurso")
 public class Recurso {

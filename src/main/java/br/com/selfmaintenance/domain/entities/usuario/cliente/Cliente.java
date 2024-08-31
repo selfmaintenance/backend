@@ -10,6 +10,18 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
+/**
+ * [Cliente] é a entidade que representa um cliente do sistema,
+ * para um cliente ser criado é necessário que ele tenha um nome, cpf, email, contato e senha.
+ * O cliente é um usuário autenticável e herda as informações de usuário base. Ele pode ter vários veículos e procedimentos.
+ * 
+ * @see UsuarioBase
+ * @see UsuarioAutenticavel
+ * @see Veiculo
+ * @see Procedimento
+ * 
+ * @version 1.0.0
+ */
 @Entity
 @Table(name="cliente")
 public class Cliente extends UsuarioBase {

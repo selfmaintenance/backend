@@ -14,10 +14,10 @@ import br.com.selfmaintenance.domain.entities.usuario.UsuarioAutenticavel;
 import br.com.selfmaintenance.domain.entities.usuario.UsuarioRole;
 import br.com.selfmaintenance.domain.entities.usuario.oficina.Oficina;
 import br.com.selfmaintenance.domain.entities.usuario.oficina.Prestador;
-import br.com.selfmaintenance.repositories.recurso.RecursoRepository;
-import br.com.selfmaintenance.repositories.usuario.UsuarioAutenticavelRepository;
-import br.com.selfmaintenance.repositories.usuario.oficina.OficinaRepository;
-import br.com.selfmaintenance.repositories.usuario.oficina.PrestadorRepository;
+import br.com.selfmaintenance.infra.repositories.recurso.RecursoRepository;
+import br.com.selfmaintenance.infra.repositories.usuario.UsuarioAutenticavelRepository;
+import br.com.selfmaintenance.infra.repositories.usuario.oficina.OficinaRepository;
+import br.com.selfmaintenance.infra.repositories.usuario.oficina.PrestadorRepository;
 
 @Service
 public class RecursoService {

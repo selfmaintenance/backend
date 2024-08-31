@@ -1,4 +1,4 @@
-package br.com.selfmaintenance.repositories.usuario;
+package br.com.selfmaintenance.infra.repositories.usuario;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

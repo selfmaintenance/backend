@@ -11,6 +11,17 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
+/**
+ * [Prestador] é a entidade que representa um prestador do sistema,
+ * para um prestador ser criado é necessário que ele tenha um nome, cpf, email, contato e senha.
+ * O prestador é vinculado a uma oficina, ele é um usuário autenticável e herda as informações de usuário base.
+ * 
+ * @see Oficina
+ * @see Procedimento
+ * @see UsuarioBase
+ * @see UsuarioAutenticavel
+ * 
+ */
 @Entity
 @Table(name="prestador")
 public class Prestador extends UsuarioBase {

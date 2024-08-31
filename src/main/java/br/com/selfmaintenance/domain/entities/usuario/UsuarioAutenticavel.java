@@ -17,6 +17,13 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+/**
+ * [UsuarioAutenticavel] é a entidade que representa um usuário autenticável do sistema, 
+ * para um usuário ser criado é necessário que ele tenha um nome, email, contato e senha.
+ * É usado para mapear todos os usuários do sistema, independente do seu papel.
+ * 
+ * @version 1.0.0
+ */
 @Entity
 @Table(name="usuario_autenticavel")
 public class UsuarioAutenticavel implements UserDetails {
