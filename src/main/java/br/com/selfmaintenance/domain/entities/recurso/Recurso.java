@@ -1,6 +1,10 @@
 package br.com.selfmaintenance.domain.entities.recurso;
 
-import br.com.selfmaintenance.domain.entities.usuario.Prestador;
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.ZoneId;
+
+import br.com.selfmaintenance.domain.entities.usuario.oficina.Oficina;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -8,8 +12,22 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
+import jakarta.persistence.Table;
 
+/**
+ * [Recurso] é a entidade que representa um recurso do sistema, para um recurso ser criado é necessário que ele tenha um nome, quantidade e descrição
+ * as demais informações são preenchidas automaticamente pelo sistema. O recurso é vinculado a uma oficina, pode ser criado pela Oficina ou pelo Prestador.
+ * 
+ * @see Oficina
+ * @see Prestador
+ * 
+ * @version 1.0.0
+ * 
+ */
 @Entity
+@Table(name = "recurso")
 public class Recurso {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,8 +35,8 @@ public class Recurso {
   private Long id;
 
   @ManyToOne
-  @JoinColumn(name="prestador_id", nullable=false)
-  private Prestador prestador;
+  @JoinColumn(name="oficina_id", nullable=false)
+  private Oficina oficina;
 
   @Column(name="nome", nullable=false)
   private String nome;
@@ -27,13 +45,29 @@ public class Recurso {
   private int quantidade;
   
   @Column(name="descricao", nullable=true)
-  private String descricao; 
+  private String descricao;
+
+  @Column(name = "data_criacao", columnDefinition = "Timestamp", nullable = false)
+  private Timestamp dataCriacao;
+  
+  @Column(name = "data_atualizacao", columnDefinition = "TIMESTAMP")
+  private Timestamp dataAtualizacao;
 
   public Recurso() {
   }
 
-  public Recurso(Prestador prestador, String nome, int quantidade, String descricao) {
-    this.prestador = prestador;
+  @PrePersist
+  public void onCreate() {
+    this.dataCriacao = Timestamp.from(Instant.now().atZone(ZoneId.of("America/Sao_Paulo")).toInstant());
+  }
+
+  @PreUpdate
+  public void onUpdate() {
+    this.dataAtualizacao = Timestamp.from(Instant.now().atZone(ZoneId.of("America/Sao_Paulo")).toInstant());
+  }
+
+  public Recurso(Oficina oficina, String nome, int quantidade, String descricao) {
+    this.oficina = oficina;
     this.nome = nome;
     this.quantidade = quantidade;
     this.descricao = descricao;

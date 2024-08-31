@@ -28,6 +28,14 @@ public class AutenticacaoController {
     this.selfMaintenance = selfMaintenance;
   }
 
+  /**
+   * Método que autentica um usuário no sistema
+   * 
+   * @param dados
+   * @return
+   * @throws ResponseStatusException
+   * 
+   */
   @PostMapping("/login")
   public ResponseEntity<ApiResponse> login(@RequestBody @Valid AutenticacaoDTO dados) throws ResponseStatusException {
     var usuarioNomeSenha = new UsernamePasswordAuthenticationToken(dados.email(), dados.senha());

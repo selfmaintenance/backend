@@ -5,6 +5,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import br.com.selfmaintenance.utils.responses.error.DadosErroResponse;
 
+/**
+ * [ApiResponse] é a classe que representa a resposta padrão da API.
+ * 
+ * @version 1.0.0
+ */
 public record ApiResponse(
   @JsonProperty int status,
   @JsonProperty String mensagem,

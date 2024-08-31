@@ -5,12 +5,20 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import br.com.selfmaintenance.repositories.usuario.UsuarioAutenticavelRepository;
+import br.com.selfmaintenance.infra.repositories.usuario.UsuarioAutenticavelRepository;
 
+/**
+ * AutorizacaoService é a classe que representa o serviço de autorização
+ */
 @Service
 public class AutorizacaoService implements UserDetailsService {
   private final UsuarioAutenticavelRepository usuarioRepository;
 
+  /**
+   * Construtor da classe recebendo o repositório de usuarioAutenticavel
+   * 
+   * @param usuarioRepository
+   */
   public AutorizacaoService(UsuarioAutenticavelRepository usuarioRepository) {
     this.usuarioRepository = usuarioRepository;
   }

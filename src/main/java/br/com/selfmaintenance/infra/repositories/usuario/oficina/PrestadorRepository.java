@@ -1,9 +1,9 @@
-package br.com.selfmaintenance.repositories.usuario;
+package br.com.selfmaintenance.infra.repositories.usuario.oficina;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import br.com.selfmaintenance.domain.entities.usuario.Prestador;
+import br.com.selfmaintenance.domain.entities.usuario.oficina.Prestador;
 
 @Repository
 public interface PrestadorRepository extends JpaRepository<Prestador, Long> {

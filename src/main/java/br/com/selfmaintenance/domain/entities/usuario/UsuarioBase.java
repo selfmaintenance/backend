@@ -1,5 +1,9 @@
 package br.com.selfmaintenance.domain.entities.usuario;
 
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.ZoneId;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -7,39 +11,56 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 
+/**
+ * [UsuarioBase] é a entidade que representa um usuário do sistema,
+ * Ele é uma entidade abstrata que contém as informações básicas de um usuário.
+ * Todo usuário que for criado no sistema deve herdar as informações de usuário base. Exceto por oficina.
+ * 
+ * @see UsuarioAutenticavel
+ * @see Cliente
+ * @see Prestador
+ * @see Oficina
+ * 
+ * @version 1.0.0
+ * 
+ */
 @MappedSuperclass
 public abstract class UsuarioBase {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name="id")
+  @Column(name = "id")
   private Long id;
 
   @OneToOne
-  @JoinColumn(name="usuario_autenticavel_id", nullable=false)
+  @JoinColumn(name = "usuario_autenticavel_id", nullable = false)
   private UsuarioAutenticavel usuarioAutenticavel;
 
-  @Column(name="nome", nullable=false)
+  @Column(name = "nome", nullable = false)
   private String nome;
 
-  @Column(name="cpf", nullable=true)
+  @Column(name = "cpf", nullable = true)
   private String cpf;
 
-  @Column(name="cnpj", nullable=true)
-  private String cnpj;
-
-  @Column(name="email", nullable=false, unique=true)
-
+  @Column(name = "email", nullable = false, unique = true)
   private String email;
 
-  @Column(name="contato", nullable=false)
+  @Column(name = "contato", nullable = false)
   private String contato;
 
-  @Column(name="sexo", nullable=true)
+  @Column(name = "sexo", nullable = true)
   private String sexo;
 
-  @Column(name="senha", nullable=false)
+  @Column(name = "senha", nullable = false)
   private String senha;
+
+  @Column(name = "data_criacao", columnDefinition = "TIMESTAMP", updatable = false)
+  private Timestamp dataCriacao;
+  
+  @Column(name = "data_atualizacao", columnDefinition = "TIMESTAMP")
+  private Timestamp dataAtualizacao;
 
   public UsuarioBase() {
   }
@@ -48,7 +69,6 @@ public abstract class UsuarioBase {
     UsuarioAutenticavel usuarioAutenticavel,
     String nome,
     String cpf,
-    String cnpj,
     String email,
     String contato,
     String sexo,
@@ -57,11 +77,20 @@ public abstract class UsuarioBase {
     this.usuarioAutenticavel = usuarioAutenticavel;
     this.nome = nome;
     this.cpf = cpf;
-    this.cnpj = cnpj;
     this.email = email;
     this.contato = contato;
     this.sexo = sexo;
     this.senha = senha;
+  }
+
+  @PrePersist
+  public void onCreate() {
+    this.dataCriacao = Timestamp.from(Instant.now().atZone(ZoneId.of("America/Sao_Paulo")).toInstant());
+  }
+
+  @PreUpdate
+  public void onUpdate() {
+    this.dataAtualizacao = Timestamp.from(Instant.now().atZone(ZoneId.of("America/Sao_Paulo")).toInstant());
   }
 
   public Long getId() {
@@ -86,14 +115,6 @@ public abstract class UsuarioBase {
 
   public void setCpf(String cpf) {
     this.cpf = cpf;
-  }
-
-  public String getCnpj() {
-    return cnpj;
-  }
-
-  public void setCnpj(String cnpj) {
-    this.cnpj = cnpj;
   }
 
   public String getEmail() {
