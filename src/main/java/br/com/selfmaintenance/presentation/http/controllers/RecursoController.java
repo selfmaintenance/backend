@@ -31,7 +31,7 @@ public class RecursoController {
     this.selfMaintenance = selfMaintenance;
   }
 
-  @PostMapping("/")
+  @PostMapping
   public ResponseEntity<ApiResponse> criar(@RequestBody @Valid CriarRecursoDTO dados, @RequestHeader("Authorization") String token) {
     String emailPrestador = this.selfMaintenance.autenticacao.token.extrairEmailUsuarioToken(token);
     Map<String, Long> resposta = this.selfMaintenance.prestador.recurso.criar(dados, emailPrestador);
@@ -50,7 +50,7 @@ public class RecursoController {
     return ResponseEntity.ok(new ApiResponse(1, "Recurso editado com sucesso", resposta));
   }
 
-  @GetMapping("/")
+  @GetMapping
   public ResponseEntity<ApiResponse> listar(@RequestHeader("Authorization") String token) {
     String emailPrestador = this.selfMaintenance.autenticacao.token.extrairEmailUsuarioToken(token);
     List<RecursoResponseDTO> resposta = this.selfMaintenance.prestador.recurso.listar(emailPrestador);

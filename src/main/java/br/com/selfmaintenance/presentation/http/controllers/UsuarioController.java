@@ -15,7 +15,7 @@ import br.com.selfmaintenance.utils.exceptions.ServiceException;
 import br.com.selfmaintenance.utils.responses.ApiResponse;
 import jakarta.validation.Valid;
 
-@RestController()
+@RestController
 @RequestMapping("/usuario")
 public class UsuarioController {
   private final SelfMaintenanceFacade selfMaintenance;
@@ -24,7 +24,7 @@ public class UsuarioController {
     this.selfMaintenance = selfMaintenance;
   }
 
-  @PostMapping("/")
+  @PostMapping
   public ResponseEntity<ApiResponse> criar(@RequestBody @Valid CriarUsuarioDTO dados) throws ServiceException {
     Map<String, Long> respostaCriacao = this.selfMaintenance.usuarioBase.criar(dados);
     return ResponseEntity

@@ -25,7 +25,7 @@ public class PrestadorController {
     this.selfMaintenance = selfMaintenance;
   }
 
-  @PostMapping("/")
+  @PostMapping
   public ResponseEntity<ApiResponse> criar(@RequestBody @Valid CriarPrestadorDTO dados, @RequestHeader("Authorization") String token) throws ServiceException {
     String emailOficina = selfMaintenance.autenticacao.token.extrairEmailUsuarioToken(token);
     Map<String, Long> resposta = this.selfMaintenance.oficina.prestador.criar(dados, emailOficina);
