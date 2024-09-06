@@ -15,6 +15,11 @@ import com.auth0.jwt.exceptions.JWTCreationException;
 
 import br.com.selfmaintenance.domain.entities.usuario.UsuarioAutenticavel;
 
+/**
+ * [TokenService] é a classe que representa a camada de serviço de tokens do sistema.
+ * 
+ * @version 1.0.0
+ */
 @Service
 public class TokenService {
   @Value("${api.security.token.secret}")
@@ -23,6 +28,15 @@ public class TokenService {
   @Value("${spring.application.name}")
   private String emissorDaChave;
 
+  /**
+   * [criar] é o método que cria um token de autenticação para um usuário.
+   * 
+   * @param usuario é o usuário autenticável
+   * 
+   * @see UsuarioAutenticavel
+   * 
+   * @return o token de autenticação
+   */
   public String criar(UsuarioAutenticavel usuario) {
     try {
         Algorithm algoritmoAutenticacao = Algorithm.HMAC256(this.chaveAutenticacao);
@@ -36,6 +50,13 @@ public class TokenService {
     }
   }
 
+  /**
+   * [validar] é o método que valida um token de autenticação.
+   * 
+   * @param token é o token de autenticação
+   * 
+   * @return o email do usuário autenticado
+   */
   public String validar(String token) {
       Algorithm algoritmoAutenticacao = Algorithm.HMAC256(this.chaveAutenticacao);
       return JWT.require(algoritmoAutenticacao)
@@ -45,6 +66,13 @@ public class TokenService {
               .getSubject();
   }
 
+  /**
+   * [extrairEmailUsuarioToken] é o método que extrai o email do usuário autenticado de um token.
+   * 
+   * @param token é o token de autenticação
+   * 
+   * @return o email do usuário autenticado
+   */
   public String extrairEmailUsuarioToken(String token) {
     if (token == null || !token.startsWith("Bearer ") || token.startsWith("Bearer null")) {
       return null;
@@ -60,6 +88,11 @@ public class TokenService {
     return dadosToken.get("sub").asString();
   }
 
+  /**
+   * [getExpiracao] é o método que retorna a data de expiração de um token.
+   * 
+   * @return a data de expiração
+   */
   private Instant getExpiracao() {
     return LocalDateTime.now().plusDays(1).toInstant(ZoneOffset.of("-03:00"));
   }

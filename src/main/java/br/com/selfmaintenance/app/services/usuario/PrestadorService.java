@@ -16,6 +16,11 @@ import br.com.selfmaintenance.infra.repositories.usuario.oficina.OficinaReposito
 import br.com.selfmaintenance.infra.repositories.usuario.oficina.PrestadorRepository;
 import br.com.selfmaintenance.utils.exceptions.ServiceException;
 
+/**
+ * [PrestadorService] é a classe que representa a camada de serviço de prestadores do sistema.
+ * 
+ * @version 1.0.0
+ */
 @Service
 public class PrestadorService {
   private final UsuarioAutenticavelRepository usuarioAutenticavelRepository;
@@ -32,6 +37,18 @@ public class PrestadorService {
     this.oficinaRepository = oficinaRepository;
   }
 
+  /**
+   * [criar] é o método que cria um prestador no sistema.
+   * 
+   * @param dados é o DTO com os dados do prestador
+   * @param emailOficina é o email da oficina que está criando o prestador
+   * 
+   * @see CriarPrestadorDTO
+   * @see Prestador
+   * @see Oficina
+   * 
+   * @return um mapa com o id do prestador criado
+   */
   public Map<String, Long> criar(CriarPrestadorDTO dados, String emailOficina) throws ServiceException {
     this.validarDadosCriacao(dados);
     dados.usuarioAutenticavelPrestador().nome();
@@ -52,6 +69,16 @@ public class PrestadorService {
     return Map.of("idPrestador", novoPrestador.getId());
   }
 
+  /**
+   * [criarUsuarioAutenticavel] é o método que cria um usuário autenticável no sistema.
+   * 
+   * @param dados
+   * 
+   * @see CriarPrestadorDTO
+   * @see UsuarioAutenticavel
+   * 
+   * @return um usuário autenticável criado
+   */
   private UsuarioAutenticavel criarUsuarioAutenticavel(CriarPrestadorDTO dados) {
     UsuarioAutenticavel usuarioAutenticavel = new UsuarioAutenticavel(
       dados.usuarioAutenticavelPrestador().nome(),
@@ -65,6 +92,15 @@ public class PrestadorService {
     return this.usuarioAutenticavelRepository.save(usuarioAutenticavel);
   }
 
+  /**
+   * [validarDadosCriacao] é o método que valida os dados de criação de um prestador.
+   * 
+   * @param dados
+   * 
+   * @see CriarPrestadorDTO
+   * 
+   * @throws ServiceException se os dados de criação do prestador forem inválidos
+   */
   private void validarDadosCriacao(CriarPrestadorDTO dados) throws ServiceException {
     UserDetails usuarioExiste = this.usuarioAutenticavelRepository.findByEmail(dados.usuarioAutenticavelPrestador().email());
     if (usuarioExiste != null) {

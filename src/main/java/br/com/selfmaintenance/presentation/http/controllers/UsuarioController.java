@@ -15,6 +15,11 @@ import br.com.selfmaintenance.utils.exceptions.ServiceException;
 import br.com.selfmaintenance.utils.responses.ApiResponse;
 import jakarta.validation.Valid;
 
+/**
+ * [UsuarioController] é a classe que representa o controlador de usuários do sistema.
+ * 
+ * @version 1.0.0
+ */
 @RestController
 @RequestMapping("/usuario")
 public class UsuarioController {
@@ -24,6 +29,16 @@ public class UsuarioController {
     this.selfMaintenance = selfMaintenance;
   }
 
+  /**
+   * Método que cria um usuário no sistema
+   * 
+   * @param dados
+   * 
+   * @see CriarUsuarioDTO
+   * 
+   * @return um mapa com o id do usuário criado
+   * @throws ServiceException
+   */
   @PostMapping
   public ResponseEntity<ApiResponse> criar(@RequestBody @Valid CriarUsuarioDTO dados) throws ServiceException {
     Map<String, Long> respostaCriacao = this.selfMaintenance.usuarioBase.criar(dados);
