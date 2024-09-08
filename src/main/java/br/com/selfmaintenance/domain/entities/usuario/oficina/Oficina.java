@@ -83,6 +83,22 @@ public class Oficina {
     this.senha = senha;
   }
 
+  public Oficina(
+    Long id,
+    UsuarioAutenticavel usuarioAutenticavel,
+    String nome, 
+    String cnpj, 
+    String email, 
+    String senha 
+  ) {
+    this.id = id;
+    this.usuarioAutenticavel = usuarioAutenticavel;
+    this.nome = nome;
+    this.cnpj = cnpj;
+    this.email = email;
+    this.senha = senha;
+  }
+
   @PrePersist
   public void onCreate() {
     this.dataCriacao = Timestamp.from(Instant.now().atZone(ZoneId.of("America/Sao_Paulo")).toInstant());

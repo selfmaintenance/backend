@@ -53,7 +53,6 @@ public class UsuarioService {
       this.validarDadosCriacaoUsuario(dados);
       UsuarioAutenticavel usuarioAutenticavelSalvo = this.criarUsuarioAutenticavel(dados);
       
-      Long idUsuarioAutenticavel = usuarioAutenticavelSalvo.getId();
       Map<String, Long> resposta = new HashMap<>();
 
       if (usuarioAutenticavelSalvo.getRole() == UsuarioRole.CLIENTE) {
@@ -66,9 +65,10 @@ public class UsuarioService {
           dados.sexo(),
           usuarioAutenticavelSalvo.getPassword()
         ));
-
-        resposta.put("idCliente", novoCliente.getId());
-        resposta.put("idUsuarioAutenticavel", idUsuarioAutenticavel);
+        return Map.of(
+          "idCliente", novoCliente.getId(),
+          "idUsuarioAutenticavel", usuarioAutenticavelSalvo.getId()
+        );
       } else if (usuarioAutenticavelSalvo.getRole() == UsuarioRole.OFICINA) {
         Oficina novaOficina = this.oficinaRepository.save(new Oficina(
           usuarioAutenticavelSalvo,
@@ -77,10 +77,13 @@ public class UsuarioService {
           dados.usuarioAutenticavel().email(),
           dados.usuarioAutenticavel().senha()
         ));
-        resposta.put("idPrestador", novaOficina.getId());
-        resposta.put("idUsuarioAutenticavel", idUsuarioAutenticavel);
+        return Map.of(
+          "idOficina", novaOficina.getId(),
+          "idUsuarioAutenticavel", usuarioAutenticavelSalvo.getId()
+        );
       }
-      return resposta;
+
+      return null;
     }
 
   /**
@@ -124,7 +127,7 @@ public class UsuarioService {
       );
     }
 
-    if (UsuarioRole.valueOf((dados.usuarioAutenticavel().role())).equals(UsuarioRole.OFICINA) && dados.cnpj() == null) {
+    if (UsuarioRole.valueOf((dados.usuarioAutenticavel().role().toUpperCase())).equals(UsuarioRole.OFICINA) && dados.cnpj() == null) {
       throw new ServiceException(
         UsuarioService.class.getName(),
         "criar",
@@ -132,7 +135,7 @@ public class UsuarioService {
         "Erro ao criar novo usuário",
         HttpStatus.BAD_REQUEST
       );
-    } else if (UsuarioRole.valueOf((dados.usuarioAutenticavel().role())).equals(UsuarioRole.CLIENTE) && dados.cpf() == null) {
+    } else if (UsuarioRole.valueOf((dados.usuarioAutenticavel().role().toUpperCase())).equals(UsuarioRole.CLIENTE) && dados.cpf() == null) {
       throw new ServiceException(
         UsuarioService.class.getName(),
         "criar",
@@ -159,7 +162,7 @@ public class UsuarioService {
       dados.usuarioAutenticavel().email(),
       dados.usuarioAutenticavel().contato(),
       dados.usuarioAutenticavel().senha(),
-      UsuarioRole.valueOf(dados.usuarioAutenticavel().role())
+      UsuarioRole.valueOf(dados.usuarioAutenticavel().role().toUpperCase())
     );
 
     usuarioAutenticavel.criptografarSenha();

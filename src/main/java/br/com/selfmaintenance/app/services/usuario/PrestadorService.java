@@ -77,7 +77,7 @@ public class PrestadorService {
    * @see CriarPrestadorDTO
    * @see UsuarioAutenticavel
    * 
-   * @return um usuário autenticável criado
+  * @return um usuário autenticável criado
    */
   private UsuarioAutenticavel criarUsuarioAutenticavel(CriarPrestadorDTO dados) {
     UsuarioAutenticavel usuarioAutenticavel = new UsuarioAutenticavel(

@@ -83,6 +83,26 @@ public abstract class UsuarioBase {
     this.senha = senha;
   }
 
+  public UsuarioBase(
+    Long id,
+    UsuarioAutenticavel usuarioAutenticavel,
+    String nome,
+    String cpf,
+    String email,
+    String contato,
+    String sexo,
+    String senha
+  ) {
+    this.id = id;
+    this.usuarioAutenticavel = usuarioAutenticavel;
+    this.nome = nome;
+    this.cpf = cpf;
+    this.email = email;
+    this.contato = contato;
+    this.sexo = sexo;
+    this.senha = senha;
+  }
+
   @PrePersist
   public void onCreate() {
     this.dataCriacao = Timestamp.from(Instant.now().atZone(ZoneId.of("America/Sao_Paulo")).toInstant());

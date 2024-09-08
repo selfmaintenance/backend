@@ -65,6 +65,22 @@ public class UsuarioAutenticavel implements UserDetails {
     this.role = role;
   }
 
+  public UsuarioAutenticavel(
+    Long id,
+    String nome, 
+    String email, 
+    String contato, 
+    String senha, 
+    UsuarioRole role
+  ) {
+    this.id = id;
+    this.nome = nome;
+    this.email = email;
+    this.contato = contato;
+    this.senha = senha;
+    this.role = role;
+  }
+
   public void criptografarSenha() {
     PasswordEncoder bcrypt = new BCryptPasswordEncoder();
     this.senha = bcrypt.encode(this.senha); 

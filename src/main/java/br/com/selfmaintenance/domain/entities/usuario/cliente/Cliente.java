@@ -46,4 +46,17 @@ public class Cliente extends UsuarioBase {
   ) {
     super(usuarioAutenticavel, nome, cpf, email, contato, sexo, senha);
   }
+
+  public Cliente(
+    Long id,    
+    UsuarioAutenticavel usuarioAutenticavel,
+    String nome,
+    String cpf,
+    String email,
+    String contato,
+    String sexo,
+    String senha
+  ) {
+    super(id, usuarioAutenticavel, nome, cpf, email, contato, sexo, senha);
+  }
 }

@@ -32,7 +32,7 @@ import jakarta.persistence.Table;
  */
 @Entity
 @Table(name="procedimento")
-public class Procedimento {
+public class Procedimento { // TODO: adicionar nome, preco
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name="id")
