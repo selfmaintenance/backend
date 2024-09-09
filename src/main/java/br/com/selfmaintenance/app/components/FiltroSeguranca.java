@@ -37,7 +37,7 @@ public class FiltroSeguranca extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws JWTVerificationException, ServletException, IOException {
 		try {
 			var path = request.getRequestURI();
-			boolean rotaPublica = path.equals("/api/auth/login") || path.equals("/api/usuario/");
+			boolean rotaPublica = path.equals("/api/auth/login") || path.equals("/api/usuario");
 
 			var token = this.recuperar(request);
 			if (token != null) {

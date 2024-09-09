@@ -17,6 +17,11 @@ import br.com.selfmaintenance.domain.entities.usuario.UsuarioAutenticavel;
 import br.com.selfmaintenance.utils.responses.ApiResponse;
 import jakarta.validation.Valid;
 
+/**
+ * [AutenticacaoController] é a classe que representa o controlador de autenticação do sistema.
+ * 
+ * @version 1.0.0
+ */
 @RestController
 @RequestMapping("/auth")
 public class AutenticacaoController {

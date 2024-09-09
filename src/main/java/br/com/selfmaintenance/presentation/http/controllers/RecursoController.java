@@ -22,6 +22,11 @@ import br.com.selfmaintenance.app.records.recurso.RecursoResponseDTO;
 import br.com.selfmaintenance.utils.responses.ApiResponse;
 import jakarta.validation.Valid;
 
+/**
+ * [RecursoController] é a classe que representa o controlador de recursos do sistema.
+ * 
+ * @version 1.0.0
+ */
 @RestController
 @RequestMapping("/recurso")
 public class RecursoController {
@@ -31,6 +36,17 @@ public class RecursoController {
     this.selfMaintenance = selfMaintenance;
   }
 
+  /**
+   * Método que cria um recurso no sistema
+   * 
+   * @param dados
+   * @param token
+   * 
+   * @see CriarRecursoDTO
+   * @see ApiResponse
+   * 
+   * @return um mapa com o id do recurso criado
+   */
   @PostMapping
   public ResponseEntity<ApiResponse> criar(@RequestBody @Valid CriarRecursoDTO dados, @RequestHeader("Authorization") String token) {
     String emailPrestador = this.selfMaintenance.autenticacao.token.extrairEmailUsuarioToken(token);
@@ -40,6 +56,18 @@ public class RecursoController {
             .body(new ApiResponse(1, "Recurso criado com sucesso", resposta));
   }
 
+  /**
+   * Método que edita um recurso no sistema
+   * 
+   * @param id
+   * @param dados
+   * @param token
+   * 
+   * @see EditarRecursoDTO
+   * @see ApiResponse
+   * 
+   * @return um mapa com o id do recurso editado
+   */
   @PatchMapping("/{id}")
   public ResponseEntity<ApiResponse> editar(@PathVariable Long id, @RequestBody @Valid EditarRecursoDTO dados, @RequestHeader("Authorization") String token) {
     String emailPrestador = this.selfMaintenance.autenticacao.token.extrairEmailUsuarioToken(token);
@@ -50,6 +78,15 @@ public class RecursoController {
     return ResponseEntity.ok(new ApiResponse(1, "Recurso editado com sucesso", resposta));
   }
 
+  /**
+   * Método que lista os recursos do sistema
+   * 
+   * @param token
+   * 
+   * @see ApiResponse
+   * 
+   * @return uma lista de recursos
+   */
   @GetMapping
   public ResponseEntity<ApiResponse> listar(@RequestHeader("Authorization") String token) {
     String emailPrestador = this.selfMaintenance.autenticacao.token.extrairEmailUsuarioToken(token);
@@ -57,6 +94,16 @@ public class RecursoController {
     return ResponseEntity.ok(new ApiResponse(1, "Recursos listados com sucesso", resposta));
   }
 
+  /**
+   * Método que busca um recurso no sistema
+   * 
+   * @param id
+   * @param token
+   * 
+   * @see ApiResponse
+   * 
+   * @return um mapa com o id do recurso buscado
+   */
   @GetMapping("/{id}")
   public ResponseEntity<ApiResponse> buscar(@PathVariable Long id, @RequestHeader("Authorization") String token) {
     String emailPrestador = this.selfMaintenance.autenticacao.token.extrairEmailUsuarioToken(token);
@@ -67,6 +114,16 @@ public class RecursoController {
     return ResponseEntity.ok(new ApiResponse(1, "Recurso encontrado com sucesso", resposta));    
   }
 
+  /**
+   * Método que deleta um recurso no sistema
+   * 
+   * @param id
+   * @param token
+   * 
+   * @see ApiResponse
+   * 
+   * @return um mapa com o id do recurso deletado
+   */
   @DeleteMapping("/{id}")
   public ResponseEntity<ApiResponse> deletar(@PathVariable Long id, @RequestHeader("Authorization") String token) {
     String emailPrestador = this.selfMaintenance.autenticacao.token.extrairEmailUsuarioToken(token);

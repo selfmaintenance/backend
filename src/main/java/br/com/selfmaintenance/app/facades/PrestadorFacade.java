@@ -5,8 +5,6 @@ import org.springframework.stereotype.Service;
 import br.com.selfmaintenance.app.services.recurso.RecursoService;
 
 /**
- * @category Facades
- * 
  * [PrestadorFacade] é a fachada de prestador nela temos os serviços de recurso todos 
  * concentrados em um único lugar
  * 

@@ -16,6 +16,11 @@ import br.com.selfmaintenance.utils.exceptions.ServiceException;
 import br.com.selfmaintenance.utils.responses.ApiResponse;
 import jakarta.validation.Valid;
 
+/**
+ * [PrestadorController] é a classe que representa o controlador de prestadores do sistema.
+ * 
+ * @version 1.0.0
+ */
 @RestController
 @RequestMapping("/oficina/prestador")
 public class PrestadorController {
@@ -25,6 +30,14 @@ public class PrestadorController {
     this.selfMaintenance = selfMaintenance;
   }
 
+  /**
+   * Método que cria um prestador no sistema
+   * 
+   * @param dados
+   * @param token
+   * @return
+   * @throws ServiceException
+   */
   @PostMapping
   public ResponseEntity<ApiResponse> criar(@RequestBody @Valid CriarPrestadorDTO dados, @RequestHeader("Authorization") String token) throws ServiceException {
     String emailOficina = selfMaintenance.autenticacao.token.extrairEmailUsuarioToken(token);
