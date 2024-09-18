@@ -116,7 +116,6 @@ public class VeiculoService {
    * @return uma lista de DTOs com os dados dos veículos
    */
   public List<VeiculoResponseDTO> listar(String emailCliente) {
-    Cliente cliente = this.clienteRepository.findByEmail(emailCliente);
     List<Veiculo> veiculos =  this.veiculoRepository.findByCliente_email(emailCliente);
 
     List<VeiculoResponseDTO> veiculosResponse = new ArrayList<>();

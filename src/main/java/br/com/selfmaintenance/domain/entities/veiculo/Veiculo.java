@@ -152,6 +152,10 @@ public class Veiculo {
     this.cor = cor;
   }
 
+  public void setId(Long id) {
+    this.id = id;
+  }
+
   public void setTipo(VeiculoTipo tipo) {
     this.tipo = tipo;
   }
