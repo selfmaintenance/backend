@@ -101,4 +101,6 @@ public class Recurso { // TODO: adicionar preco
   public void setDescricao(String descricao) {
     this.descricao = descricao;
   }
+
+
 }

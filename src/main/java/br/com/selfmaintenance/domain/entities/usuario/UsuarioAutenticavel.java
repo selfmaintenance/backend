@@ -95,7 +95,7 @@ public class UsuarioAutenticavel implements UserDetails {
   }
 
   @Override
-  public String getUsername() {
+  public String getUsername() { 
     return this.email;
   }
 
