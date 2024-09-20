@@ -10,3 +10,6 @@
 ## Padrões de Projeto
 
 - **Fachada (Facade)**: Utilizado para simplificar a interação entre subsistemas complexos, fornecendo uma interface unificada.
+
+## Javadoc
+- https://edielson-rodrigues.github.io/javadoc_selfmaintenance/
