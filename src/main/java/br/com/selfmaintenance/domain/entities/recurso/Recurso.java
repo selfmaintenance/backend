@@ -67,6 +67,14 @@ public class Recurso { // TODO: adicionar preco
     this.dataAtualizacao = Timestamp.from(Instant.now().atZone(ZoneId.of("America/Sao_Paulo")).toInstant());
   }
 
+  public Recurso(Long id, Oficina oficina, String nome, int quantidade, String descricao) {
+    this.id = id;
+	this.oficina = oficina;
+    this.nome = nome;
+    this.quantidade = quantidade;
+    this.descricao = descricao;
+  }
+  
   public Recurso(Oficina oficina, String nome, int quantidade, String descricao) {
     this.oficina = oficina;
     this.nome = nome;

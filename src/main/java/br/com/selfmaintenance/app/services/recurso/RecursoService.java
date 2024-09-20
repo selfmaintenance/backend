@@ -45,7 +45,6 @@ public class RecursoService {
 
   public Map<String, Long> criar(CriarRecursoDTO dados, String email) {
     Oficina oficina = this.obterOficina(email);
-    
     Recurso recursoSalvo = this.recursoRepository.save(new Recurso(
       oficina,
       dados.nome(),
