@@ -90,13 +90,17 @@ public class UsuarioAutenticavel implements UserDetails {
     return this.id;
   }
 
+  public String getContato() {
+    return this.contato;
+  }
+
   public String getEmail() {
     return this.email;
   }
 
   @Override
   public String getUsername() {
-    return this.email;
+    return this.nome;
   }
 
   @Override
