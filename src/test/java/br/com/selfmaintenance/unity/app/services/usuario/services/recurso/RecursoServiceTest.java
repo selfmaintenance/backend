@@ -1,22 +1,23 @@
 package br.com.selfmaintenance.unity.app.services.usuario.services.recurso;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import static org.mockito.ArgumentMatchers.any;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import static org.mockito.Mockito.when;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.*;
 import com.github.javafaker.Faker;
 
 import br.com.selfmaintenance.app.records.recurso.CriarRecursoDTO;
@@ -61,11 +62,11 @@ class RecursoServiceTest {
 		CriarRecursoDTO recursoDTO = new CriarRecursoDTO(emailUsuario, quantidade, descricao);
 		
 		UsuarioAutenticavel usuarioAutenticavelMock = new UsuarioAutenticavel(
-				 1L, "Nome Usuario", emailUsuario, "123456", "senha", UsuarioRole.OFICINA
+			this.faker.number().randomNumber(), "Nome Usuario", emailUsuario, "123456", "senha", UsuarioRole.OFICINA
 		);
 		
 		Oficina oficinaMock = new Oficina(
-			1L,
+			this.faker.number().randomNumber(),
 			usuarioAutenticavelMock,
 			this.faker.name().firstName(),
 			"67877778-08900",
@@ -74,11 +75,11 @@ class RecursoServiceTest {
 		);
 
 		 Recurso recursoMock = new Recurso(
-				 this.faker.number().randomNumber(), 
-				 oficinaMock, 
-				 this.faker.name().firstName(), 
-				 this.faker.number().numberBetween(0, 99), 
-				 this.faker.lorem().paragraph()
+				this.faker.number().randomNumber(), 
+				oficinaMock, 
+				this.faker.name().firstName(), 
+				this.faker.number().numberBetween(0, 99), 
+				this.faker.lorem().paragraph()
 			); 
 
 		Map<String, Long> respostaMock = Map.of(
@@ -103,11 +104,11 @@ class RecursoServiceTest {
 		// Arrange
 		String emailUsuario = this.faker.internet().emailAddress();
 		UsuarioAutenticavel usuarioAutenticavelMock = new UsuarioAutenticavel(
-				 1L, "Nome Usuario", emailUsuario, "123456", "senha", UsuarioRole.OFICINA
+			this.faker.number().randomNumber(), "Nome Usuario", emailUsuario, "123456", "senha", UsuarioRole.OFICINA
 		);
 		
 		Oficina oficinaMock = new Oficina(
-			1L,
+			this.faker.number().randomNumber(),
 			usuarioAutenticavelMock,
 			this.faker.name().firstName(),
 			"67877778-08900",
@@ -168,8 +169,7 @@ class RecursoServiceTest {
 	@Test
 	@DisplayName("Deve retornar true se o recurso deletado")
 	void deletarRecursoTest() {
-		
-		  // Arrange
+		// Arrange
 
 		String emailUsuario = this.faker.internet().emailAddress();
 		UsuarioAutenticavel usuarioAutenticavelMock = new UsuarioAutenticavel(
@@ -186,25 +186,25 @@ class RecursoServiceTest {
 		);
 
 		 Recurso recursoMock = new Recurso(
-				 this.faker.number().randomNumber(), 
-				 oficinaMock, 
-				 this.faker.name().firstName(), 
-				 this.faker.number().numberBetween(0, 99), 
-				 this.faker.lorem().paragraph()
+				this.faker.number().randomNumber(), 
+				oficinaMock, 
+				this.faker.name().firstName(), 
+				this.faker.number().numberBetween(0, 99), 
+				this.faker.lorem().paragraph()
 			); 
 		 
-		    Mockito
-	        .when(usuarioAutenticavelRepository.findByEmailCustom(emailUsuario))
-	        .thenReturn(usuarioAutenticavelMock);
+			Mockito
+				.when(usuarioAutenticavelRepository.findByEmailCustom(emailUsuario))
+				.thenReturn(usuarioAutenticavelMock);
 
-		    Mockito
-	        .when(oficinaRepository.findByEmail(emailUsuario))
-	        .thenReturn(oficinaMock);
+			Mockito
+				.when(oficinaRepository.findByEmail(emailUsuario))
+				.thenReturn(oficinaMock);
 
-		    Mockito
-	        .when(recursoRepository.findByOficinaAndId(oficinaMock, recursoMock.getId()))
-	        .thenReturn(recursoMock);
-	    
+			Mockito
+				.when(recursoRepository.findByOficinaAndId(oficinaMock, recursoMock.getId()))
+				.thenReturn(recursoMock);
+		
 	    // Act
 	    boolean resposta = this.recursoService.deletar(recursoMock.getId(), emailUsuario);
 	    
@@ -215,122 +215,114 @@ class RecursoServiceTest {
 	@Test
 	@DisplayName("Deve retornar o recurso editado e comparar com o recurso atualizado")
 	void editarRecursoTest() {
-		
-		
 		// Arrange
-	    String emailUsuario = this.faker.internet().emailAddress();
-	    
-	    UsuarioAutenticavel usuarioAutenticavelMock = new UsuarioAutenticavel(
-	             1L, "Nome Usuario", emailUsuario, "123456", "senha", UsuarioRole.OFICINA
-	    );
-	    
-	    Oficina oficinaMock = new Oficina(
-	        1L,
-	        usuarioAutenticavelMock,
-	        this.faker.name().firstName(),
-	        "67877778-08900",
-	        emailUsuario,
-	        this.faker.internet().password()
-	    );
-
-	    // Criando o recurso 
-	    Recurso recursoExistenteMock = new Recurso(
-	         this.faker.number().randomNumber(), 
-	         oficinaMock, 
-	         this.faker.name().firstName(), 
-	         this.faker.number().numberBetween(0, 99), 
-	         this.faker.lorem().paragraph()
-	    );
-	    
-	    EditarRecursoDTO recursoDTO = new EditarRecursoDTO(
-	        Optional.of("Recurso atualizado"), 
-	        Optional.of(50), 
-	        Optional.of("Descrição do recurso atualizado")
-	    );
-	    
-	    // Editando o recurso para depois comparar com o recurso editado
-	    //pelo o método editar de RecursoService
-	    Recurso recursoAtualizadoMock = new Recurso(
-	         recursoExistenteMock.getId(), 
-	         oficinaMock, 
-	         recursoDTO.nome().get(), 
-	         recursoDTO.quantidade().get(), 
-	         recursoDTO.descricao().get()
-	    );
-
-	    Mockito
-	        .when(usuarioAutenticavelRepository.findByEmailCustom(emailUsuario))
-	        .thenReturn(usuarioAutenticavelMock);
-	    Mockito
-	        .when(oficinaRepository.findByEmail(emailUsuario))
-	        .thenReturn(oficinaMock);
-	    Mockito
-	        .when(recursoRepository.findByOficinaAndId(oficinaMock, recursoExistenteMock.getId()))
-	        .thenReturn(recursoExistenteMock);
-	    Mockito
-	        .when(recursoRepository.save(any(Recurso.class)))
-	        .thenReturn(recursoAtualizadoMock);
-	    
-	    // Act
-	    
-	      // Aqui o recurso existente será editado e retornado
-	    RecursoResponseDTO resposta = this.recursoService.editar(recursoExistenteMock.getId(), recursoDTO, emailUsuario);
-	    
-	    // Assert
-	    assertNotNull(resposta);
-	    assertEquals(recursoAtualizadoMock.getId(), resposta.id());
-	    assertEquals(recursoAtualizadoMock.getNome(), resposta.nome());
-	    assertEquals(recursoAtualizadoMock.getQuantidade(), resposta.quantidade());
-	    assertEquals(recursoAtualizadoMock.getDescricao(), resposta.descricao());
+		String emailUsuario = this.faker.internet().emailAddress();
 		
+		UsuarioAutenticavel usuarioAutenticavelMock = new UsuarioAutenticavel(
+			this.faker.number().randomNumber(), "Nome Usuario", emailUsuario, "123456", "senha", UsuarioRole.OFICINA
+		);
+		
+		Oficina oficinaMock = new Oficina(
+			this.faker.number().randomNumber(),
+			usuarioAutenticavelMock,
+			this.faker.name().firstName(),
+			"67877778-08900",
+			emailUsuario,
+			this.faker.internet().password()
+		);
+
+		// Criando o recurso 
+		Recurso recursoExistenteMock = new Recurso(
+			this.faker.number().randomNumber(), 
+			oficinaMock, 
+			this.faker.name().firstName(), 
+			this.faker.number().numberBetween(0, 99), 
+			this.faker.lorem().paragraph()
+		);
+		
+		EditarRecursoDTO recursoDTO = new EditarRecursoDTO(
+			Optional.of("Recurso atualizado"), 
+			Optional.of(50), 
+			Optional.of("Descrição do recurso atualizado")
+		);
+		
+		Recurso recursoAtualizadoMock = new Recurso(
+			recursoExistenteMock.getId(), 
+			oficinaMock, 
+			recursoDTO.nome().get(), 
+			recursoDTO.quantidade().get(), 
+			recursoDTO.descricao().get()
+		);
+
+		Mockito
+			.when(usuarioAutenticavelRepository.findByEmailCustom(emailUsuario))
+			.thenReturn(usuarioAutenticavelMock);
+		Mockito
+			.when(oficinaRepository.findByEmail(emailUsuario))
+			.thenReturn(oficinaMock);
+		Mockito
+			.when(recursoRepository.findByOficinaAndId(oficinaMock, recursoExistenteMock.getId()))
+			.thenReturn(recursoExistenteMock);
+		Mockito
+			.when(recursoRepository.save(any(Recurso.class)))
+			.thenReturn(recursoAtualizadoMock);
+		
+		// Act
+		RecursoResponseDTO resposta = this.recursoService.editar(recursoExistenteMock.getId(), recursoDTO, emailUsuario);
+		
+		// Assert
+		assertNotNull(resposta);
+		assertEquals(recursoAtualizadoMock.getId(), resposta.id());
+		assertEquals(recursoAtualizadoMock.getNome(), resposta.nome());
+		assertEquals(recursoAtualizadoMock.getQuantidade(), resposta.quantidade());
+		assertEquals(recursoAtualizadoMock.getDescricao(), resposta.descricao());
 	}
 	
 	@Test
-	@DisplayName("Deve retornar o resurso correspondente")
+	@DisplayName("Deve retornar o recurso correspondente")
 	void buscarRecursoTest() {
+		// Arrange
+		String emailUsuario = this.faker.internet().emailAddress();
 		
-		 // Arrange
-	    String emailUsuario = this.faker.internet().emailAddress();
-	    
-	    UsuarioAutenticavel usuarioAutenticavelMock = new UsuarioAutenticavel(
-	             1L, "Nome Usuario", emailUsuario, "123456", "senha", UsuarioRole.OFICINA
-	    );
-	    
-	    Oficina oficinaMock = new Oficina(
-	        1L,
-	        usuarioAutenticavelMock,
-	        this.faker.name().firstName(),
-	        "67877778-08900",
-	        emailUsuario,
-	        this.faker.internet().password()
-	    );
+		UsuarioAutenticavel usuarioAutenticavelMock = new UsuarioAutenticavel(
+			this.faker.number().randomNumber(), "Nome Usuario", emailUsuario, "123456", "senha", UsuarioRole.OFICINA
+		);
+		
+		Oficina oficinaMock = new Oficina(
+			this.faker.number().randomNumber(),
+			usuarioAutenticavelMock,
+			this.faker.name().firstName(),
+			"67877778-08900",
+			emailUsuario,
+			this.faker.internet().password()
+		);
 
-	    Recurso recursoExistenteMock = new Recurso(
-	         this.faker.number().randomNumber(), 
-	         oficinaMock, 
-	         this.faker.name().firstName(), 
-	         this.faker.number().numberBetween(0, 99), 
-	         this.faker.lorem().paragraph()
-	    );
+		Recurso recursoExistenteMock = new Recurso(
+			this.faker.number().randomNumber(), 
+			oficinaMock, 
+			this.faker.name().firstName(), 
+			this.faker.number().numberBetween(0, 99), 
+			this.faker.lorem().paragraph()
+		);
 
-	    Mockito
-	        .when(usuarioAutenticavelRepository.findByEmailCustom(emailUsuario))
-	        .thenReturn(usuarioAutenticavelMock);
-	    Mockito
-	        .when(oficinaRepository.findByEmail(emailUsuario))
-	        .thenReturn(oficinaMock);
-	    Mockito
-	        .when(recursoRepository.findByOficinaAndId(oficinaMock, recursoExistenteMock.getId()))
-	        .thenReturn(recursoExistenteMock);
-	    
-	    // Act
-	    RecursoResponseDTO resposta = this.recursoService.buscar(recursoExistenteMock.getId(), emailUsuario);
-	    
-	    // Assert
-	    assertNotNull(resposta);
-	    assertEquals(recursoExistenteMock.getId(), resposta.id());
-	    assertEquals(recursoExistenteMock.getNome(), resposta.nome());
-	    assertEquals(recursoExistenteMock.getQuantidade(), resposta.quantidade());
-	    assertEquals(recursoExistenteMock.getDescricao(), resposta.descricao());
+		Mockito
+			.when(usuarioAutenticavelRepository.findByEmailCustom(emailUsuario))
+			.thenReturn(usuarioAutenticavelMock);
+		Mockito
+			.when(oficinaRepository.findByEmail(emailUsuario))
+			.thenReturn(oficinaMock);
+		Mockito
+			.when(recursoRepository.findByOficinaAndId(oficinaMock, recursoExistenteMock.getId()))
+			.thenReturn(recursoExistenteMock);
+		
+		// Act
+		RecursoResponseDTO resposta = this.recursoService.buscar(recursoExistenteMock.getId(), emailUsuario);
+		
+		// Assert
+		assertNotNull(resposta);
+		assertEquals(recursoExistenteMock.getId(), resposta.id());
+		assertEquals(recursoExistenteMock.getNome(), resposta.nome());
+		assertEquals(recursoExistenteMock.getQuantidade(), resposta.quantidade());
+		assertEquals(recursoExistenteMock.getDescricao(), resposta.descricao());
 	}
 }
