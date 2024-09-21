@@ -1,6 +1,6 @@
 ## Comandos Utilizados
 
-- `mvn test`: Executa os testes unitários do projeto.
+- `mvn test`: Executa os testes unitários/integração do projeto.
 - `mvn javadoc:javadoc`: Gera ou atualiza a documentação do Javadoc.
 
 ## Arquitetura
