@@ -1,5 +1,6 @@
-package br.com.selfmaintenance.app.services.autenticacao;
+package br.com.selfmaintenance.unity.app.services.autenticacao;
 
+import br.com.selfmaintenance.app.services.autenticacao.AutorizacaoService;
 import br.com.selfmaintenance.domain.entities.usuario.UsuarioAutenticavel;
 import br.com.selfmaintenance.infra.repositories.usuario.UsuarioAutenticavelRepository;
 import org.junit.jupiter.api.BeforeEach;
