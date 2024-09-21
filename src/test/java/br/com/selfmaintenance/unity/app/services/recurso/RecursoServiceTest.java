@@ -1,4 +1,4 @@
-package br.com.selfmaintenance.unity.app.services.usuario.services.recurso;
+package br.com.selfmaintenance.unity.app.services.recurso;
 
 import java.util.ArrayList;
 import java.util.List;
