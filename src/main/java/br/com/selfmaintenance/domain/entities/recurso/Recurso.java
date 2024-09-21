@@ -73,6 +73,14 @@ public class Recurso { // TODO: adicionar preco
     this.quantidade = quantidade;
     this.descricao = descricao;
   }
+  
+  public Recurso(Long id, Oficina oficina, String nome, int quantidade, String descricao) {
+	    this.id = id;
+	    this.oficina = oficina;
+	    this.nome = nome;
+	    this.quantidade = quantidade;
+	    this.descricao = descricao;
+	  }
 
   public Long getId() {
     return this.id;
