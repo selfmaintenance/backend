@@ -1,4 +1,25 @@
-package br.com.selfmaintenance.unity.app.services.usuario.services.veiculo;
+package br.com.selfmaintenance.unity.app.services.veiculo;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import static org.mockito.ArgumentMatchers.any;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import br.com.selfmaintenance.app.records.veiculo.CriarVeiculoDTO;
 import br.com.selfmaintenance.app.records.veiculo.EditarVeiculoDTO;
@@ -9,21 +30,6 @@ import br.com.selfmaintenance.domain.entities.veiculo.Veiculo;
 import br.com.selfmaintenance.domain.entities.veiculo.VeiculoTipo;
 import br.com.selfmaintenance.infra.repositories.usuario.ClienteRepository;
 import br.com.selfmaintenance.infra.repositories.veiculo.VeiculoRepository;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class VeiculoServiceTest {

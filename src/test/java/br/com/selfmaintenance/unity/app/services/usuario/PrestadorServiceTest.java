@@ -1,4 +1,4 @@
-package br.com.selfmaintenance.unity.app.services.usuario.services.usuario;
+package br.com.selfmaintenance.unity.app.services.usuario;
 
 import br.com.selfmaintenance.app.records.prestador.CriarPrestadorDTO;
 import br.com.selfmaintenance.app.records.prestador.UsuarioAutenticavelPrestadorDTO;

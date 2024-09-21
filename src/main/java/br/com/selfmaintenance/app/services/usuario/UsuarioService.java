@@ -53,8 +53,6 @@ public class UsuarioService {
       this.validarDadosCriacaoUsuario(dados);
       UsuarioAutenticavel usuarioAutenticavelSalvo = this.criarUsuarioAutenticavel(dados);
       
-      Map<String, Long> resposta = new HashMap<>();
-
       if (usuarioAutenticavelSalvo.getRole() == UsuarioRole.CLIENTE) {
         Cliente novoCliente = this.clienteRepository.save(new Cliente(
           usuarioAutenticavelSalvo,
