@@ -1,11 +1,11 @@
 package br.com.selfmaintenance.integration.app.services;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
 import java.util.Map;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -29,6 +29,7 @@ public class UsuarioServiceTest {
   private UsuarioService usuarioService;
 
   @Test
+  @DisplayName("Deve criar um usuário do tipo Cliente")
   void testCriarUsuarioTipoCliente() throws ServiceException {
     // arrange
     UsuarioAutenticavelDTO usuarioAutenticavelDTO = new UsuarioAutenticavelDTO(
@@ -59,6 +60,7 @@ public class UsuarioServiceTest {
   }
 
   @Test
+  @DisplayName("Deve criar um usuário do tipo Oficina")
   void testCriarUsuarioTipoOficina() throws ServiceException {
     // arrange
     UsuarioAutenticavelDTO usuarioAutenticavelDTO = new UsuarioAutenticavelDTO(
