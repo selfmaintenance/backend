@@ -2,6 +2,7 @@ package br.com.selfmaintenance.presentation.http.controllers;
 
 import java.util.Map;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,6 +23,7 @@ import jakarta.validation.Valid;
  */
 @RestController
 @RequestMapping("/usuario")
+@SecurityRequirement(name = "bearer-key")
 public class UsuarioController {
   private final SelfMaintenanceFacade selfMaintenance;
 

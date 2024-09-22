@@ -3,6 +3,7 @@ package br.com.selfmaintenance.presentation.http.controllers;
 import java.util.List;
 import java.util.Map;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -30,6 +31,7 @@ import jakarta.validation.Valid;
  */
 @RestController
 @RequestMapping("/veiculo")
+@SecurityRequirement(name = "bearer-key")
 public class VeiculoController {
   private final SelfMaintenanceFacade selfMaintenance;
   
