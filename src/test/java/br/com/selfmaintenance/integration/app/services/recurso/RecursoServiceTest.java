@@ -41,39 +41,39 @@ class RecursoServiceTest {
 	@Test
 	@DisplayName("Deve criar um novo recurso e retornar o seu id salvo no banco")
 	void criarRecurso() throws ServiceException{
-        String email = this.faker.internet().emailAddress();
-        
-        UsuarioAutenticavelDTO usuarioAutenticavelDTO = new UsuarioAutenticavelDTO(
-            this.faker.name().firstName(),
-            email,
-            this.faker.phoneNumber().cellPhone(),
-            this.faker.internet().password(),
-            UsuarioRole.OFICINA.getRole()
-        );
+		String email = this.faker.internet().emailAddress();
+		
+		UsuarioAutenticavelDTO usuarioAutenticavelDTO = new UsuarioAutenticavelDTO(
+			this.faker.name().firstName(),
+			email,
+			this.faker.phoneNumber().cellPhone(),
+			this.faker.internet().password(),
+			UsuarioRole.OFICINA.getRole()
+		);
 
-        // Criar o DTO para criar o usuário
-        CriarUsuarioDTO criarUsuarioDTO = new CriarUsuarioDTO(
-            usuarioAutenticavelDTO,
-            null, 
-            GeradorDocumento.gerarCNPJ(), 
-            "M" 
-        );
-        
-       // Salvar usuario antes de cria recurso
-        usuarioService.criar(criarUsuarioDTO);
+		// Criar o DTO para criar o usuário
+		CriarUsuarioDTO criarUsuarioDTO = new CriarUsuarioDTO(
+			usuarioAutenticavelDTO,
+			null, 
+			GeradorDocumento.gerarCNPJ(), 
+			"M" 
+		);
+		
+		// Salvar usuario antes de cria recurso
+		usuarioService.criar(criarUsuarioDTO);
 
-        // Criar o DTO de recurso
-        CriarRecursoDTO recursoDTO = new CriarRecursoDTO("Recurso Teste", 5, "Descrição do recurso");
+		// Criar o DTO de recurso
+		CriarRecursoDTO recursoDTO = new CriarRecursoDTO("Recurso Teste", 5, "Descrição do recurso");
 
-        Map<String, Long> resposta = this.recursoService.criar(recursoDTO, email);
-        
-        // Verificar se o recurso foi criado corretamente
-				assertAll("Verificar asserts para retorno da criação de um recurso",
-					() -> assertNotNull(resposta),
-					() -> assertTrue(resposta.containsKey("idRecurso"), "ID do recurso não foi retornado."),
-					() -> assertNotNull(resposta.get("idRecurso"), "O ID do recurso deve ser não nulo.")
-				);
-    }
+		Map<String, Long> resposta = this.recursoService.criar(recursoDTO, email);
+		
+		// Verificar se o recurso foi criado corretamente
+		assertAll("Verificar asserts para retorno da criação de um recurso",
+			() -> assertNotNull(resposta),
+			() -> assertTrue(resposta.containsKey("idRecurso"), "ID do recurso não foi retornado."),
+			() -> assertNotNull(resposta.get("idRecurso"), "O ID do recurso deve ser não nulo.")
+		);
+  }
 	
 	@Test
 	@DisplayName("Deve buscar recurso por ID e email")
