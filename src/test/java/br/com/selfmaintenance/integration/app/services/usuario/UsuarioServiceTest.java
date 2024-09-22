@@ -1,4 +1,4 @@
-package br.com.selfmaintenance.integration.app.services;
+package br.com.selfmaintenance.integration.app.services.usuario;
 
 import java.util.Map;
 
