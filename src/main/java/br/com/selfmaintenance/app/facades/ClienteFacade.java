@@ -2,25 +2,25 @@ package br.com.selfmaintenance.app.facades;
 
 import org.springframework.stereotype.Service;
 
-import br.com.selfmaintenance.app.services.veiculo.VeiculoService;
+import br.com.selfmaintenance.app.services.veiculo.IVeiculoService;
 
 /**
  * [ClienteFacade] é a fachada de cliente nela temos os serviços de veículo todos 
  * concentrados em um único lugar
  * 
- * @see VeiculoService
+ * @see IVeiculoService
  *
  * @version 1.0.0 
  */
 @Service
 public class ClienteFacade {
   /**
-   * [VeiculoService] é o serviço de veículo
+   * [IVeiculoService] é a definição do serviço de veículo
    */
-  public final VeiculoService veiculo;
+  public final IVeiculoService veiculo;
 
   public ClienteFacade(
-    VeiculoService veiculo
+    IVeiculoService veiculo
   ) {
     this.veiculo = veiculo;
   }

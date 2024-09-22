@@ -1,6 +1,5 @@
 package br.com.selfmaintenance.app.services.usuario;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
@@ -18,12 +17,16 @@ import br.com.selfmaintenance.infra.repositories.usuario.oficina.OficinaReposito
 import br.com.selfmaintenance.utils.exceptions.ServiceException;
 
 /**
+ * @author Edielson Rodrigues
+ * 
  * [UsuarioService] é a classe que representa a camada de serviço de usuários do sistema.
+ * 
+ * @see IUsuarioService
  * 
  * @version 1.0.0
  */
 @Service
-public class UsuarioService {
+public class UsuarioService implements IUsuarioService {
   private final UsuarioAutenticavelRepository usuarioAutenticavelRepository;
   private final ClienteRepository clienteRepository;
   private final OficinaRepository oficinaRepository;

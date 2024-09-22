@@ -1,8 +1,25 @@
 package br.com.selfmaintenance.unity.app.services.usuario;
 
+import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import static org.mockito.ArgumentMatchers.any;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import br.com.selfmaintenance.app.records.prestador.CriarPrestadorDTO;
 import br.com.selfmaintenance.app.records.prestador.UsuarioAutenticavelPrestadorDTO;
-import br.com.selfmaintenance.app.services.usuario.PrestadorService;
+import br.com.selfmaintenance.app.services.usuario.prestador.PrestadorService;
 import br.com.selfmaintenance.domain.entities.usuario.UsuarioAutenticavel;
 import br.com.selfmaintenance.domain.entities.usuario.UsuarioRole;
 import br.com.selfmaintenance.domain.entities.usuario.oficina.Oficina;
@@ -11,19 +28,6 @@ import br.com.selfmaintenance.infra.repositories.usuario.UsuarioAutenticavelRepo
 import br.com.selfmaintenance.infra.repositories.usuario.oficina.OficinaRepository;
 import br.com.selfmaintenance.infra.repositories.usuario.oficina.PrestadorRepository;
 import br.com.selfmaintenance.utils.exceptions.ServiceException;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.security.core.userdetails.UserDetails;
-
-import java.util.Map;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class PrestadorServiceTest {

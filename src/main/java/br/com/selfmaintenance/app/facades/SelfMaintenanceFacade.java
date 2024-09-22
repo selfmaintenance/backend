@@ -2,14 +2,14 @@ package br.com.selfmaintenance.app.facades;
 
 import org.springframework.stereotype.Service;
 
-import br.com.selfmaintenance.app.services.usuario.UsuarioService;
+import br.com.selfmaintenance.app.services.usuario.IUsuarioService;
 
 /**
  * [SelfMaintenanceFacade] é a fachada de manutenção própria nela temos os serviços de autenticação, usuário, cliente, oficina e prestador todos 
  * concentrados em um único lugar, ela é fachada utilizada em todo o sistema, caso um novo domínio seja criado ele deve ser adicionado aqui
  * 
  * @see AutenticacaoFacade
- * @see UsuarioService
+ * @see IUsuarioService
  * @see ClienteFacade
  * @see OficinaFacade
  * @see PrestadorFacade
@@ -24,9 +24,9 @@ public class SelfMaintenanceFacade {
    */
   public final AutenticacaoFacade autenticacao;
   /**
-   * [UsuarioService] é o serviço de usuário
+   * [IUsuarioService] é a definição do serviço de usuário
    */
-  public final UsuarioService usuarioBase; 
+  public final IUsuarioService usuarioBase; 
   /**
    * [ClienteFacade] é a fachada de cliente
    */
@@ -42,7 +42,7 @@ public class SelfMaintenanceFacade {
   
   public SelfMaintenanceFacade(
     AutenticacaoFacade autenticacao,
-    UsuarioService usuarioBase,
+    IUsuarioService usuarioBase,
     ClienteFacade cliente,
     OficinaFacade oficina,
     PrestadorFacade prestador

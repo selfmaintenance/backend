@@ -1,4 +1,4 @@
-package br.com.selfmaintenance.app.services.usuario;
+package br.com.selfmaintenance.app.services.usuario.prestador;
 
 import java.util.Map;
 
@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import br.com.selfmaintenance.app.records.prestador.CriarPrestadorDTO;
+import br.com.selfmaintenance.app.services.usuario.UsuarioService;
 import br.com.selfmaintenance.domain.entities.usuario.UsuarioAutenticavel;
 import br.com.selfmaintenance.domain.entities.usuario.UsuarioRole;
 import br.com.selfmaintenance.domain.entities.usuario.oficina.Oficina;
@@ -19,10 +20,12 @@ import br.com.selfmaintenance.utils.exceptions.ServiceException;
 /**
  * [PrestadorService] é a classe que representa a camada de serviço de prestadores do sistema.
  * 
+ * @see IPrestadorService
+ * 
  * @version 1.0.0
  */
 @Service
-public class PrestadorService {
+public class PrestadorService implements IPrestadorService {
   private final UsuarioAutenticavelRepository usuarioAutenticavelRepository;
   private final PrestadorRepository prestadorRepository;
   private final OficinaRepository oficinaRepository;
@@ -38,6 +41,8 @@ public class PrestadorService {
   }
 
   /**
+   * @author Edielson Rodrigues
+   * 
    * [criar] é o método que cria um prestador no sistema.
    * 
    * @param dados é o DTO com os dados do prestador

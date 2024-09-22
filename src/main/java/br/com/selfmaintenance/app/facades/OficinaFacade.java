@@ -2,32 +2,32 @@ package br.com.selfmaintenance.app.facades;
 
 import org.springframework.stereotype.Service;
 
-import br.com.selfmaintenance.app.services.recurso.RecursoService;
-import br.com.selfmaintenance.app.services.usuario.PrestadorService;
+import br.com.selfmaintenance.app.services.recurso.IRecursoService;
+import br.com.selfmaintenance.app.services.usuario.prestador.IPrestadorService;
 
 /**
  * [OficinaFacade] é a fachada de oficina nela temos os serviços de prestador e recurso todos 
  * concentrados em um único lugar
  * 
- * @see PrestadorService
- * @see RecursoService
+ * @see IPrestadorService
+ * @see IRecursoService
  *
  * @version 1.0.0 
  */
 @Service
 public class OficinaFacade {
   /**
-   * [PrestadorService] é o serviço de prestador
+   * [IPrestadorService] é a definição do serviço de prestador
    */
-  public final PrestadorService prestador;
+  public final IPrestadorService prestador;
   /**
-   * [RecursoService] é o serviço de recurso
+   * [IRecursoService] é a definição do serviço de recurso
    */
-  public final RecursoService recurso;
+  public final IRecursoService recurso;
 
   public OficinaFacade(
-    PrestadorService prestador, 
-    RecursoService recurso
+    IPrestadorService prestador, 
+    IRecursoService recurso
   ) {
     this.prestador = prestador;
     this.recurso = recurso;

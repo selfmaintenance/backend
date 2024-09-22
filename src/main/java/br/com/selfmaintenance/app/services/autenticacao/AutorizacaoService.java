@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import br.com.selfmaintenance.infra.repositories.usuario.UsuarioAutenticavelRepository;
 
 /**
+ * @author Edielson Rodrigues
+ * 
  * AutorizacaoService é a classe que representa o serviço de autorização
  */
 @Service

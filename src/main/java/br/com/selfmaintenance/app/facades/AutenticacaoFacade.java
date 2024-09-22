@@ -1,16 +1,17 @@
 package br.com.selfmaintenance.app.facades;
 
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 import br.com.selfmaintenance.app.services.autenticacao.AutorizacaoService;
-import br.com.selfmaintenance.app.services.autenticacao.TokenService;
+import br.com.selfmaintenance.app.services.autenticacao.token.ITokenService;
 
 /**
  * [AutenticacaoFacade] é a fachada de autenticação nela temos os serviços de token, gerenciador de autenticação e autorização todos 
  * concentrados em um único lugar
  * 
- * @see TokenService
+ * @see ITokenService
  * @see AuthenticationManager
  * @see AutorizacaoService
  *
@@ -19,22 +20,22 @@ import br.com.selfmaintenance.app.services.autenticacao.TokenService;
 @Service
 public class AutenticacaoFacade {
   /**
-   * [TokenService] é o serviço de token
+   * [ITokenService] é a definição do serviço de token
    */
-  public final TokenService token;
+  public final ITokenService token;
   /**
-   * [AuthenticationManager] é o gerenciador de autenticação
+   * [AuthenticationManager] é a definição do serviço de autenticação
    */
   public final AuthenticationManager gerenciador;
   /**
-   * [AutorizacaoService] é o serviço de autorização
+   * [UserDetailsService] é a definição do serviço de autorização
    */
-  public final AutorizacaoService autorizacao;
+  public final UserDetailsService autorizacao;
 
   public AutenticacaoFacade(
-    TokenService token,
+    ITokenService token,
     AuthenticationManager gerenciador,
-    AutorizacaoService autorizacao
+    UserDetailsService autorizacao
   ) {
     this.token = token;
     this.gerenciador = gerenciador;

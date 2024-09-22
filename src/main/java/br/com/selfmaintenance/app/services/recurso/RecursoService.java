@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.selfmaintenance.app.records.recurso.CriarRecursoDTO;
@@ -21,12 +20,16 @@ import br.com.selfmaintenance.infra.repositories.usuario.oficina.OficinaReposito
 import br.com.selfmaintenance.infra.repositories.usuario.oficina.PrestadorRepository;
 
 /**
+ * @author Clívisson José
+ * 
  * [RecursoService] é a classe que representa a camada de serviço de recursos do sistema.
+ * 
+ * @see IRecursoService
  * 
  * @version 1.0.0
  */
 @Service
-public class RecursoService {
+public class RecursoService implements IRecursoService {
   private final RecursoRepository recursoRepository;
   private final UsuarioAutenticavelRepository usuarioAutenticavelRepository;
   private final PrestadorRepository prestadorRepository;

@@ -10,7 +10,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
 
-import br.com.selfmaintenance.app.services.autenticacao.TokenService;
+import br.com.selfmaintenance.app.services.autenticacao.token.TokenService;
 import br.com.selfmaintenance.infra.repositories.usuario.UsuarioAutenticavelRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

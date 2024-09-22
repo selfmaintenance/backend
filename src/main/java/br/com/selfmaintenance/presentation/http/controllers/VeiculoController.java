@@ -19,6 +19,7 @@ import br.com.selfmaintenance.app.facades.SelfMaintenanceFacade;
 import br.com.selfmaintenance.app.records.veiculo.CriarVeiculoDTO;
 import br.com.selfmaintenance.app.records.veiculo.EditarVeiculoDTO;
 import br.com.selfmaintenance.app.records.veiculo.VeiculoResponseDTO;
+import br.com.selfmaintenance.utils.exceptions.ServiceException;
 import br.com.selfmaintenance.utils.responses.ApiResponse;
 import jakarta.validation.Valid;
 
@@ -46,6 +47,7 @@ public class VeiculoController {
    * @see ApiResponse
    * 
    * @return um mapa com o id do veículo criado
+   * @throws ServiceException 
    */
   @PostMapping
   public ResponseEntity<ApiResponse> criar(@RequestBody @Valid CriarVeiculoDTO dados, @RequestHeader("Authorization") String token) {

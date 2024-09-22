@@ -1,4 +1,4 @@
-package br.com.selfmaintenance.app.services.autenticacao;
+package br.com.selfmaintenance.app.services.autenticacao.token;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -16,12 +16,16 @@ import com.auth0.jwt.exceptions.JWTCreationException;
 import br.com.selfmaintenance.domain.entities.usuario.UsuarioAutenticavel;
 
 /**
+ * @author Edielson Rodrigues
+ * 
  * [TokenService] é a classe que representa a camada de serviço de tokens do sistema.
+ * 
+ * @see ITokenService
  * 
  * @version 1.0.0
  */
 @Service
-public class TokenService {
+public class TokenService implements ITokenService {
   @Value("${api.security.token.secret}")
   private String chaveAutenticacao;
 

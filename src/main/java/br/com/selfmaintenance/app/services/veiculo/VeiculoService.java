@@ -16,12 +16,16 @@ import br.com.selfmaintenance.infra.repositories.usuario.ClienteRepository;
 import br.com.selfmaintenance.infra.repositories.veiculo.VeiculoRepository;
 
 /**
+ * @author David Saymmon
+ * 
  * [VeiculoService] é a classe que representa a camada de serviço de veículos do sistema.
+ * 
+ * @see IVeiculoService
  * 
  * @version 1.0.0
  */
 @Service
-public class VeiculoService {
+public class VeiculoService implements IVeiculoService {
   private final VeiculoRepository veiculoRepository;
   private final ClienteRepository clienteRepository;
 

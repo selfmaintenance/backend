@@ -1,10 +1,8 @@
 package br.com.selfmaintenance.unity.app.services.autenticacao;
 
-import br.com.selfmaintenance.app.records.prestador.CriarPrestadorDTO;
-import br.com.selfmaintenance.app.records.prestador.UsuarioAutenticavelPrestadorDTO;
-import br.com.selfmaintenance.app.services.autenticacao.TokenService;
-import br.com.selfmaintenance.domain.entities.usuario.UsuarioAutenticavel;
-import br.com.selfmaintenance.domain.entities.usuario.UsuarioRole;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,7 +11,11 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 
-import static org.junit.jupiter.api.Assertions.*;
+import br.com.selfmaintenance.app.records.prestador.CriarPrestadorDTO;
+import br.com.selfmaintenance.app.records.prestador.UsuarioAutenticavelPrestadorDTO;
+import br.com.selfmaintenance.app.services.autenticacao.token.TokenService;
+import br.com.selfmaintenance.domain.entities.usuario.UsuarioAutenticavel;
+import br.com.selfmaintenance.domain.entities.usuario.UsuarioRole;
 
 @ExtendWith(MockitoExtension.class)
 class TokenServiceTest {
