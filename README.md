@@ -13,3 +13,6 @@
 
 ## Javadoc
 - https://edielson-rodrigues.github.io/javadoc_selfmaintenance/
+
+## Documentação Swagger
+- http://localhost:8080/api/swagger-ui.html
