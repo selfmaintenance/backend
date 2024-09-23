@@ -3,11 +3,6 @@ package br.com.selfmaintenance.presentation.http.controllers;
 import java.util.List;
 import java.util.Map;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,6 +20,11 @@ import br.com.selfmaintenance.app.records.recurso.CriarRecursoDTO;
 import br.com.selfmaintenance.app.records.recurso.EditarRecursoDTO;
 import br.com.selfmaintenance.app.records.recurso.RecursoResponseDTO;
 import br.com.selfmaintenance.utils.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 /**
@@ -56,17 +56,17 @@ public class RecursoController {
    */
   @PostMapping
   @Operation(
-          summary = "Cria um recurso",
-          description = "Este endpoint permite que um prestador crie um novo recurso no sistema, fornecendo os dados necessários.",
-          responses = {
-                  @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "201", description = "Recurso criado com sucesso",
-                          content = @Content(mediaType = "application/json",
-                                  schema = @Schema(implementation = ApiResponse.class))),
-                  @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Dados inválidos ou faltando",
-                          content = @Content(mediaType = "application/json")),
-                  @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "500", description = "Erro interno do servidor",
-                          content = @Content(mediaType = "application/json"))
-          }
+    summary = "Cria um recurso",
+    description = "Este endpoint permite que um prestador crie um novo recurso no sistema, fornecendo os dados necessários.",
+    responses = {
+      @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "201", description = "Recurso criado com sucesso",
+        content = @Content(mediaType = "application/json",
+                schema = @Schema(implementation = ApiResponse.class))),
+      @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Dados inválidos ou faltando",
+        content = @Content(mediaType = "application/json")),
+      @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "500", description = "Erro interno do servidor",
+        content = @Content(mediaType = "application/json"))
+    }
   )
   public ResponseEntity<ApiResponse> criar(@RequestBody @Valid CriarRecursoDTO dados, @RequestHeader("Authorization") String token) {
     String emailPrestador = this.selfMaintenance.autenticacao.token.extrairEmailUsuarioToken(token);
@@ -90,19 +90,19 @@ public class RecursoController {
    */
   @PatchMapping("/{id}")
   @Operation(
-          summary = "Edita um recurso",
-          description = "Este endpoint permite que um prestador edite um recurso existente, fornecendo o ID e os novos dados.",
-          responses = {
-                  @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Recurso editado com sucesso",
-                          content = @Content(mediaType = "application/json",
-                                  schema = @Schema(implementation = ApiResponse.class))),
-                  @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "Recurso não encontrado",
-                          content = @Content(mediaType = "application/json")),
-                  @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Dados inválidos ou faltando",
-                          content = @Content(mediaType = "application/json")),
-                  @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "500", description = "Erro interno do servidor",
-                          content = @Content(mediaType = "application/json"))
-          }
+    summary = "Edita um recurso",
+    description = "Este endpoint permite que um prestador edite um recurso existente, fornecendo o ID e os novos dados.",
+    responses = {
+      @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Recurso editado com sucesso",
+        content = @Content(mediaType = "application/json",
+            schema = @Schema(implementation = ApiResponse.class))),
+      @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "Recurso não encontrado",
+        content = @Content(mediaType = "application/json")),
+      @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Dados inválidos ou faltando",
+        content = @Content(mediaType = "application/json")),
+      @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "500", description = "Erro interno do servidor",
+        content = @Content(mediaType = "application/json"))
+    }
   )
   public ResponseEntity<ApiResponse> editar(@PathVariable Long id, @RequestBody @Valid EditarRecursoDTO dados, @RequestHeader("Authorization") String token) {
     String emailPrestador = this.selfMaintenance.autenticacao.token.extrairEmailUsuarioToken(token);
@@ -123,17 +123,17 @@ public class RecursoController {
    * @return uma lista de recursos
    */
   @Operation(
-          summary = "Lista os recursos",
-          description = "Este endpoint permite que um prestador liste todos os recursos cadastrados.",
-          responses = {
-                  @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Recursos listados com sucesso",
-                          content = @Content(mediaType = "application/json",
-                                  schema = @Schema(implementation = ApiResponse.class))),
-                  @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "403", description = "Não autorizado",
-                          content = @Content(mediaType = "application/json")),
-                  @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "500", description = "Erro interno do servidor",
-                          content = @Content(mediaType = "application/json"))
-          }
+    summary = "Lista os recursos",
+    description = "Este endpoint permite que um prestador liste todos os recursos cadastrados.",
+    responses = {
+      @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Recursos listados com sucesso",
+        content = @Content(mediaType = "application/json",
+            schema = @Schema(implementation = ApiResponse.class))),
+      @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "403", description = "Não autorizado",
+        content = @Content(mediaType = "application/json")),
+      @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "500", description = "Erro interno do servidor",
+        content = @Content(mediaType = "application/json"))
+    }
   )
   @GetMapping
   public ResponseEntity<ApiResponse> listar(@RequestHeader("Authorization") String token) {
@@ -154,19 +154,19 @@ public class RecursoController {
    */
   @GetMapping("/{id}")
   @Operation(
-          summary = "Busca um recurso",
-          description = "Este endpoint permite que um prestador busque um recurso específico utilizando o ID.",
-          responses = {
-                  @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Recurso encontrado com sucesso",
-                          content = @Content(mediaType = "application/json",
-                                  schema = @Schema(implementation = ApiResponse.class))),
-                  @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "Recurso não encontrado",
-                          content = @Content(mediaType = "application/json")),
-                  @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "403", description = "Não autorizado",
-                          content = @Content(mediaType = "application/json")),
-                  @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "500", description = "Erro interno do servidor",
-                          content = @Content(mediaType = "application/json"))
-          }
+    summary = "Busca um recurso",
+    description = "Este endpoint permite que um prestador busque um recurso específico utilizando o ID.",
+    responses = {
+      @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Recurso encontrado com sucesso",
+        content = @Content(mediaType = "application/json",
+          schema = @Schema(implementation = ApiResponse.class))),
+      @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "Recurso não encontrado",
+        content = @Content(mediaType = "application/json")),
+      @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "403", description = "Não autorizado",
+        content = @Content(mediaType = "application/json")),
+      @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "500", description = "Erro interno do servidor",
+        content = @Content(mediaType = "application/json"))
+    }
   )
   public ResponseEntity<ApiResponse> buscar(@PathVariable Long id, @RequestHeader("Authorization") String token) {
     String emailPrestador = this.selfMaintenance.autenticacao.token.extrairEmailUsuarioToken(token);
@@ -189,19 +189,19 @@ public class RecursoController {
    */
   @DeleteMapping("/{id}")
   @Operation(
-          summary = "Deleta um recurso",
-          description = "Este endpoint permite que um prestador delete um recurso existente utilizando o ID.",
-          responses = {
-                  @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Recurso deletado com sucesso",
-                          content = @Content(mediaType = "application/json",
-                                  schema = @Schema(implementation = ApiResponse.class))),
-                  @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "Recurso não encontrado",
-                          content = @Content(mediaType = "application/json")),
-                  @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "403", description = "Não autorizado",
-                          content = @Content(mediaType = "application/json")),
-                  @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "500", description = "Erro interno do servidor",
-                          content = @Content(mediaType = "application/json"))
-          }
+    summary = "Deleta um recurso",
+    description = "Este endpoint permite que um prestador delete um recurso existente utilizando o ID.",
+    responses = {
+      @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Recurso deletado com sucesso",
+        content = @Content(mediaType = "application/json",
+          schema = @Schema(implementation = ApiResponse.class))),
+      @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "Recurso não encontrado",
+        content = @Content(mediaType = "application/json")),
+      @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "403", description = "Não autorizado",
+        content = @Content(mediaType = "application/json")),
+      @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "500", description = "Erro interno do servidor",
+        content = @Content(mediaType = "application/json"))
+    }
   )
   public ResponseEntity<ApiResponse> deletar(@PathVariable Long id, @RequestHeader("Authorization") String token) {
     String emailPrestador = this.selfMaintenance.autenticacao.token.extrairEmailUsuarioToken(token);
