@@ -19,35 +19,42 @@ import br.com.selfmaintenance.domain.entities.usuario.UsuarioRole;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfigurations {
-  private final FiltroSeguranca filtroSeguranca;
+    private final FiltroSeguranca filtroSeguranca;
+    private final String[] SWAGGER_WHITELIST = {
+            "/swagger-ui.html",
+            "/v3/api-docs/**",
+            "/swagger-ui/**",
+            "/swagger-resources/**"
+    };
 
-  public SecurityConfigurations(FiltroSeguranca filtroSeguranca) {
-      this.filtroSeguranca = filtroSeguranca;
-  }
+    public SecurityConfigurations(FiltroSeguranca filtroSeguranca) {
+        this.filtroSeguranca = filtroSeguranca;
+    }
 
-  @Bean
-  public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-    return httpSecurity
-            .csrf(AbstractHttpConfigurer::disable)
-            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .authorizeHttpRequests(authorize -> authorize
-                    .requestMatchers("/auth/login", "/usuario").permitAll()
-                    .requestMatchers("/veiculo", "/veiculo/{id}").hasAuthority(UsuarioRole.CLIENTE.getRole())
-                    .requestMatchers("/recurso", "/recurso/{id}").hasAuthority(UsuarioRole.PRESTADOR.getRole())
-                    .requestMatchers("/oficina", "/oficina/prestador").hasAnyAuthority(UsuarioRole.OFICINA.getRole())
-                    .anyRequest().authenticated()
-            )
-            .addFilterBefore(this.filtroSeguranca, UsernamePasswordAuthenticationFilter.class)
-            .build();
-  }
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+        return httpSecurity
+                .csrf(AbstractHttpConfigurer::disable)
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(authorize -> {
+                    authorize.requestMatchers(SWAGGER_WHITELIST).permitAll();
+                    authorize.requestMatchers("/auth/login", "/usuario").permitAll()
+                            .requestMatchers("/veiculo", "/veiculo/{id}").hasAuthority(UsuarioRole.CLIENTE.getRole())
+                            .requestMatchers("/recurso", "/recurso/{id}").hasAuthority(UsuarioRole.PRESTADOR.getRole())
+                            .requestMatchers("/oficina", "/oficina/prestador").hasAnyAuthority(UsuarioRole.OFICINA.getRole());
+                    authorize.anyRequest().authenticated();
+                })
+                .addFilterBefore(this.filtroSeguranca, UsernamePasswordAuthenticationFilter.class)
+                .build();
+    }
 
-  @Bean
-  public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-    return authenticationConfiguration.getAuthenticationManager();
-  }
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
+    }
 
-  @Bean
-  public PasswordEncoder passwordEncoder() {
-    return new BCryptPasswordEncoder();
-  }
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 }
