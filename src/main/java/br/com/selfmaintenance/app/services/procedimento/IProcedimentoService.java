@@ -7,15 +7,4 @@ import java.util.List;
 import java.util.Optional;
 
 public interface IProcedimentoService {
-    Procedimento criarProcedimento(Procedimento procedimento);
-
-    List<Procedimento> listarProcedimentos();
-
-    Optional<Procedimento> buscarProcedimentoPorId(Long id);
-
-    Optional<Procedimento> atualizarProcedimento(Long id, Procedimento procedimentoAtualizado);
-
-    boolean deletarProcedimento(Long id);
-
-    Optional<Procedimento> adicionarRecurso(Long id, Recurso recurso);
 }

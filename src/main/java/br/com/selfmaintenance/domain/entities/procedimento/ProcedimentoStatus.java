@@ -1,5 +1,7 @@
 package br.com.selfmaintenance.domain.entities.procedimento;
 
+import lombok.Getter;
+
 /**
  * [ProcedimentoStatus] é a enumeração que representa os status possíveis de um procedimento.
  * 
@@ -7,6 +9,7 @@ package br.com.selfmaintenance.domain.entities.procedimento;
  * 
  * @version 1.0.0
  */
+@Getter
 public enum ProcedimentoStatus {
   /**
    * Procedimento foi aberto mas ainda não teve uma resposta
@@ -31,7 +34,4 @@ public enum ProcedimentoStatus {
     this.status = status;
   }
 
-  public String getStatus() {
-    return this.status;
-  }
 }

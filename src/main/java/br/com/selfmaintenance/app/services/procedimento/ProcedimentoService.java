@@ -1,55 +1,68 @@
 package br.com.selfmaintenance.app.services.procedimento;
 
+import br.com.selfmaintenance.app.records.procedimento.CriarProcedimentoDTO;
+import br.com.selfmaintenance.app.records.procedimento.DetalhesProcedimentoDTO;
 import br.com.selfmaintenance.domain.entities.procedimento.Procedimento;
-import br.com.selfmaintenance.domain.entities.recurso.Recurso;
+import br.com.selfmaintenance.domain.entities.usuario.cliente.Cliente;
+import br.com.selfmaintenance.domain.entities.usuario.oficina.Prestador;
 import br.com.selfmaintenance.infra.repositories.procedimento.ProcedimentoRepository;
+import br.com.selfmaintenance.infra.repositories.usuario.ClienteRepository;
+import br.com.selfmaintenance.infra.repositories.usuario.oficina.PrestadorRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ProcedimentoService {
+public class ProcedimentoService implements IProcedimentoService {
 
     private final ProcedimentoRepository procedimentoRepository;
+    private final ClienteRepository clienteRepository;
+    private final PrestadorRepository prestadorRepository;
 
-    public ProcedimentoService(ProcedimentoRepository procedimentoRepository) {
+    public ProcedimentoService(ProcedimentoRepository procedimentoRepository, ClienteRepository clienteRepository, PrestadorRepository prestadorRepository) {
         this.procedimentoRepository = procedimentoRepository;
+        this.clienteRepository = clienteRepository;
+        this.prestadorRepository = prestadorRepository;
     }
 
-    public Procedimento criarProcedimento(Procedimento procedimento) {
-        return procedimentoRepository.save(procedimento);
+    // Criar ou atualizar um procedimento
+    public DetalhesProcedimentoDTO criar(CriarProcedimentoDTO dados) {
+        // Verifica se o cliente existe
+        Optional<Cliente> clienteOptional = clienteRepository.findById(dados.clienteId());
+        if (clienteOptional.isEmpty()) {
+            throw new IllegalArgumentException("Cliente não encontrado.");
+        }
+
+        // Verifica se o prestador existe
+        Optional<Prestador> prestadorOptional = prestadorRepository.findById(dados.prestadorId());
+        if (prestadorOptional.isEmpty()) {
+            throw new IllegalArgumentException("Prestador não encontrado.");
+        }
+
+        var procedimento = new Procedimento(
+                prestadorOptional.get(),
+                clienteOptional.get(),
+                dados.nome(),
+                dados.descricao()
+        );
+
+        // Salvar o procedimento
+        Procedimento novoProcedimento = procedimentoRepository.save(procedimento);
+
+        // Retorna o DTO de detalhamento
+        return new DetalhesProcedimentoDTO(novoProcedimento);
     }
 
-    public List<Procedimento> listarProcedimentos() {
-        return procedimentoRepository.findAll();
+    // Buscar procedimento por ID
+    public Procedimento buscarPorId(Long id) {
+        return procedimentoRepository.getReferenceById(id);
     }
 
-    public Optional<Procedimento> buscarProcedimentoPorId(Long id) {
-        return procedimentoRepository.findById(id);
-    }
-
-    public Optional<Procedimento> atualizarProcedimento(Long id, Procedimento procedimentoAtualizado) {
-        return procedimentoRepository.findById(id).map(procedimento -> {
-            procedimento.setNome(procedimentoAtualizado.getNome());
-            procedimento.setRecursos(procedimentoAtualizado.getRecursos());
-            procedimento.setStatus(procedimentoAtualizado.getStatus());
-            return procedimentoRepository.save(procedimento);
-        });
-    }
-
-    public boolean deletarProcedimento(Long id) {
-        return procedimentoRepository.findById(id).map(procedimento -> {
-            procedimentoRepository.delete(procedimento);
-            return true;
-        }).orElse(false);
-    }
-
-    public Optional<Procedimento> adicionarRecurso(Long id, Recurso recurso) {
-        return procedimentoRepository.findById(id).map(procedimento -> {
-            procedimento.adicionarRecurso(recurso);
-            return procedimentoRepository.save(procedimento);
-        });
+    // Buscar todos os procedimentos
+    public Page<Procedimento> listar(Pageable paginacao) {
+        return procedimentoRepository.findAll(paginacao);
     }
 
 }
